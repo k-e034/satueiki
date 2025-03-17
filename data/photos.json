@@ -17,7 +17,7 @@
             "camera": "Nikon F70D",
             "lens": "AI AF Zoom-Nikkor 28-80mm F3.5-5.6D",
             "film": "Kodak UltraMax 400",
-            "tags": ["2024-04", "miyagi", "landscape", "nikon-f70d", "nikkor-28-80mm", "ultramax"]
+            "tags": ["2024-04", "miyagi", "landscape", "nikon-f70d", "nikkor-28-80mm", "kodak-ultramax"]
       },
       {
             "id": 2,
@@ -86,7 +86,7 @@
         "location": "大阪府大阪市",
         "camera": "Olympus OM-1",
         "lens": "G.Zuiko Auto-S 50mm F1.4",
-        "film": "ILFORD ILFOCOLOR PLUS 400 Vintage Tone",
+        "film": "ILFORD ILFOCOLOR 400 PLUS Vintage Tone",
         "tags": ["2024-09", "osaka", "snap", "olympus-om1", "zuiko-50mm1", "ilford-vintagetone"]
       },
       {
@@ -137,8 +137,25 @@
         "location": "大阪府大阪市",
         "camera": "Olympus OM-1",
         "lens": "G.Zuiko Auto-S 50mm F1.4",
-        "film": "ILFORD ILFOCOLOR PLUS 400 Vintage Tone",
+        "film": "ILFORD ILFOCOLOR 400 PLUS Vintage Tone",
         "tags": ["2024-09", "osaka", "longexposure", "night", "olympus-om1", "zuiko-50mm1", "ilford-vintagetone"]
+      },
+      {
+        "id": 9,
+        "title": "新宿の公衆電話",
+        "description":[
+          "新宿駅東口から大ガード方向へ向かった場所にある公衆電話。",
+          "公衆電話を見つけるとつい写真に撮りたくなってしまうのは一体何の因果だろうか。"
+        ],
+        "image": "images/photos/0807462_0043.JPG",
+        "page": "photo9.html",
+        "date": "2024-07-04",
+        "dateDisplay": "2024年7月4日",
+        "location": "東京都新宿区",
+        "camera": "Nikon F70D",
+        "lens": "AI AF Nikkor 50mm F1.4",
+        "film": "FUJIFILM FUJICOLOR SUPER 400",
+        "tags": ["2024-07", "tokyo", "snap", "nikon-f70d", "nikkor-50mm", "fuji-super"]
       }
   ]
 }
