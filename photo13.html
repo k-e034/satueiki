@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>地下鉄の印象#1 | わたくしの撮影記</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/photo-view.css">
+</head>
+<body class="photo-view">
+    <!-- ヘッダー (モバイルでは初期非表示) -->
+    <header class="header-photo-view" id="photo-header">
+        <div class="header-container">
+            <div class="logo">
+                <a href="index.html">わたくしの撮影記</a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">ホーム</a></li>
+                    <li><a href="index.html#tag-section">タグ検索</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="immersive-container">
+        <!-- メイン写真表示 -->
+        <section class="photo-hero" id="photo-hero">
+            <img src="images/photos/DSC_6554.jpg" alt="地下鉄の印象#1" class="photo-hero-image" id="main-photo">
+            <div class="photo-title-overlay" id="title-overlay">
+                <h1>地下鉄の印象#1</h1>
+                <div class="photo-date">2025年1月23日</div>
+            </div>
+        </section>
+
+        <!-- 写真切り替えコントロール -->
+        <div class="photo-controls">
+            <button class="photo-control-btn" id="prev-photo">←</button>
+            <button class="photo-control-btn" id="next-photo">→</button>
+        </div>
+
+        <!-- 写真詳細情報 -->
+        <section class="photo-details">
+            <div class="photo-description">
+                <p>地下鉄駅へ降りると、青みがかった照明を見ることが多いと思うのは気のせいだろうか。不思議な空間である。なぜなら、昼でも夜でも地下鉄駅に降りれば、アナウンスや列車の走る音、人々の喧噪、そして青い照明がほとんど変化を感じさせないからである。その意味で、地下鉄駅は時刻に囚われない空間でもあり、わたくしはそれが好きである。</p>
+            </div>
+            
+            <div class="photo-meta">
+                <div class="meta-item">
+                    <h4>撮影時期</h4>
+                    <p>2025年1月</p>
+                </div>
+                
+                <div class="meta-item">
+                    <h4>撮影場所</h4>
+                    <p>東京都新宿区</p>
+                </div>
+                
+                <div class="meta-item">
+                    <h4>撮影機材</h4>
+                    <p>カメラ: Nikon D800</p>
+                    <p>レンズ: AI AF Nikkor 50mm F1.4</p>
+                </div>
+                
+                <div class="meta-item">
+                    <h4>フィルム</h4>
+                    <p>null</p>
+                </div>
+                
+                <div class="meta-item photo-tags">
+                    <h4>タグ</h4>
+                    <div class="tags">
+                        <a href="index.html?tag=2025-01" class="tag">2025年1月</a>
+<a href="index.html?tag=tokyo" class="tag">東京都</a>
+<a href="index.html?tag=snap" class="tag">スナップショット</a>
+<a href="index.html?tag=nikon-d800" class="tag">Nikon D800</a>
+<a href="index.html?tag=nikkor-50mm" class="tag">AI AF Nikkor 50mm F1.4</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ナビゲーションボタン -->
+    <button class="nav-btn" id="gallery-btn" title="トップに戻る">
+        ↑
+    </button>
+
+    <!-- JavaScript -->
+    <script src="js/scripts.js"></script>
+    <script>
+        // 写真固有のデータ
+        const photoData = {
+            id: 'photo13',
+            title: '地下鉄の印象#1',
+            date: '2025年1月23日',
+            metadata: '[[PHOTO_METADATA]]',
+            nextPhoto: 'photo1.html',
+            prevPhoto: 'photo12.html'
+        };
+        
+        // 共通のphotoViewerを初期化
+        initPhotoViewer(photoData);
+    </script>
+</body>
+</html>

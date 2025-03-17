@@ -1,178 +1,322 @@
 {
   "photos": [
-      {
-            "id": 1,
-            "title": "小さな島",
-            "description": [
-              "松島を訪れたのは2024年4月5日であった。この日はすこぶる天気が良く、海も空も抜けるような青色で清々しい気分だった。",
-              "松島の雄島にてこの写真を撮影したのは午前11時頃。その後瑞巌寺に詣で、併設された資料館を見物し、午後3時頃に蔵王へと向かった。",
-              "松島を訪れたのは東北旅行の最終日であった。私はこの東北旅行で初めてフィルムカメラでの撮影に臨んだのだが、この写真は最初期のお気に入りのカットである。",
-              "また、この旅行を機にフィルムカメラでの撮影にとりつかれることとなったのである。その意味でも記念すべき一枚だろう。"
-            ],
-            "image": "images/photos/0428501_0005.JPG",
-            "page": "photo1.html",
-            "date": "2024-04-05",
-            "dateDisplay": "2024年4月15日",
-            "location": "宮城県松島町",
-            "camera": "Nikon F70D",
-            "lens": "AI AF Zoom-Nikkor 28-80mm F3.5-5.6D",
-            "film": "Kodak UltraMax 400",
-            "tags": ["2024-04", "miyagi", "landscape", "nikon-f70d", "nikkor-28-80mm", "kodak-ultramax"]
-      },
-      {
-            "id": 2,
-            "title": "シルエット",
-            "description": [
-            "2024年6月10日前後、東京・新宿駅南口附近の歩道にて撮影した写真である。ジメジメとした暑さを感じる日だったことを覚えている。",
-              "午後の日差しが容赦なく照りつける手前の舗道は白く輝き、通行人のシルエットの黒さがコントラストを生み出していた。",
-              "初めてモノクロフィルムでの撮影に挑戦した際の写真で、とにかくコントラストのはっきりした被写体を探してずいぶん歩き回ったのだった。",
-              "自分らしい写真表現を模索し始めるきっかけとなる一枚である。"
-            ],
-            "image": "images/photos/0611480_0033.JPG",
-            "page": "photo2.html",
-            "date": "2024-06-12",
-            "dateDisplay": "2024年6月某日",
-            "location": "東京都新宿区",
-            "camera": "Nikon F70D",
-            "lens": "AI AF Nikkor 50mm F1.4",
-            "film": "ILFORD XP2 Super 400",
-            "tags": ["2024-06", "tokyo", "mono", "snap", "nikon-f70d", "nikkor-50mm", "ilford-xp2"]
-      },
-      {
-        "id": 3,
-        "title": "高田馬場ガード下",
-        "description": [
-          "『シルエット』と同日、もしくはその前日に撮影したと思われる。高田馬場駅周辺には雑多な雰囲気がある。",
-          "画面全体に日向と日陰との両方を収めており、モノクロフィルムならではの写りに期待を寄せている感じが見て取れる。"
-        ],
-        "image": "images/photos/0611480_0029.JPG",
-        "page": "photo3.html",
-        "date": "2024-06-12",
-        "dateDisplay": "2024年6月某日",
-        "location": "東京都新宿区",
-        "camera": "Nikon F70D",
-        "lens": "AI AF-S Zoom-Nikkor 80-200mm F2.8 ED",
-        "film": "ILFORD XP2 Super 400",
-        "tags": ["2024-06", "tokyo", "mono", "snap", "nikon-f70d", "nikkor-80-200mm", "ilford-xp2"]
-      },
-      {
-        "id": 4,
-        "title": "曇りの日",
-        "description": [
-          "ある曇りの日、橋を渡っていたときに美しい光が目を引いた。持っていたカメラで撮影した写真である。",
-          "空には雲が広がっているが厚くはなく、午後の光が雲間から漏れ、黄金の輝きに見えた。"
-        ],
-        "image": "images/photos/07290006_e.jpg",
-        "page": "photo4.html",
-        "date": "2024-09-23",
-        "dateDisplay": "2024年9月23日",
-        "location": "東京都江東区",
-        "camera": "Pentax 6×7",
-        "lens": "Super-Multi-Coated TAKUMAR6×7/90mm F2.8",
-        "film": "Kodak Gold 200",
-        "tags": ["2024-09", "tokyo", "landscape", "pentax-67", "67-90mm", "kodak-gold"]
-      },
-      {
-        "id": 5,
-        "title": "たこ焼き屋さん",
-        "description":[
-          "友人たちとの旅行中、通天閣の附近で撮影したもの。",
-          "素晴しいロゴタイプを見つけ、嬉しくなったのであった。"
-        ],
-        "image": "images/photos/0902468_0012.JPG",
-        "page": "photo5.html",
-        "date": "2024-09-01",
-        "dateDisplay": "2024年9月1日",
-        "location": "大阪府大阪市",
-        "camera": "Olympus OM-1",
-        "lens": "G.Zuiko Auto-S 50mm F1.4",
-        "film": "ILFORD ILFOCOLOR 400 PLUS Vintage Tone",
-        "tags": ["2024-09", "osaka", "snap", "olympus-om1", "zuiko-50mm1", "ilford-vintagetone"]
-      },
-      {
-        "id": 6,
-        "title": "茂みの中に",
-        "description":[
-          "散歩中、ふと立ち寄った公園で写真を撮っていたら、忽然と現れた猫。",
-          "慌てるそぶりもなく悠然と茂みに向かい、ここがお決まりの休憩場所らしかった。"
-        ],
-        "image": "images/photos/0807462_0025.JPG",
-        "page": "photo6.html",
-        "date": "2024-07-22",
-        "dateDisplay": "2024年7月22日ごろ",
-        "location": "東京都杉並区",
-        "camera": "Canon FTb-N",
-        "lens": "Canon FD 50mm F1.4 S.S.C.",
-        "film": "Kodak ColorPlus 200",
-        "tags": ["2024-07", "tokyo", "snap", "animals", "canon-ftbn", "fd-50mm", "kodak-colorplus"]
-      },
-      {
-        "id": 7,
-        "title": "秋の色彩",
-        "description":[
-          "東京都新宿区の諏訪神社の前を通りかかると、木々が鮮やかに色づいていた。",
-          "よく晴れた日で、空の青さも彩りを豊かにしている。"
-        ],
-        "image": "images/photos/18950005.jpg",
-        "page": "photo7.html",
-        "date": "2024-12-03",
-        "dateDisplay": "2024年12月3日",
-        "location": "東京都新宿区",
-        "camera": "Pentax 6×7",
-        "lens": "Super-Multi-Coated TAKUMAR6×7/55mm F3.5",
-        "film": "Kodak Gold 200",
-        "tags": ["2024-12", "tokyo", "snap", "pentax-67", "67-55mm", "kodak-gold"]
-      },
-      {
-        "id": 8,
-        "title": "梅田の夜景",
-        "description":[
-          "大阪駅前の大きなペデストリアンデッキからの眺望である。",
-          "雨が降る中、手すりにカメラを据えて撮影した。"
-        ],
-        "image": "images/photos/0902468_0026.JPG",
-        "page": "photo8.html",
-        "date": "2024-09-01",
-        "dateDisplay": "2024年9月1日",
-        "location": "大阪府大阪市",
-        "camera": "Olympus OM-1",
-        "lens": "G.Zuiko Auto-S 50mm F1.4",
-        "film": "ILFORD ILFOCOLOR 400 PLUS Vintage Tone",
-        "tags": ["2024-09", "osaka", "longexposure", "night", "olympus-om1", "zuiko-50mm1", "ilford-vintagetone"]
-      },
-      {
-        "id": 9,
-        "title": "新宿の公衆電話",
-        "description":[
-          "新宿駅東口から大ガード方向へ向かった場所にある公衆電話。",
-          "公衆電話を見つけるとつい写真に撮りたくなってしまうのは一体何の因果だろうか。"
-        ],
-        "image": "images/photos/0807462_0043.JPG",
-        "page": "photo9.html",
-        "date": "2024-07-04",
-        "dateDisplay": "2024年7月4日",
-        "location": "東京都新宿区",
-        "camera": "Nikon F70D",
-        "lens": "AI AF Nikkor 50mm F1.4",
-        "film": "FUJIFILM FUJICOLOR SUPER 400",
-        "tags": ["2024-07", "tokyo", "snap", "nikon-f70d", "nikkor-50mm", "fuji-super"]
-      },
-      {
-        "id": 10,
-        "title": "汀の夕方",
-        "description":[
-          "夕方、日が沈む頃になるとドラマチックな風景へと変貌する。",
-          "やわらかな光に包まれると自ずと幸せな気分になるだろう。"
-        ],
-        "image": "images/photos/0807462_0036.JPG",
-        "page": "photo10.html",
-        "date": "2024-07-29",
-        "dateDisplay": "2024年7月29日",
-        "location": "神奈川県鎌倉市",
-        "camera": "Canon FTb-N",
-        "lens": "Canon New FD 80-200mm F4",
-        "film": "Kodak ColorPlus 200",
-        "tags": ["2024-07", "kanagawa", "landscape", "canon-ftbn", "fd-80-200mm", "kodak-colorplus"]
-      }
+    {
+      "id": 1,
+      "title": "小さな島",
+      "description": [
+        "松島を訪れたのは2024年4月5日であった。この日はすこぶる天気が良く、海も空も抜けるような青色で清々しい気分だった。",
+        "松島の雄島にてこの写真を撮影したのは午前11時頃。その後瑞巌寺に詣で、併設された資料館を見物し、午後3時頃に蔵王へと向かった。",
+        "松島を訪れたのは東北旅行の最終日であった。私はこの東北旅行で初めてフィルムカメラでの撮影に臨んだのだが、この写真は最初期のお気に入りのカットである。",
+        "また、この旅行を機にフィルムカメラでの撮影にとりつかれることとなったのである。その意味でも記念すべき一枚だろう。"
+      ],
+      "image": "images/photos/0428501_0005.JPG",
+      "page": "photo1.html",
+      "date": "2024-04-05",
+      "dateDisplay": "2024年4月15日",
+      "location": "宮城県松島町",
+      "camera": "Nikon F70D",
+      "lens": "AI AF Zoom-Nikkor 28-80mm F3.5-5.6D",
+      "film": "Kodak UltraMax 400",
+      "tags": [
+        "2024-04",
+        "miyagi",
+        "landscape",
+        "nikon-f70d",
+        "nikkor-28-80mm",
+        "kodak-ultramax"
+      ]
+    },
+    {
+      "id": 2,
+      "title": "シルエット",
+      "description": [
+        "2024年6月10日前後、東京・新宿駅南口附近の歩道にて撮影した写真である。ジメジメとした暑さを感じる日だったことを覚えている。",
+        "午後の日差しが容赦なく照りつける手前の舗道は白く輝き、通行人のシルエットの黒さがコントラストを生み出していた。",
+        "初めてモノクロフィルムでの撮影に挑戦した際の写真で、とにかくコントラストのはっきりした被写体を探してずいぶん歩き回ったのだった。",
+        "自分らしい写真表現を模索し始めるきっかけとなる一枚である。"
+      ],
+      "image": "images/photos/0611480_0033.JPG",
+      "page": "photo2.html",
+      "date": "2024-06-12",
+      "dateDisplay": "2024年6月某日",
+      "location": "東京都新宿区",
+      "camera": "Nikon F70D",
+      "lens": "AI AF Nikkor 50mm F1.4",
+      "film": "ILFORD XP2 Super 400",
+      "tags": [
+        "2024-06",
+        "tokyo",
+        "mono",
+        "snap",
+        "nikon-f70d",
+        "nikkor-50mm",
+        "ilford-xp2"
+      ]
+    },
+    {
+      "id": 3,
+      "title": "高田馬場ガード下",
+      "description": [
+        "『シルエット』と同日、もしくはその前日に撮影したと思われる。高田馬場駅周辺には雑多な雰囲気がある。",
+        "画面全体に日向と日陰との両方を収めており、モノクロフィルムならではの写りに期待を寄せている感じが見て取れる。"
+      ],
+      "image": "images/photos/0611480_0029.JPG",
+      "page": "photo3.html",
+      "date": "2024-06-12",
+      "dateDisplay": "2024年6月某日",
+      "location": "東京都新宿区",
+      "camera": "Nikon F70D",
+      "lens": "AI AF-S Zoom-Nikkor 80-200mm F2.8 ED",
+      "film": "ILFORD XP2 Super 400",
+      "tags": [
+        "2024-06",
+        "tokyo",
+        "mono",
+        "snap",
+        "nikon-f70d",
+        "nikkor-80-200mm",
+        "ilford-xp2"
+      ]
+    },
+    {
+      "id": 4,
+      "title": "曇りの日",
+      "description": [
+        "ある曇りの日、橋を渡っていたときに美しい光が目を引いた。持っていたカメラで撮影した写真である。",
+        "空には雲が広がっているが厚くはなく、午後の光が雲間から漏れ、黄金の輝きに見えた。"
+      ],
+      "image": "images/photos/07290006_e.jpg",
+      "page": "photo4.html",
+      "date": "2024-09-23",
+      "dateDisplay": "2024年9月23日",
+      "location": "東京都江東区",
+      "camera": "Pentax 6×7",
+      "lens": "Super-Multi-Coated TAKUMAR6×7/90mm F2.8",
+      "film": "Kodak Gold 200",
+      "tags": [
+        "2024-09",
+        "tokyo",
+        "landscape",
+        "pentax-67",
+        "67-90mm",
+        "kodak-gold"
+      ]
+    },
+    {
+      "id": 5,
+      "title": "たこ焼き屋さん",
+      "description": [
+        "友人たちとの旅行中、通天閣の附近で撮影したもの。",
+        "素晴しいロゴタイプを見つけ、嬉しくなったのであった。"
+      ],
+      "image": "images/photos/0902468_0012.JPG",
+      "page": "photo5.html",
+      "date": "2024-09-01",
+      "dateDisplay": "2024年9月1日",
+      "location": "大阪府大阪市",
+      "camera": "Olympus OM-1",
+      "lens": "G.Zuiko Auto-S 50mm F1.4",
+      "film": "ILFORD ILFOCOLOR 400 PLUS Vintage Tone",
+      "tags": [
+        "2024-09",
+        "osaka",
+        "snap",
+        "olympus-om1",
+        "zuiko-50mm1",
+        "ilford-vintagetone"
+      ]
+    },
+    {
+      "id": 6,
+      "title": "茂みの中に",
+      "description": [
+        "散歩中、ふと立ち寄った公園で写真を撮っていたら、忽然と現れた猫。",
+        "慌てるそぶりもなく悠然と茂みに向かい、ここがお決まりの休憩場所らしかった。"
+      ],
+      "image": "images/photos/0807462_0025.JPG",
+      "page": "photo6.html",
+      "date": "2024-07-22",
+      "dateDisplay": "2024年7月22日ごろ",
+      "location": "東京都杉並区",
+      "camera": "Canon FTb-N",
+      "lens": "Canon FD 50mm F1.4 S.S.C.",
+      "film": "Kodak ColorPlus 200",
+      "tags": [
+        "2024-07",
+        "tokyo",
+        "snap",
+        "animals",
+        "canon-ftbn",
+        "fd-50mm",
+        "kodak-colorplus"
+      ]
+    },
+    {
+      "id": 7,
+      "title": "秋の色彩",
+      "description": [
+        "東京都新宿区の諏訪神社の前を通りかかると、木々が鮮やかに色づいていた。",
+        "よく晴れた日で、空の青さも彩りを豊かにしている。"
+      ],
+      "image": "images/photos/18950005.jpg",
+      "page": "photo7.html",
+      "date": "2024-12-03",
+      "dateDisplay": "2024年12月3日",
+      "location": "東京都新宿区",
+      "camera": "Pentax 6×7",
+      "lens": "Super-Multi-Coated TAKUMAR6×7/55mm F3.5",
+      "film": "Kodak Gold 200",
+      "tags": [
+        "2024-12",
+        "tokyo",
+        "snap",
+        "pentax-67",
+        "67-55mm",
+        "kodak-gold"
+      ]
+    },
+    {
+      "id": 8,
+      "title": "梅田の夜景",
+      "description": [
+        "大阪駅前の大きなペデストリアンデッキからの眺望である。",
+        "雨が降る中、手すりにカメラを据えて撮影した。"
+      ],
+      "image": "images/photos/0902468_0026.JPG",
+      "page": "photo8.html",
+      "date": "2024-09-01",
+      "dateDisplay": "2024年9月1日",
+      "location": "大阪府大阪市",
+      "camera": "Olympus OM-1",
+      "lens": "G.Zuiko Auto-S 50mm F1.4",
+      "film": "ILFORD ILFOCOLOR 400 PLUS Vintage Tone",
+      "tags": [
+        "2024-09",
+        "osaka",
+        "longexposure",
+        "night",
+        "olympus-om1",
+        "zuiko-50mm1",
+        "ilford-vintagetone"
+      ]
+    },
+    {
+      "id": 9,
+      "title": "新宿の公衆電話",
+      "description": [
+        "新宿駅東口から大ガード方向へ向かった場所にある公衆電話。",
+        "公衆電話を見つけるとつい写真に撮りたくなってしまうのは一体何の因果だろうか。"
+      ],
+      "image": "images/photos/0807462_0043.JPG",
+      "page": "photo9.html",
+      "date": "2024-07-04",
+      "dateDisplay": "2024年7月4日",
+      "location": "東京都新宿区",
+      "camera": "Nikon F70D",
+      "lens": "AI AF Nikkor 50mm F1.4",
+      "film": "FUJIFILM FUJICOLOR SUPER 400",
+      "tags": [
+        "2024-07",
+        "tokyo",
+        "snap",
+        "nikon-f70d",
+        "nikkor-50mm",
+        "fuji-super"
+      ]
+    },
+    {
+      "id": 10,
+      "title": "汀の夕方",
+      "description": [
+        "夕方、日が沈む頃になるとドラマチックな風景へと変貌する。",
+        "やわらかな光に包まれると自ずと幸せな気分になるだろう。"
+      ],
+      "image": "images/photos/0807462_0036.JPG",
+      "page": "photo10.html",
+      "date": "2024-07-29",
+      "dateDisplay": "2024年7月29日",
+      "location": "神奈川県鎌倉市",
+      "camera": "Canon FTb-N",
+      "lens": "Canon New FD 80-200mm F4",
+      "film": "Kodak ColorPlus 200",
+      "tags": [
+        "2024-07",
+        "kanagawa",
+        "landscape",
+        "canon-ftbn",
+        "fd-80-200mm",
+        "kodak-colorplus"
+      ]
+    },
+    {
+      "id": 11,
+      "title": "秋の夕暮れ",
+      "description": [
+        "西を向くと太陽が雲を照らしていた。雲はダイナミックに空に広がり、絵画を見ているかのような気分であった。",
+        "驚くほど素晴しい描写のレンズであるが、70年以上も昔のものである。"
+      ],
+      "image": "images/photos/1122257_0023.JPG",
+      "page": "photo11.html",
+      "date": "2024-11-09",
+      "dateDisplay": "2025年11月9日",
+      "location": "東京都世田谷区",
+      "camera": "Canon IV Sb2",
+      "lens": "Canon Serenar 35mm F3.5",
+      "film": "Kodak ColorPlus 200",
+      "tags": [
+        "2024-11",
+        "tokyo",
+        "snap",
+        "landscape",
+        "canon-ivsb2",
+        "canon-35mm",
+        "kodak-colorplus"
+      ]
+    },
+    {
+      "id": 12,
+      "title": "出発",
+      "description": [
+        "新大久保駅のプラットフォーム上を写す。季節や時間帯によっては晴れた午後でもホーム上はずいぶん暗くなる。ホーム屋根と列車の隙間から一筋に伸びた光が足下まで伸びていたのが印象的である。"
+      ],
+      "image": "images/photos/1122257_0021.JPG",
+      "page": "photo12.html",
+      "date": "2024-11-08",
+      "dateDisplay": "2024年11月8日",
+      "location": "東京都新宿区",
+      "camera": "Canon IV Sb 2",
+      "lens": "Canon Serenar 35mm F3.5",
+      "film": "Kodak ColorPlus 200",
+      "tags": [
+        "2024-11",
+        "tokyo",
+        "snap",
+        "canon-ivsb2",
+        "canon-35mm",
+        "kodak-colormax"
+      ]
+    },
+    {
+      "id": 13,
+      "title": "地下鉄の印象#1",
+      "description": [
+        "地下鉄駅へ降りると、青みがかった照明を見ることが多いと思うのは気のせいだろうか。不思議な空間である。なぜなら、昼でも夜でも地下鉄駅に降りれば、アナウンスや列車の走る音、人々の喧噪、そして青い照明がほとんど変化を感じさせないからである。その意味で、地下鉄駅は時刻に囚われない空間でもあり、わたくしはそれが好きである。"
+      ],
+      "image": "images/photos/DSC_6554.jpg",
+      "page": "photo13.html",
+      "date": "2025-01-23",
+      "dateDisplay": "2025年1月23日",
+      "location": "東京都新宿区",
+      "camera": "Nikon D800",
+      "lens": "AI AF Nikkor 50mm F1.4",
+      "film": "null",
+      "tags": [
+        "2025-01",
+        "tokyo",
+        "snap",
+        "nikon-d800",
+        "nikkor-50mm"
+      ]
+    }
   ]
 }
