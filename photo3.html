@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高田馬場ガード下 | フォトジャーナル</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/photo-view.css">
+</head>
+<body class="photo-view">
+    <!-- ヘッダー (モバイルでは初期非表示) -->
+    <header class="header-photo-view" id="photo-header">
+        <div class="header-container">
+            <div class="logo">
+                <a href="index.html">フォトジャーナル</a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">ホーム</a></li>
+                    <li><a href="posts.html">撮影記</a></li>
+                    <li><a href="gallery.html">ギャラリー</a></li>
+                    <li><a href="tags/tags.html">タグ検索</a></li>
+                    <li><a href="gear.html">機材紹介</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="immersive-container">
+        <!-- メイン写真表示 -->
+        <section class="photo-hero" id="photo-hero">
+            <img src="images/photos/0611480_0029.JPG" alt="高田馬場駅ガード下のモノクロ写真" class="photo-hero-image" id="main-photo">
+            <div class="photo-metadata-overlay">
+                <span>F--, --秒, ISO 400, --mm</span>
+            </div>
+            <div class="photo-title-overlay" id="title-overlay">
+                <h1>シルエット</h1>
+                <div class="photo-date">2024年6月某日</div>
+            </div>
+        </section>
+
+        <!-- 写真切り替えコントロール -->
+        <div class="photo-controls">
+            <button class="photo-control-btn" id="prev-photo">←</button>
+            <button class="photo-control-btn" id="next-photo">→</button>
+        </div>
+
+        <!-- 写真詳細情報 -->
+        <section class="photo-details">
+            <div class="photo-description">
+                <p>『シルエット』と同日、もしくはその前日に撮影したと思われる。高田馬場駅周辺には雑多な雰囲気がある。</p>
+                
+                <p>画面全体に日向と日陰との両方を収めており、モノクロフィルムならではの写りに期待を寄せている感じが伝わる。</p>
+            </div>
+            
+            <div class="photo-meta">
+                <div class="meta-item">
+                    <h4>撮影時期</h4>
+                    <p>2024年6月</p>
+                </div>
+                
+                <div class="meta-item">
+                    <h4>撮影場所</h4>
+                    <p>東京都新宿区</p>
+                </div>
+                
+                <div class="meta-item">
+                    <h4>撮影機材</h4>
+                    <p>カメラ: Nikon F70D</p>
+                    <p>レンズ: AI AF-S Zoom-Nikkor 80-200mm F2.8 ED</p>
+                </div>
+                
+                <div class="meta-item">
+                    <h4>フィルム</h4>
+                    <p>ILFORD XP2 Super 400</p>
+                </div>
+                
+                <div class="meta-item photo-tags">
+                    <h4>タグ</h4>
+                    <div class="tags">
+                        <a href="tags/2024-06.html" class="tag">2024年6月</a>
+                        <a href="tags/tokyo.html" class="tag">東京都</a>
+                        <a href="tags/mono.html" class="tag">モノクロ</a>
+                        <a href="tags/snap.html" class="tag">スナップショット</a>
+                        <a href="tags/nikon-f70d.html" class="tag">Nikon F70D</a>
+                        <a href="tags/nikkor-80-200mm.html" class="tag">AI AF-S Zoom-Nikkor 80-200mm F2.8 ED</a>
+                        <a href="tags/ilford-xp2.html" class="tag">ILFORD XP2</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 関連写真 -->
+        <section class="related-photos">
+            <h3>関連写真</h3>
+            <div class="related-grid">
+                <a href="photo2.html" class="related-photo">
+                    <img src="images/photos/0611480_0033.JPG" alt="関連写真1" class="lazy-load" data-src="photo2.html">
+                    <div class="related-photo-title">シルエット</div>
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <!-- ナビゲーションボタン -->
+    <button class="nav-btn" id="gallery-btn" title="ギャラリーに戻る">
+        ↑
+    </button>
+
+    <!-- JavaScript -->
+    <script src="js/scripts.js"></script>
+    <script>
+        // 写真固有のデータ（photo1.htmlの場合）
+        const photoData = {
+            id: 'photo3',
+            title: '高田馬場ガード下',
+            date: '2024年6月某日',
+            metadata: 'F--, --秒, ISO 400, --mm',
+            nextPhoto: 'photo4.html',
+            prevPhoto: 'photo2.html',
+            relatedPhotos: ['photo4.html', 'photo5.html', 'photo6.html', 'photo7.html']
+        };
+        
+        // 共通のphotoViewerを初期化
+        initPhotoViewer(photoData);
+    </script>
+</body>
+</html>
