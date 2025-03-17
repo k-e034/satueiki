@@ -8,15 +8,21 @@
 
 // 写真ビューアの初期化
 function initPhotoViewer(photoData) {
-    document.addEventListener('DOMContentLoaded', function() {
-        // ローディングアニメーション
-        setTimeout(function() {
-            document.getElementById('loading-overlay').style.opacity = 0;
+    // 即時実行関数でローディングアニメーションの処理
+    (function() {
+        // DOM読み込み完了前でも実行できるようにする
+        const loadingOverlay = document.getElementById('loading-overlay');
+        if (loadingOverlay) {
             setTimeout(function() {
-                document.getElementById('loading-overlay').style.display = 'none';
-            }, 500);
-        }, 1500);
-        
+                loadingOverlay.style.opacity = 0;
+                setTimeout(function() {
+                    loadingOverlay.style.display = 'none';
+                }, 500);
+            }, 1000); // 時間を短縮 (1500ms → 1000ms)
+        }
+    })();
+
+    document.addEventListener('DOMContentLoaded', function() {
         // ヘッダーのスクロール処理
         window.addEventListener('scroll', function() {
             var header = document.getElementById('photo-header');
@@ -31,6 +37,11 @@ function initPhotoViewer(photoData) {
         const mainPhoto = document.getElementById('main-photo');
         const photoHero = document.getElementById('photo-hero');
         const titleOverlay = document.getElementById('title-overlay');
+        
+        if (!mainPhoto || !photoHero || !titleOverlay) {
+            console.error('写真要素が見つかりません');
+            return;
+        }
         
         let isZoomed = false;
         
@@ -57,20 +68,26 @@ function initPhotoViewer(photoData) {
         });
         
         // ギャラリーに戻るボタン
-        document.getElementById('gallery-btn').addEventListener('click', function() {
-            window.location.href = 'gallery.html';
-        });
+        const galleryBtn = document.getElementById('gallery-btn');
+        if (galleryBtn) {
+            galleryBtn.addEventListener('click', function() {
+                window.location.href = 'gallery.html';
+            });
+        }
         
         // 前後の写真ページへのナビゲーション
-        if (photoData.prevPhoto) {
-            document.getElementById('prev-photo').addEventListener('click', function(e) {
+        const prevBtn = document.getElementById('prev-photo');
+        const nextBtn = document.getElementById('next-photo');
+        
+        if (prevBtn && photoData.prevPhoto) {
+            prevBtn.addEventListener('click', function(e) {
                 e.stopPropagation(); // 親要素のクリックイベントを防止
                 window.location.href = photoData.prevPhoto;
             });
         }
         
-        if (photoData.nextPhoto) {
-            document.getElementById('next-photo').addEventListener('click', function(e) {
+        if (nextBtn && photoData.nextPhoto) {
+            nextBtn.addEventListener('click', function(e) {
                 e.stopPropagation(); // 親要素のクリックイベントを防止
                 window.location.href = photoData.nextPhoto;
             });
@@ -92,9 +109,22 @@ function initPhotoViewer(photoData) {
         });
         
         // 画像の読み込み完了イベント
-        mainPhoto.onload = function() {
-            mainPhoto.style.opacity = 1;
-        };
+        if (mainPhoto) {
+            if (mainPhoto.complete) {
+                // すでに読み込み済みの場合
+                mainPhoto.style.opacity = 1;
+            } else {
+                mainPhoto.onload = function() {
+                    mainPhoto.style.opacity = 1;
+                };
+            }
+        }
+        
+        // スワイプナビゲーションとLazy Loadingを有効化
+        enableSwipeNavigation();
+        if ('IntersectionObserver' in window) {
+            setupLazyLoading();
+        }
     });
 }
 
@@ -122,10 +152,12 @@ function enableSwipeNavigation() {
         
         if (swipeDistance > MIN_SWIPE_DISTANCE) {
             // 右スワイプ (前の写真)
-            document.getElementById('prev-photo').click();
+            const prevBtn = document.getElementById('prev-photo');
+            if (prevBtn) prevBtn.click();
         } else if (swipeDistance < -MIN_SWIPE_DISTANCE) {
             // 左スワイプ (次の写真)
-            document.getElementById('next-photo').click();
+            const nextBtn = document.getElementById('next-photo');
+            if (nextBtn) nextBtn.click();
         }
     }
 }
@@ -136,6 +168,8 @@ function enableSwipeNavigation() {
  */
 function setupLazyLoading() {
     const lazyImages = document.querySelectorAll('.lazy-load');
+    
+    if (lazyImages.length === 0) return;
     
     const imageObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
@@ -152,11 +186,3 @@ function setupLazyLoading() {
         imageObserver.observe(img);
     });
 }
-
-// ページ読み込み時にスワイプナビゲーションとLazy Loadingを有効化
-document.addEventListener('DOMContentLoaded', function() {
-    enableSwipeNavigation();
-    if ('IntersectionObserver' in window) {
-        setupLazyLoading();
-    }
-});
