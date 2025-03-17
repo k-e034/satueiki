@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="css/photo-view.css">
 </head>
 <body class="photo-view">
-    <!-- ヘッダー -->
+    <!-- ヘッダー (モバイルでは初期非表示) -->
     <header class="header-photo-view" id="photo-header">
         <div class="header-container">
             <div class="logo">
@@ -17,7 +17,7 @@
             <nav>
                 <ul>
                     <li><a href="index.html">ホーム</a></li>
-                    <li><a href="tags/tags.html">タグ検索</a></li>
+                    <li><a href="index.html#tag-section">タグ検索</a></li>
                 </ul>
             </nav>
         </div>
@@ -26,13 +26,13 @@
     <div class="immersive-container">
         <!-- メイン写真表示 -->
         <section class="photo-hero" id="photo-hero">
-            <img src="images/photos/0428501_0005.JPG" alt="松島町で撮影した小島の写真" class="photo-hero-image" id="main-photo">
+            <img src="images/photos/0428501_0005.JPG" alt="小さな島" class="photo-hero-image" id="main-photo">
             <div class="photo-metadata-overlay">
-                <span>F--, --秒, ISO 400, --mm</span>
+                <span>F--, --秒, ISO --, --mm</span>
             </div>
             <div class="photo-title-overlay" id="title-overlay">
                 <h1>小さな島</h1>
-                <div class="photo-date">2024年4月5日撮影</div>
+                <div class="photo-date">2024年4月15日</div>
             </div>
         </section>
 
@@ -46,12 +46,9 @@
         <section class="photo-details">
             <div class="photo-description">
                 <p>「松島やああ松島や松島や」の句で有名な宮城県松島を訪れたのは2024年4月5日であった。この日はすこぶる天気が良く、海も空も抜けるような青色で清々しい気分だった。</p>
-                
-                <p>松島の雄島にてこの写真を撮影したのは午前11時頃であった。その後瑞巌寺に詣で、併設された資料館を見物し、午後3時頃に蔵王へと向かった。</p>
-                
-                <p>松島を訪れたのは東北旅行の最終日であった。私はこの東北旅行で初めてフィルムカメラでの撮影に臨んだのだが、この写真は最初期のお気に入りのカットである。</p>
-                
-                <p>この旅行を機にフィルムカメラでの撮影にとりつかれることとなったのである。その意味でも記念すべき一枚だろう。</p>
+<p>松島の雄島にてこの写真を撮影したのは午前11時頃であった。その後瑞巌寺に詣で、併設された資料館を見物し、午後3時頃に蔵王へと向かった。</p>
+<p>松島を訪れたのは東北旅行の最終日であった。私はこの東北旅行で初めてフィルムカメラでの撮影に臨んだのだが、この写真は最初期のお気に入りのカットである。</p>
+<p>この旅行を機にフィルムカメラでの撮影にとりつかれることとなったのである。その意味でも記念すべき一枚だろう。</p>
             </div>
             
             <div class="photo-meta">
@@ -76,33 +73,17 @@
                     <p>Kodak UltraMax 400</p>
                 </div>
                 
-                
                 <div class="meta-item photo-tags">
                     <h4>タグ</h4>
                     <div class="tags">
-                        <a href="tags/2024-10.html" class="tag">2024年4月</a>
-                        <a href="tags/miyagi.html" class="tag">宮城県</a>
-                        <a href="tags/sea.html" class="tag">海</a>
-                        <a href="tags/nikon-f70d.html" class="tag">Nikon F70D</a>
-                        <a href="tags/nikkor-28-80mm.html" class="tag">AI AF Zoom-Nikkor 28-80mm</a>
-                        <a href="tags/kodak-ultramax.html" class="tag">Kodak UltraMax</a>
+                        <a href="index.html?tag=2024-04" class="tag">2024年4月</a>
+<a href="index.html?tag=miyagi" class="tag">宮城県</a>
+<a href="index.html?tag=landscape" class="tag">風景</a>
+<a href="index.html?tag=nikon-f70d" class="tag">Nikon F70D</a>
+<a href="index.html?tag=nikkor-28-80mm" class="tag">AI AF Zoom-Nikkor 28-80mm F3.5-5.6D</a>
+<a href="index.html?tag=ultramax" class="tag">ultramax</a>
                     </div>
                 </div>
-            </div>
-        </section>
-        
-        <!-- 関連写真 -->
-        <section class="related-photos">
-            <h3>関連写真</h3>
-            <div class="related-grid">
-                <a href="photo2.html" class="related-photo">
-                    <img src="images/photos/0611480_0033.JPG" alt="関連写真2">
-                    <div class="related-photo-title">シルエット</div>
-                </a>
-                <a href="photo5.html" class="related-photo">
-                    <img src="/api/placeholder/600/400" alt="関連写真4">
-                    <div class="related-photo-title">東北旅行 - 角館</div>
-                </a>
             </div>
         </section>
     </div>
@@ -119,11 +100,10 @@
         const photoData = {
             id: 'photo1',
             title: '小さな島',
-            date: '2024年4月5日',
-            metadata: '宮城県松島市雄島より撮影',
+            date: '2024年4月15日',
+            metadata: 'F--, --秒, ISO --, --mm',
             nextPhoto: 'photo2.html',
-            prevPhoto: 'photo100.html',
-            relatedPhotos: ['photo2.html', 'photo3.html', 'photo4.html', 'photo5.html']
+            prevPhoto: 'photo4.html'
         };
         
         // 共通のphotoViewerを初期化

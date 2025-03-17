@@ -17,7 +17,7 @@
             <nav>
                 <ul>
                     <li><a href="index.html">ホーム</a></li>
-                    <li><a href="tags/tags.html">タグ検索</a></li>
+                    <li><a href="index.html#tag-section">タグ検索</a></li>
                 </ul>
             </nav>
         </div>
@@ -26,9 +26,9 @@
     <div class="immersive-container">
         <!-- メイン写真表示 -->
         <section class="photo-hero" id="photo-hero">
-            <img src="images/photos/0611480_0029.JPG" alt="高田馬場駅ガード下のモノクロ写真" class="photo-hero-image" id="main-photo">
+            <img src="images/photos/0611480_0029.JPG" alt="高田馬場ガード下" class="photo-hero-image" id="main-photo">
             <div class="photo-metadata-overlay">
-                <span>F--, --秒, ISO 400, --mm</span>
+                <span>F--, --秒, ISO --, --mm</span>
             </div>
             <div class="photo-title-overlay" id="title-overlay">
                 <h1>高田馬場ガード下</h1>
@@ -46,8 +46,7 @@
         <section class="photo-details">
             <div class="photo-description">
                 <p>『シルエット』と同日、もしくはその前日に撮影したと思われる。高田馬場駅周辺には雑多な雰囲気がある。</p>
-                
-                <p>画面全体に日向と日陰との両方を収めており、モノクロフィルムならではの写りに期待を寄せている感じが伝わる。</p>
+<p>画面全体に日向と日陰との両方を収めており、モノクロフィルムならではの写りに期待を寄せている感じが見て取れる。</p>
             </div>
             
             <div class="photo-meta">
@@ -75,26 +74,15 @@
                 <div class="meta-item photo-tags">
                     <h4>タグ</h4>
                     <div class="tags">
-                        <a href="tags/2024-06.html" class="tag">2024年6月</a>
-                        <a href="tags/tokyo.html" class="tag">東京都</a>
-                        <a href="tags/mono.html" class="tag">モノクロ</a>
-                        <a href="tags/snap.html" class="tag">スナップショット</a>
-                        <a href="tags/nikon-f70d.html" class="tag">Nikon F70D</a>
-                        <a href="tags/nikkor-80-200mm.html" class="tag">AI AF-S Zoom-Nikkor 80-200mm F2.8 ED</a>
-                        <a href="tags/ilford-xp2.html" class="tag">ILFORD XP2</a>
+                        <a href="index.html?tag=2024-06" class="tag">2024年6月</a>
+<a href="index.html?tag=tokyo" class="tag">東京都</a>
+<a href="index.html?tag=mono" class="tag">モノクロ</a>
+<a href="index.html?tag=snap" class="tag">スナップショット</a>
+<a href="index.html?tag=nikon-f70d" class="tag">Nikon F70D</a>
+<a href="index.html?tag=nikkor-80-200mm" class="tag">AI AF-S Zoom-Nikkor 80-200mm F2.8 ED</a>
+<a href="index.html?tag=ilford-xp2" class="tag">ILFORD XP2 Super 400</a>
                     </div>
                 </div>
-            </div>
-        </section>
-        
-        <!-- 関連写真 -->
-        <section class="related-photos">
-            <h3>関連写真</h3>
-            <div class="related-grid">
-                <a href="photo2.html" class="related-photo">
-                    <img src="images/photos/0611480_0033.JPG" alt="関連写真1" class="lazy-load" data-src="images/photos/0611480_0033.JPG">
-                    <div class="related-photo-title">シルエット</div>
-                </a>
             </div>
         </section>
     </div>
@@ -107,15 +95,14 @@
     <!-- JavaScript -->
     <script src="js/scripts.js"></script>
     <script>
-        // 写真固有のデータ（photo1.htmlの場合）
+        // 写真固有のデータ
         const photoData = {
             id: 'photo3',
             title: '高田馬場ガード下',
             date: '2024年6月某日',
-            metadata: 'F--, --秒, ISO 400, --mm',
+            metadata: 'F--, --秒, ISO --, --mm',
             nextPhoto: 'photo4.html',
-            prevPhoto: 'photo2.html',
-            relatedPhotos: ['photo4.html', 'photo5.html', 'photo6.html', 'photo7.html']
+            prevPhoto: 'photo2.html'
         };
         
         // 共通のphotoViewerを初期化

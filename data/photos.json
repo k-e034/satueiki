@@ -54,6 +54,23 @@
         "lens": "AI AF-S Zoom-Nikkor 80-200mm F2.8 ED",
         "film": "ILFORD XP2 Super 400",
         "tags": ["2024-06", "tokyo", "mono", "snap", "nikon-f70d", "nikkor-80-200mm", "ilford-xp2"]
+      },
+      {
+        "id": 4,
+        "title": "曇りの日",
+        "description": [
+          "ある曇りの日、橋を渡っていたときに美しい光が目を引いた。持っていたカメラで撮影した写真である。",
+          "空には雲が広がっているが厚くはなく、午後の光が雲間から漏れ、黄金の輝きに見えた。"
+        ],
+        "image": "images/photos/07290006_e.jpg",
+        "page": "photo4.html",
+        "date": "2024-09-23",
+        "dateDisplay": "2024年9月23日",
+        "location": "東京都江東区",
+        "camera": "Pentax 6×7",
+        "lens": "Pentax 6×7/90mm F2.8",
+        "film": "Kodak Gold 200",
+        "tags": ["2024-09", "tokyo", "landscape", "pentax-67", "67-90mm", "kodak-gold"]
       }
   ]
 }
