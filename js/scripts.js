@@ -174,7 +174,7 @@ function initPhotoViewer(photoData) {
         });
         
         // スワイプナビゲーションとLazy Loadingを有効化
-        enableSwipeNavigation();
+        enableImprovedSwipeNavigation();
         if ('IntersectionObserver' in window) {
             setupLazyLoading();
         }
@@ -208,37 +208,103 @@ function addHeaderToggle() {
 }
 
 /**
- * スワイプ検出のためのヘルパー関数
- * (モバイル向け)
+ * 改善されたスワイプ検出関数
+ * - 最小スワイプ距離を大きくして誤操作を防止
+ * - スワイプ時間を検出して素早すぎるスワイプを無視
+ * - 写真表示エリアのみでスワイプを有効に
  */
-function enableSwipeNavigation() {
+function enableImprovedSwipeNavigation() {
+    // スワイプ検出に必要な変数
     let touchStartX = 0;
+    let touchStartY = 0;
     let touchEndX = 0;
+    let touchEndY = 0;
+    let touchStartTime = 0;
+    let touchEndTime = 0;
+    let isScrolling = false;
     
-    const MIN_SWIPE_DISTANCE = 50;
+    // スワイプの感度調整
+    const MIN_SWIPE_DISTANCE = 100; // より大きな値に調整 (50 → 100)
+    const MAX_SWIPE_TIME = 500; // スワイプの最大許容時間 (ミリ秒)
+    const MIN_SWIPE_TIME = 50;  // スワイプの最小許容時間 (あまりに速すぎるのを防ぐ)
+    const MAX_VERTICAL_MOVE = 50; // 垂直方向の許容移動量
     
-    document.addEventListener('touchstart', function(e) {
+    // スワイプ検出は写真エリアのみに限定
+    const photoHero = document.getElementById('photo-hero');
+    if (!photoHero) return;
+    
+    photoHero.addEventListener('touchstart', function(e) {
         touchStartX = e.changedTouches[0].screenX;
+        touchStartY = e.changedTouches[0].screenY;
+        touchStartTime = new Date().getTime();
+        isScrolling = false;
     }, false);
     
-    document.addEventListener('touchend', function(e) {
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipe();
-    }, false);
-    
-    function handleSwipe() {
-        const swipeDistance = touchEndX - touchStartX;
+    // スクロール中は写真切り替えを無効化する
+    photoHero.addEventListener('touchmove', function(e) {
+        const currentY = e.changedTouches[0].screenY;
+        const verticalMove = Math.abs(currentY - touchStartY);
         
-        if (swipeDistance > MIN_SWIPE_DISTANCE) {
-            // 右スワイプ (前の写真)
-            const prevBtn = document.getElementById('prev-photo');
-            if (prevBtn) prevBtn.click();
-        } else if (swipeDistance < -MIN_SWIPE_DISTANCE) {
-            // 左スワイプ (次の写真)
-            const nextBtn = document.getElementById('next-photo');
-            if (nextBtn) nextBtn.click();
+        // 垂直方向の移動が閾値を超えたらスクロールと判定
+        if (verticalMove > 20) {
+            isScrolling = true;
         }
-    }
+    }, false);
+    
+    photoHero.addEventListener('touchend', function(e) {
+        // 既にズーム状態なら、スワイプは無効
+        const mainPhoto = document.getElementById('main-photo');
+        if (mainPhoto && mainPhoto.style.transform && mainPhoto.style.transform.includes('scale(1.5)')) {
+            return;
+        }
+        
+        touchEndX = e.changedTouches[0].screenX;
+        touchEndY = e.changedTouches[0].screenY;
+        touchEndTime = new Date().getTime();
+        
+        // スワイプ時間を計算
+        const swipeTime = touchEndTime - touchStartTime;
+        
+        // 垂直方向の移動量を計算
+        const verticalMove = Math.abs(touchEndY - touchStartY);
+        
+        // スワイプ距離を計算
+        const swipeDistance = touchEndX - touchStartX;
+        const absSwipeDistance = Math.abs(swipeDistance);
+        
+        // スワイプとして認識する条件をチェック
+        if (!isScrolling && 
+            absSwipeDistance > MIN_SWIPE_DISTANCE && 
+            verticalMove < MAX_VERTICAL_MOVE &&
+            swipeTime < MAX_SWIPE_TIME && 
+            swipeTime > MIN_SWIPE_TIME) {
+            
+            // スワイプ方向に基づいて処理
+            if (swipeDistance > 0) {
+                // 右スワイプ (前の写真)
+                const prevBtn = document.getElementById('prev-photo');
+                if (prevBtn) {
+                    // 操作フィードバックを提供
+                    prevBtn.classList.add('swipe-active');
+                    setTimeout(() => {
+                        prevBtn.classList.remove('swipe-active');
+                        prevBtn.click();
+                    }, 150);
+                }
+            } else {
+                // 左スワイプ (次の写真)
+                const nextBtn = document.getElementById('next-photo');
+                if (nextBtn) {
+                    // 操作フィードバックを提供
+                    nextBtn.classList.add('swipe-active');
+                    setTimeout(() => {
+                        nextBtn.classList.remove('swipe-active');
+                        nextBtn.click();
+                    }, 150);
+                }
+            }
+        }
+    }, false);
 }
 
 /**
