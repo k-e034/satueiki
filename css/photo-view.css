@@ -8,14 +8,7 @@ body.photo-view {
 .immersive-container {
     max-width: 100%;
     margin: 0 auto;
-    opacity: 0;
-    animation: fadeIn 1.2s forwards;
-    animation-delay: 0.5s; /* アニメーション開始を早める */
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    opacity: 1; /* 初期状態から表示 */
 }
 
 .photo-hero {
@@ -32,8 +25,7 @@ body.photo-view {
     height: 100%;
     object-fit: contain;
     transition: transform 0.7s ease;
-    opacity: 0; /* 初期状態は非表示 */
-    transition: opacity 0.5s ease, transform 0.7s ease;
+    opacity: 1; /* 初期状態から表示 */
 }
 
 .photo-title-overlay {
@@ -51,29 +43,10 @@ body.photo-view {
     font-size: 3rem;
     margin-bottom: 0.5rem;
     font-weight: 200;
-    opacity: 0;
-    transform: translateY(20px);
-    animation: slideUp 0.8s forwards;
-    animation-delay: 1s; /* ローディング後に表示 */
 }
 
 .photo-title-overlay .photo-date {
     font-size: 1.2rem;
-    opacity: 0;
-    transform: translateY(20px);
-    animation: slideUp 0.8s forwards;
-    animation-delay: 1.2s; /* ローディング後に表示 */
-}
-
-@keyframes slideUp {
-    from { 
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to { 
-        opacity: 1;
-        transform: translateY(0);
-    }
 }
 
 .photo-controls {
@@ -120,21 +93,6 @@ body.photo-view {
     grid-template-columns: 2fr 1fr;
     gap: 3rem;
     padding: 0 2rem;
-    opacity: 0;
-    transform: translateY(30px);
-    animation: fadeUpIn 1s forwards;
-    animation-delay: 1.5s; /* ローディング後に表示 */
-}
-
-@keyframes fadeUpIn {
-    from { 
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to { 
-        opacity: 1;
-        transform: translateY(0);
-    }
 }
 
 .photo-description {
@@ -190,10 +148,6 @@ body.photo-view {
     max-width: 1200px;
     margin: 5rem auto;
     padding: 0 2rem;
-    opacity: 0;
-    transform: translateY(30px);
-    animation: fadeUpIn 1s forwards;
-    animation-delay: 1.8s; /* ローディング後に表示 */
 }
 
 .related-photos h3 {
@@ -294,34 +248,6 @@ body.photo-view {
 
 .photo-view .header-container {
     padding: 1rem 2rem;
-}
-
-.loading-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #121212;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    opacity: 1;
-    transition: opacity 0.5s ease;
-}
-
-.loader {
-    width: 40px;
-    height: 40px;
-    border: 3px solid rgba(150, 150, 150, 0.2);
-    border-radius: 50%;
-    border-top-color: var(--accent-color);
-    animation: spin 1s ease-in-out infinite;
-}
-
-@keyframes spin {
-    to { transform: rotate(360deg); }
 }
 
 .photo-metadata-overlay {
