@@ -29,9 +29,8 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // 写真グリッドに写真を表示する関数
-    async function displayPhotos(page = 1, perPage = 9, filteredPhotos = null) {
-        // 写真データを取得（フィルター済みデータか全データ）
-        const photos = filteredPhotos || await loadPhotoData();
+    async function displayPhotos(page = 1, perPage = 9) {
+        const photos = await loadPhotoData();
         const photoGrid = document.getElementById('photo-grid');
         
         // グリッドをクリア
@@ -55,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function() {
             
             // すべての写真を表示したメッセージ
             const allLoaded = document.querySelector('.all-loaded-message');
-            if (!allLoaded && photos.length > 0) {
+            if (!allLoaded) {
                 const message = document.createElement('p');
                 message.textContent = 'すべての写真を表示しました';
                 message.className = 'all-loaded-message';
@@ -68,107 +67,81 @@ document.addEventListener("DOMContentLoaded", function() {
                 allLoaded.remove();
             }
         }
-        
-        // 写真がない場合のメッセージ
-        if (photos.length === 0) {
-            const noPhotos = document.createElement('p');
-            noPhotos.textContent = 'タグに一致する写真はありません';
-            noPhotos.className = 'no-photos-message';
-            photoGrid.appendChild(noPhotos);
-            
-            loadMoreBtn.style.display = 'none';
-        }
-        
-        return photos;
     }
 
-    // URLからタグを取得
+    // もっと見るボタンのイベントリスナー
+    let currentPage = 1;
+    const loadMoreBtn = document.getElementById('load-more');
+    
+    loadMoreBtn.addEventListener('click', function() {
+        currentPage++;
+        displayPhotos(currentPage);
+    });
+
+    // 初期表示
+    displayPhotos(1);
+
+    // タグによるフィルタリング機能
     function getTagFromUrl() {
         const urlParams = new URLSearchParams(window.location.search);
         return urlParams.get('tag');
     }
 
-    // タグでフィルタリング
-    async function filterPhotosByTag(tag) {
-        const photos = await loadPhotoData();
-        return photos.filter(photo => photo.tags.includes(tag));
+    // タグフィルタリングがある場合
+    const tag = getTagFromUrl();
+    if (tag) {
+        filterPhotosByTag(tag);
     }
 
-    // メイン処理
-    async function init() {
-        // グローバル変数
-        let currentPage = 1;
-        let filteredPhotos = null;
+    async function filterPhotosByTag(tag) {
+        const photos = await loadPhotoData();
+        const filteredPhotos = photos.filter(photo => photo.tags.includes(tag));
         
-        // タグパラメータの確認
-        const tag = getTagFromUrl();
-        if (tag) {
-            filteredPhotos = await filterPhotosByTag(tag);
+        const photoGrid = document.getElementById('photo-grid');
+        photoGrid.innerHTML = '';
+        
+        if (filteredPhotos.length === 0) {
+            const noPhotos = document.createElement('p');
+            noPhotos.textContent = 'タグに一致する写真はありません';
+            noPhotos.className = 'no-photos-message';
+            photoGrid.appendChild(noPhotos);
             
-            // タグのタイトルを表示（オプション）
-            const mainContent = document.querySelector('.main-content');
-            if (mainContent) {
-                const tagTitle = document.createElement('h2');
-                tagTitle.className = 'tag-filter-title';
-                tagTitle.textContent = `タグ: ${getTagDisplayName(tag)}`;
-                mainContent.insertBefore(tagTitle, mainContent.firstChild);
+            // もっと見るボタンを非表示
+            document.getElementById('load-more').style.display = 'none';
+        } else {
+            // 最初の9枚のみ表示
+            filteredPhotos.slice(0, 9).forEach(photo => {
+                const photoCard = createPhotoCard(photo);
+                photoGrid.appendChild(photoCard);
+            });
+            
+            // もっと見るボタンの表示/非表示を設定
+            const loadMoreBtn = document.getElementById('load-more');
+            if (filteredPhotos.length <= 9) {
+                loadMoreBtn.style.display = 'none';
+            } else {
+                loadMoreBtn.style.display = 'block';
+                
+                // タグフィルタリング時の「もっと見る」ボタンの処理
+                loadMoreBtn.onclick = function() {
+                    const currentCount = photoGrid.children.length;
+                    const nextBatch = filteredPhotos.slice(currentCount, currentCount + 9);
+                    
+                    nextBatch.forEach(photo => {
+                        const photoCard = createPhotoCard(photo);
+                        photoGrid.appendChild(photoCard);
+                    });
+                    
+                    if (currentCount + nextBatch.length >= filteredPhotos.length) {
+                        loadMoreBtn.style.display = 'none';
+                        
+                        const message = document.createElement('p');
+                        message.textContent = 'すべての写真を表示しました';
+                        message.className = 'all-loaded-message';
+                        loadMoreBtn.parentNode.appendChild(message);
+                    }
+                };
             }
         }
-        
-        // 初期表示
-        const photos = await displayPhotos(1, 9, filteredPhotos);
-        
-        // もっと見るボタンのイベントリスナー
-        const loadMoreBtn = document.getElementById('load-more');
-        if (loadMoreBtn) {
-            loadMoreBtn.addEventListener('click', function() {
-                currentPage++;
-                displayPhotos(currentPage, 9, filteredPhotos);
-            });
-        }
     }
-    
-    // タグの表示名を取得
-    function getTagDisplayName(tag) {
-        if (tag.match(/^\d{4}-\d{2}$/)) {
-            // 年月タグ（例：2025-03 → 2025年3月）
-            const [year, month] = tag.split('-');
-            return `${year}年${parseInt(month)}月`;
-        } else if (tag === 'tokyo') {
-            return '東京都';
-        } else if (tag === 'kanagawa') {
-            return '神奈川県';
-        } else if (tag === 'akita') {
-            return '秋田県';
-        } else if (tag === 'miyagi') {
-            return '宮城県';
-        } else if (tag === 'miyazaki') {
-            return '宮崎県';
-        } else if (tag === 'shinjuku') {
-            return '新宿区';
-        } else if (tag === 'mono') {
-            return 'モノクロ';
-        } else if (tag === 'snap') {
-            return 'スナップショット';
-        } else if (tag === 'canon-ivsb2') {
-            return 'Canon IV Sb2';
-        } else if (tag === 'canon-ftbn') {
-            return 'Canon FTb-N';
-        } else if (tag === 'nikon-f70d') {
-            return 'Nikon F70D';
-        } else if (tag === 'nikon-d800') {
-            return 'Nikon D800';
-        } else if (tag === 'olympus-om1') {
-            return 'Olympus OM-1';
-        } else if (tag === 'nikkor-80-200mm') {
-            return 'AI AF-S Zoom-Nikkor 80-200mm F2.8 ED';
-        } else if (tag === 'ilford-xp2') {
-            return 'ILFORD XP2';
-        }
-        
-        return tag; // デフォルトはタグをそのまま返す
-    }
-    
-    // 初期化
-    init();
 });
