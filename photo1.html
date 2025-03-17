@@ -8,11 +8,6 @@
     <link rel="stylesheet" href="css/photo-view.css">
 </head>
 <body class="photo-view">
-    <!-- ローディングオーバーレイ -->
-    <div class="loading-overlay" id="loading-overlay">
-        <div class="loader"></div>
-    </div>
-
     <!-- ヘッダー -->
     <header class="header-photo-view" id="photo-header">
         <div class="header-container">
@@ -88,12 +83,12 @@
                 <div class="meta-item photo-tags">
                     <h4>タグ</h4>
                     <div class="tags">
-                        <a href="tags/2024-04.html" class="tag">2024年4月</a>
+                        <a href="tags/2024-10.html" class="tag">2024年4月</a>
                         <a href="tags/miyagi.html" class="tag">宮城県</a>
-                        <a href="tags/umi.html" class="tag">海</a>
+                        <a href="tags/sea.html" class="tag">海</a>
                         <a href="tags/nikon-f70d.html" class="tag">Nikon F70D</a>
-                        <a href="tags/nikkor-28-80mm.html" class="tag">AI AF Zoom-Nikkor 28-80mm F3.5-5.6D</a>
-                        <a href="tags/kodak-ultramax.html" class="tag">Kodak UltraMax 400</a>
+                        <a href="tags/nikkor-28-80mm.html" class="tag">AI AF Zoom-Nikkor 28-80mm</a>
+                        <a href="tags/kodak-ultramax.html" class="tag">Kodak UltraMax</a>
                     </div>
                 </div>
             </div>
@@ -103,21 +98,13 @@
         <section class="related-photos">
             <h3>関連写真</h3>
             <div class="related-grid">
-                <a href="photo2.html" class="related-photo">
-                    <img src="/api/placeholder/600/400" alt="関連写真1">
-                    <div class="related-photo-title">桜のトンネル（上野公園）</div>
-                </a>
                 <a href="photo3.html" class="related-photo">
                     <img src="/api/placeholder/600/400" alt="関連写真2">
-                    <div class="related-photo-title">夜桜のライトアップ（千鳥ヶ淵）</div>
-                </a>
-                <a href="photo4.html" class="related-photo">
-                    <img src="/api/placeholder/600/400" alt="関連写真3">
-                    <div class="related-photo-title">春の東京スカイツリー</div>
+                    <div class="related-photo-title">東北旅行 - 蔵王</div>
                 </a>
                 <a href="photo5.html" class="related-photo">
                     <img src="/api/placeholder/600/400" alt="関連写真4">
-                    <div class="related-photo-title">春の新宿御苑</div>
+                    <div class="related-photo-title">東北旅行 - 角館</div>
                 </a>
             </div>
         </section>
@@ -131,15 +118,15 @@
     <!-- JavaScript -->
     <script src="js/script.js"></script>
     <script>
-        // 写真固有のデータ（photo1.htmlの場合）
+        // 写真固有のデータ
         const photoData = {
-            id: 'photo1',
+            id: 'shimajima',
             title: '小さな島',
             date: '2024年4月5日',
-            metadata: 'F--, --秒, ISO 400, --mm',
-            nextPhoto: 'photo2.html',
-            prevPhoto: 'photo5.html',
-            relatedPhotos: ['photo2.html', 'photo3.html', 'photo4.html', 'photo5.html']
+            metadata: '宮城県松島市雄島より撮影',
+            nextPhoto: 'photo3.html',
+            prevPhoto: 'photo1.html',
+            relatedPhotos: ['photo1.html', 'photo3.html', 'photo4.html', 'photo5.html']
         };
         
         // 共通のphotoViewerを初期化
