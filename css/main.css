@@ -731,3 +731,269 @@ footer {
         max-width: 300px;
     }
 }
+
+/* モバイル対応を強化した追加スタイル */
+
+/* ヘッダーのモバイル対応 */
+@media (max-width: 768px) {
+    .header-container {
+        flex-direction: column;
+        padding: 1rem;
+    }
+    
+    .logo {
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+    }
+    
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    nav ul li {
+        margin: 0.5rem 0;
+    }
+    
+    /* モバイルでのメニュートグル */
+    .mobile-menu-toggle {
+        display: block;
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        width: 40px;
+        height: 40px;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        z-index: 1000;
+        font-size: 1.2rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* モバイルでのヘッダー非表示と表示切替 */
+    header {
+        background-color: rgba(18, 18, 18, 0.95);
+    }
+    
+    header nav {
+        display: none;
+    }
+    
+    header.menu-open nav {
+        display: block;
+    }
+}
+
+/* 写真グリッドのモバイル対応 */
+@media (max-width: 768px) {
+    .feature-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .feature-card {
+        margin-bottom: 0;
+    }
+    
+    .feature-image {
+        height: 200px;
+    }
+    
+    .feature-content {
+        padding: 1.2rem;
+    }
+    
+    .feature-content h3 {
+        font-size: 1.2rem;
+    }
+    
+    .feature-content p {
+        font-size: 0.9rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    /* もっと見るボタンのモバイル対応 */
+    .load-more-container {
+        margin: 2rem 0;
+    }
+    
+    .load-more-container .btn {
+        width: 80%;
+        max-width: 250px;
+    }
+}
+
+/* 検索フォームのモバイル対応 */
+@media (max-width: 768px) {
+    .search-container {
+        margin: 1.5rem auto;
+        width: 90%;
+    }
+    
+    .search-form {
+        flex-direction: column;
+        border-radius: 10px;
+    }
+    
+    .search-input {
+        width: 100%;
+        padding: 0.8rem 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .search-button {
+        width: 100%;
+        padding: 0.8rem 0;
+        border-radius: 0 0 10px 10px;
+    }
+}
+
+/* タグセクションのモバイル対応 */
+@media (max-width: 768px) {
+    .tag-section {
+        padding: 3rem 1rem;
+    }
+    
+    .tag-category {
+        margin-bottom: 1.5rem;
+    }
+    
+    .tag-category h3 {
+        font-size: 1.1rem;
+    }
+    
+    .tags {
+        gap: 0.5rem;
+    }
+    
+    .tag {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+        margin-bottom: 0.3rem;
+    }
+}
+
+/* フッターのモバイル対応 */
+@media (max-width: 768px) {
+    .footer-container {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .footer-section {
+        text-align: center;
+    }
+    
+    .social-icons {
+        justify-content: center;
+    }
+}
+
+/* 縦持ち端末（iPhone, Galaxy S等）向け特別対応 */
+@media (max-width: 480px) {
+    .feature-image {
+        height: 180px;
+    }
+    
+    .feature-content h3 {
+        font-size: 1.1rem;
+    }
+    
+    .feature-content p {
+        font-size: 0.85rem;
+        line-height: 1.5;
+    }
+    
+    /* もっと見るボタンをより目立たせる */
+    .load-more-container .btn {
+        font-size: 0.9rem;
+        padding: 0.7rem 1.8rem;
+    }
+    
+    /* 余白調整 */
+    .main-content {
+        padding: 0 1rem;
+    }
+    
+    /* タッチ対応の改善 */
+    .tag, .btn, .feature-link {
+        /* タッチターゲットを大きく */
+        padding: 0.5rem 1rem;
+        min-height: 44px; /* Apple推奨のタッチ最小サイズ */
+    }
+    
+    /* スクロール挙動の改善 */
+    body {
+        -webkit-overflow-scrolling: touch; /* iOS用スムーススクロール */
+    }
+}
+
+/* メディアクエリでのモバイルタッチデバイス対応 */
+@media (hover: none) {
+    /* タッチデバイス向けホバー対応 */
+    .feature-card:active {
+        transform: scale(0.98);
+    }
+    
+    .feature-link:active::after {
+        transform: translateX(4px);
+    }
+    
+    .tag:active {
+        background-color: var(--accent-color);
+        color: white;
+    }
+    
+    /* タッチフィードバック改善 */
+    .btn:active, .tag:active, .feature-card:active, .search-button:active {
+        opacity: 0.7;
+        transition: opacity 0.1s;
+    }
+}
+
+/* モバイルのユーザビリティ改善 */
+@media (max-width: 768px) {
+    /* スクロールに合わせてフェードインする「トップに戻る」ボタン */
+    .back-to-top {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+        background-color: var(--accent-color);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.3s, transform 0.3s;
+        z-index: 99;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+    
+    .back-to-top.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    /* タグをモバイルでより押しやすく */
+    .tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    
+    .tag {
+        flex-grow: 1;
+        text-align: center;
+        min-width: calc(33% - 0.5rem);
+    }
+}
