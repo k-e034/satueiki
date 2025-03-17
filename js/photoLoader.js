@@ -33,9 +33,6 @@ document.addEventListener("DOMContentLoaded", function() {
         const photos = await loadPhotoData();
         const photoGrid = document.getElementById('photo-grid');
         
-        // グリッドをクリア
-        photoGrid.innerHTML = '';
-        
         // ページネーション計算
         const start = (page - 1) * perPage;
         const end = start + perPage;
