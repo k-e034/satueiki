@@ -156,6 +156,23 @@
         "lens": "AI AF Nikkor 50mm F1.4",
         "film": "FUJIFILM FUJICOLOR SUPER 400",
         "tags": ["2024-07", "tokyo", "snap", "nikon-f70d", "nikkor-50mm", "fuji-super"]
+      },
+      {
+        "id": 10,
+        "title": "汀の夕方",
+        "description":[
+          "夕方、日が沈む頃になるとドラマチックな風景へと変貌する。",
+          "やわらかな光に包まれると自ずと幸せな気分になるだろう。"
+        ],
+        "image": "images/photos/0807462_0036.JPG",
+        "page": "photo10.html",
+        "date": "2024-07-29",
+        "dateDisplay": "2024年7月29日",
+        "location": "神奈川県鎌倉市",
+        "camera": "Canon FTb-N",
+        "lens": "Canon New FD 80-200mm F4",
+        "film": "Kodak ColorPlus 200",
+        "tags": ["2024-07", "kanagawa", "landscape", "canon-ftbn", "fd-80-200mm", "kodak-colorplus"]
       }
   ]
 }
