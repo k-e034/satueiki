@@ -68,7 +68,7 @@
         "dateDisplay": "2024年9月23日",
         "location": "東京都江東区",
         "camera": "Pentax 6×7",
-        "lens": "Pentax 6×7/90mm F2.8",
+        "lens": "Super-Multi-Coated TAKUMAR6×7/90mm F2.8",
         "film": "Kodak Gold 200",
         "tags": ["2024-09", "tokyo", "landscape", "pentax-67", "67-90mm", "kodak-gold"]
       },
@@ -76,7 +76,7 @@
         "id": 5,
         "title": "たこ焼き屋さん",
         "description":[
-          "大阪への旅行中、通天閣の附近で撮影したもの。",
+          "友人たちとの旅行中、通天閣の附近で撮影したもの。",
           "素晴しいロゴタイプを見つけ、嬉しくなったのであった。"
         ],
         "image": "images/photos/0902468_0012.JPG",
@@ -88,6 +88,40 @@
         "lens": "G.Zuiko Auto-S 50mm F1.4",
         "film": "ILFORD ILFOCOLOR PLUS 400 Vintage Tone",
         "tags": ["2024-09", "osaka", "snap", "olympus-om1", "zuiko-50mm1", "ilford-vintagetone"]
+      },
+      {
+        "id": 6,
+        "title": "茂みの中に",
+        "description":[
+          "散歩中、ふと立ち寄った公園で写真を撮っていたら、忽然と現れた猫。",
+          "悠然と茂みに向かい、お決まりの休憩場所らしかった。"
+        ],
+        "image": "images/photos/0807462_0025.JPG",
+        "page": "photo6.html",
+        "date": "2024-07-22",
+        "dateDisplay": "2024年7月22日ごろ",
+        "location": "東京都杉並区",
+        "camera": "Canon FTb-N",
+        "lens": "Canon FD 50mm F1.4 S.S.C.",
+        "film": "Kodak ColorPlus 200",
+        "tags": ["2024-07", "tokyo", "snap", "animals", "canon-ftb", "fd-50mm", "kodak-colorplus"]
+      },
+      {
+        "id": 7,
+        "title": "茂みの中に",
+        "description":[
+          "東京都新宿区の諏訪神社の前を通りかかると、木々が鮮やかに色づいていた。",
+          "よく晴れた日で、空の青さも彩りを豊かにしている。"
+        ],
+        "image": "images/photos/18950005.jpg",
+        "page": "photo7.html",
+        "date": "2024-12-03",
+        "dateDisplay": "2024年12月3日",
+        "location": "東京都新宿区",
+        "camera": "Pentax 6×7",
+        "lens": "Super-Multi-Coated TAKUMAR6×7/55mm F3.5",
+        "film": "Kodak Gold 200",
+        "tags": ["2024-07", "tokyo", "snap", "pentax-67", "67-55mm", "kodak-gold"]
       }
   ]
 }
