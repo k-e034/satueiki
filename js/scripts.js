@@ -9,6 +9,14 @@
 // 写真ビューアの初期化
 function initPhotoViewer(photoData) {
     document.addEventListener('DOMContentLoaded', function() {
+        // モバイルデバイスの検出
+        const isMobile = window.innerWidth <= 768;
+        
+        // モバイル向けヘッダートグルの追加
+        if (isMobile) {
+            addHeaderToggle();
+        }
+        
         // ヘッダーのスクロール処理
         window.addEventListener('scroll', function() {
             var header = document.getElementById('photo-header');
@@ -31,8 +39,30 @@ function initPhotoViewer(photoData) {
         
         let isZoomed = false;
         
-        photoHero.addEventListener('click', function(e) {
-            // クリックするとズームイン/アウト
+        // タッチデバイスではズーム機能を調整
+        if ('ontouchstart' in window) {
+            // タッチデバイス用のダブルタップズーム
+            let lastTap = 0;
+            photoHero.addEventListener('touchend', function(e) {
+                const currentTime = new Date().getTime();
+                const tapLength = currentTime - lastTap;
+                
+                if (tapLength < 500 && tapLength > 0) {
+                    // ダブルタップ検出
+                    toggleZoom();
+                    e.preventDefault();
+                }
+                
+                lastTap = currentTime;
+            });
+        } else {
+            // 非タッチデバイス用のクリックズーム
+            photoHero.addEventListener('click', function() {
+                toggleZoom();
+            });
+        }
+        
+        function toggleZoom() {
             if (!isZoomed) {
                 mainPhoto.style.transform = 'scale(1.5)';
                 titleOverlay.style.opacity = 0;
@@ -41,17 +71,66 @@ function initPhotoViewer(photoData) {
                 titleOverlay.style.opacity = 1;
             }
             isZoomed = !isZoomed;
-        });
+        }
         
-        // 写真のマウス移動によるパン効果
-        photoHero.addEventListener('mousemove', function(e) {
-            if (isZoomed) {
-                // マウス位置に基づいて写真をパン
-                const xPos = (e.clientX / window.innerWidth) - 0.5;
-                const yPos = (e.clientY / window.innerHeight) - 0.5;
-                mainPhoto.style.transform = `scale(1.5) translate(${-xPos * 50}px, ${-yPos * 50}px)`;
-            }
-        });
+        // 写真のマウス移動/タッチによるパン効果
+        if ('ontouchstart' in window) {
+            // タッチデバイス用のパン処理
+            let startX = 0;
+            let startY = 0;
+            let initialX = 0;
+            let initialY = 0;
+            
+            photoHero.addEventListener('touchstart', function(e) {
+                if (isZoomed && e.touches.length === 1) {
+                    startX = e.touches[0].clientX;
+                    startY = e.touches[0].clientY;
+                    
+                    // 現在の変換行列から初期位置を取得
+                    const transform = window.getComputedStyle(mainPhoto).getPropertyValue('transform');
+                    const matrix = transform.match(/matrix.*\((.+)\)/);
+                    if (matrix) {
+                        const values = matrix[1].split(', ');
+                        initialX = values[4] || 0;
+                        initialY = values[5] || 0;
+                    }
+                    
+                    e.preventDefault();
+                }
+            });
+            
+            photoHero.addEventListener('touchmove', function(e) {
+                if (isZoomed && e.touches.length === 1) {
+                    const x = e.touches[0].clientX;
+                    const y = e.touches[0].clientY;
+                    
+                    const deltaX = (x - startX) * 0.5;
+                    const deltaY = (y - startY) * 0.5;
+                    
+                    const newX = parseInt(initialX) + deltaX;
+                    const newY = parseInt(initialY) + deltaY;
+                    
+                    // 移動制限（あまり遠くにパンしないようにする）
+                    const maxPan = 100;
+                    const clampedX = Math.min(Math.max(newX, -maxPan), maxPan);
+                    const clampedY = Math.min(Math.max(newY, -maxPan), maxPan);
+                    
+                    mainPhoto.style.transform = `scale(1.5) translate(${clampedX}px, ${clampedY}px)`;
+                    
+                    e.preventDefault();
+                }
+            });
+        } else {
+            // 非タッチデバイス用のマウスパン
+            photoHero.addEventListener('mousemove', function(e) {
+                if (isZoomed) {
+                    // マウス位置に基づいて写真をパン
+                    const xPos = (e.clientX / window.innerWidth) - 0.5;
+                    const yPos = (e.clientY / window.innerHeight) - 0.5;
+                    mainPhoto.style.transform = `scale(1.5) translate(${-xPos * 50}px, ${-yPos * 50}px)`;
+                }
+            });
+        }
         
         // ギャラリーに戻るボタン
         const galleryBtn = document.getElementById('gallery-btn');
@@ -100,6 +179,32 @@ function initPhotoViewer(photoData) {
             setupLazyLoading();
         }
     });
+}
+
+/**
+ * モバイル向けのヘッダートグルボタンを追加
+ */
+function addHeaderToggle() {
+    const toggleBtn = document.createElement('button');
+    toggleBtn.className = 'header-toggle';
+    toggleBtn.innerHTML = '≡';
+    toggleBtn.setAttribute('aria-label', 'メニュー切替');
+    
+    document.body.appendChild(toggleBtn);
+    
+    toggleBtn.addEventListener('click', function() {
+        const header = document.getElementById('photo-header');
+        header.classList.toggle('header-visible');
+    });
+    
+    // 写真エリアをタップしたらヘッダーを隠す
+    const photoHero = document.getElementById('photo-hero');
+    if (photoHero) {
+        photoHero.addEventListener('click', function() {
+            const header = document.getElementById('photo-header');
+            header.classList.remove('header-visible');
+        });
+    }
 }
 
 /**
