@@ -24,70 +24,9 @@
 
     <!-- メインコンテンツ -->
     <div class="main-content">
-        <!-- 写真グリッド (最初の9枚) -->
+        <!-- 写真グリッド -->
         <div id="photo-grid" class="feature-grid">
-            <!-- 写真カード1 -->
-            <div class="feature-card">
-                <a href="photo1.html">
-                    <div class="feature-image" style="background-image: url('images/photos/0428501_0005.JPG');"></div>
-                </a>
-            </div>
-
-            <!-- 写真カード2 -->
-            <div class="feature-card">
-                <a href="photo2.html">
-                    <div class="feature-image" style="background-image: url('images/photos/0611480_0033.JPG');"></div>
-                </a>
-            </div>
-
-            <!-- 写真カード3 -->
-            <div class="feature-card">
-                <a href="photo3.html">
-                    <div class="feature-image" style="background-image: url('images/photos/0611480_0029.JPG');"></div>
-                </a>
-            </div>
-
-            <!-- 写真カード4 -->
-            <div class="feature-card">
-                <a href="photo3.html">
-                    <div class="feature-image" style="background-image: url('/api/placeholder/600/400');"></div>
-                </a>
-            </div>
-
-            <!-- 写真カード5 -->
-            <div class="feature-card">
-                <a href="photo4.html">
-                    <div class="feature-image" style="background-image: url('/api/placeholder/600/400');"></div>
-                </a>
-            </div>
-
-            <!-- 写真カード6 -->
-            <div class="feature-card">
-                <a href="photo5.html">
-                    <div class="feature-image" style="background-image: url('/api/placeholder/600/400');"></div>
-                </a>
-            </div>
-            
-            <!-- 写真カード7 -->
-            <div class="feature-card">
-                <a href="photo6.html">
-                    <div class="feature-image" style="background-image: url('/api/placeholder/600/400');"></div>
-                </a>
-            </div>
-            
-            <!-- 写真カード8 -->
-            <div class="feature-card">
-                <a href="photo7.html">
-                    <div class="feature-image" style="background-image: url('/api/placeholder/600/400');"></div>
-                </a>
-            </div>
-            
-            <!-- 写真カード9 -->
-            <div class="feature-card">
-                <a href="photo8.html">
-                    <div class="feature-image" style="background-image: url('/api/placeholder/600/400');"></div>
-                </a>
-            </div>
+            <!-- 写真カードはJavaScriptで動的に生成されます -->
         </div>
         
         <!-- もっと見るボタン -->
@@ -104,12 +43,12 @@
             <div class="tag-category">
                 <h3>撮影時期</h3>
                 <div class="tags">
-                    <a href="tags/2025-03.html" class="tag">2025年3月</a>
-                    <a href="tags/2025-02.html" class="tag">2025年2月</a>
-                    <a href="tags/2025-01.html" class="tag">2025年1月</a>
-                    <a href="tags/2024-12.html" class="tag">2024年12月</a>
-                    <a href="tags/2024-11.html" class="tag">2024年6月</a>
-                    <a href="tags/2024-10.html" class="tag">2024年4月</a>
+                    <a href="index.html?tag=2025-03" class="tag">2025年3月</a>
+                    <a href="index.html?tag=2025-02" class="tag">2025年2月</a>
+                    <a href="index.html?tag=2025-01" class="tag">2025年1月</a>
+                    <a href="index.html?tag=2024-12" class="tag">2024年12月</a>
+                    <a href="index.html?tag=2024-11" class="tag">2024年6月</a>
+                    <a href="index.html?tag=2024-10" class="tag">2024年4月</a>
                 </div>
             </div>
 
@@ -117,11 +56,11 @@
             <div class="tag-category">
                 <h3>撮影場所</h3>
                 <div class="tags">
-                    <a href="tags/akita.html" class="tag">秋田県</a>
-                    <a href="tags/miyagi.html" class="tag">宮城県</a>
-                    <a href="tags/tokyo.html" class="tag">東京都</a>
-                    <a href="tags/kanagawa.html" class="tag">神奈川県</a>
-                    <a href="tags/miyazaki.html" class="tag">宮崎県</a>
+                    <a href="index.html?tag=akita" class="tag">秋田県</a>
+                    <a href="index.html?tag=miyagi" class="tag">宮城県</a>
+                    <a href="index.html?tag=tokyo" class="tag">東京都</a>
+                    <a href="index.html?tag=kanagawa" class="tag">神奈川県</a>
+                    <a href="index.html?tag=miyazaki" class="tag">宮崎県</a>
                 </div>
             </div>
 
@@ -129,11 +68,65 @@
             <div class="tag-category">
                 <h3>カメラ</h3>
                 <div class="tags">
-                    <a href="tags/canon-ivsb2.html" class="tag">Canon IV Sb2</a>
-                    <a href="tags/canon-ftbn.html" class="tag">Canon FTb-N</a>
-                    <a href="tags/nikon-f70d.html" class="tag">Nikon F70D</a>
-                    <a href="tags/nikon-d800.html" class="tag">Nikon D800</a>
-                    <a href="tags/olympus-om1.html" class="tag">Olympus OM-1</a>
+                    <a href="index.html?tag=canon-ivsb2" class="tag">Canon IV Sb2</a>
+                    <a href="index.html?tag=canon-ftbn" class="tag">Canon FTb-N</a>
+                    <a href="index.html?tag=lumix-g5" class="tag">Lumix G5</a>
+                    <a href="index.html?tag=nikon-f70d" class="tag">Nikon F70D</a>
+                    <a href="index.html?tag=nikon-d800" class="tag">Nikon D800</a>
+                    <a href="index.html?tag=olympus-om1" class="tag">Olympus OM-1</a>
+                    <a href="index.html?tag=pentax-67" class="tag">Pentax 6×7</a>
+                </div>
+            </div>
+            
+            <!-- レンズのタグ -->
+            <div class="tag-category">
+                <h3>レンズ</h3>
+                <div class="tags">
+                    <a href="index.html?tag=canon-35mm" class="tag">Canon Serenar 35mm F3.5</a>
+                    <a href="index.html?tag=canon-50mm" class="tag">Canon Lens 50mm F1.8</a>
+                    <a href="index.html?tag=fd-50mm" class="tag">Canon FD 50mm F1.4 S.S.C.</a>
+                    <a href="index.html?tag=fd-80-200mm" class="tag">Canon NewFD 80-200mm F4</a>
+                    <a href="index.html?tag=fd-300mm" class="tag">Canon NewFD 300mm F5.6</a>
+                    <a href="index.html?tag=zuiko-28mm" class="tag">Olympus Zuiko 28mm F2.8</a>
+                    <a href="index.html?tag=zuiko-35mm" class="tag">Olympus Zuiko 35mm F3.5</a>
+                    <a href="index.html?tag=zuiko-50mm1" class="tag">Olympus G.Zuiko 50mm F1.4</a>
+                    <a href="index.html?tag=zuiko-50mm2" class="tag">Olympus F.zuiko 50mm F1.8</a>
+                    <a href="index.html?tag=67-55mm" class="tag">Pentax 6×7/55mm F3.5</a>
+                    <a href="index.html?tag=67-90mm" class="tag">Pentax 6×7/90mm F2.8</a>
+                    <a href="index.html?tag=67-135mm" class="tag">Pentax 6×7/135mm F4</a>
+                    <a href="index.html?tag=67-200mm" class="tag">Pentax 6×7/200mm F4</a>
+                    <a href="index.html?tag=nikkor-28-80mm" class="tag">Nikkor 28-80mm F3.5-5.6D</a>
+                    <a href="index.html?tag=nikkor-28-200mm" class="tag">Nikkor 28-200mm F3.5-5.6D</a>
+                    <a href="index.html?tag=nikkor-50mm" class="tag">Nikkor 50mm F1.4</a>
+                    <a href="index.html?tag=nikkor-80-200mm" class="tag">Nikkor 80-200mm F2.8 ED</a>
+                </div>
+            </div>
+            
+            <!-- フィルムのタグ -->
+            <div class="tag-category">
+                <h3>フィルム</h3>
+                <div class="tags">
+                    <a href="index.html?tag=kodak-colorplus" class="tag">Kodak ColorPlus 200</a>
+                    <a href="index.html?tag=kodak-gold" class="tag">Kodak Gold 200</a>
+                    <a href="index.html?tag=kodak-ultramax" class="tag">Kodak UltraMax 400</a>
+                    <a href="index.html?tag=fuji-super" class="tag">FUJIFILM SUPER 400</a>
+                    <a href="index.html?tag=ilford-ilfochrome" class="tag">ILFORD ILFOCHROME 100</a>
+                    <a href="index.html?tag=ilford-xp2" class="tag">ILFORD XP2 Super 400</a>
+                    <a href="index.html?tag=ilford-vintagetone" class="tag">ILFORD Vintage Tone</a>
+                    <a href="index.html?tag=lomography-cn100" class="tag">Lomography CN100</a>
+                </div>
+            </div>
+            
+            <!-- 写真のスタイル -->
+            <div class="tag-category">
+                <h3>写真のスタイル</h3>
+                <div class="tags">
+                    <a href="index.html?tag=mono" class="tag">モノクロ</a>
+                    <a href="index.html?tag=landscape" class="tag">風景</a>
+                    <a href="index.html?tag=snap" class="tag">スナップショット</a>
+                    <a href="index.html?tag=longexposure" class="tag">長時間露光</a>
+                    <a href="index.html?tag=night" class="tag">夜景</a>
+                    <a href="index.html?tag=animals" class="tag">動物</a>
                 </div>
             </div>
         </div>
@@ -172,108 +165,6 @@
     </footer>
     
     <!-- JavaScript -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // 写真をさらに読み込むための処理
-            const loadMoreBtn = document.getElementById('load-more');
-            let currentPage = 1;
-            
-            loadMoreBtn.addEventListener('click', function() {
-                // ページ番号を増加
-                currentPage++;
-                
-                // 通常はここでAjaxリクエストを行い、追加の写真を取得する
-                // このデモでは簡単のため、ダミーデータを追加
-                
-                // ダミー写真データ（実際の実装では、サーバーからデータを取得する）
-                const dummyPhotos = [
-                    {
-                        url: 'photo9.html',
-                        image: '/api/placeholder/600/400',
-                        date: '2025年2月15日',
-                        title: '早春の公園',
-                        description: '春の訪れを告げる早咲きの梅が美しい都立公園での一コマ。寒さの中に春の兆しを感じます。'
-                    },
-                    {
-                        url: 'photo10.html',
-                        image: '/api/placeholder/600/400',
-                        date: '2025年2月10日',
-                        title: '冬の海辺',
-                        description: '冬の静かな海辺で撮影した一枚。波の音だけが響く静寂の中、美しい陽光が海面を照らしていました。'
-                    },
-                    {
-                        url: 'photo11.html',
-                        image: '/api/placeholder/600/400',
-                        date: '2025年2月5日',
-                        title: '雪山の朝焼け',
-                        description: '早朝の雪山で捉えた朝焼け。雪の結晶が朝日に輝く瞬間は、冬だけの特別な光景です。'
-                    },
-                    {
-                        url: 'photo12.html',
-                        image: '/api/placeholder/600/400',
-                        date: '2025年2月1日',
-                        title: '冬の小川',
-                        description: '凍てつく冬の小川。僅かに残る流れと周囲の氷が作り出す自然のアート作品のようです。'
-                    },
-                    {
-                        url: 'photo13.html',
-                        image: '/api/placeholder/600/400',
-                        date: '2025年1月25日',
-                        title: '雪の古民家',
-                        description: '雪に覆われた古民家の屋根。日本の冬の風情が感じられる静かな一コマです。'
-                    },
-                    {
-                        url: 'photo14.html',
-                        image: '/api/placeholder/600/400',
-                        date: '2025年1月20日',
-                        title: '霧氷の森',
-                        description: '厳冬期の山中で出会った霧氷の森。木々が白い結晶に覆われた神秘的な光景でした。'
-                    }
-                ];
-                
-                // グリッドに新しい写真を追加
-                const photoGrid = document.getElementById('photo-grid');
-                
-                dummyPhotos.forEach(photo => {
-                    const photoCard = document.createElement('div');
-                    photoCard.className = 'feature-card';
-                    photoCard.style.opacity = '0';
-                    photoCard.style.transform = 'translateY(20px)';
-                    photoCard.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-                    
-                    photoCard.innerHTML = `
-                        <a href="${photo.url}">
-                            <div class="feature-image" style="background-image: url('${photo.image}');"></div>
-                            <div class="feature-content">
-                                <div class="post-date">${photo.date}</div>
-                                <h3>${photo.title}</h3>
-                                <p>${photo.description}</p>
-                                <a href="${photo.url}" class="feature-link">詳細を見る</a>
-                            </div>
-                        </a>
-                    `;
-                    
-                    photoGrid.appendChild(photoCard);
-                    
-                    // アニメーション効果を適用するために少し遅延
-                    setTimeout(() => {
-                        photoCard.style.opacity = '1';
-                        photoCard.style.transform = 'translateY(0)';
-                    }, 50);
-                });
-                
-                // 3ページ目以降はダミーデータがないので、ボタンを非表示にする
-                if (currentPage >= 3) {
-                    loadMoreBtn.style.display = 'none';
-                    
-                    // 「すべての写真を表示しました」というメッセージを表示
-                    const message = document.createElement('p');
-                    message.textContent = 'すべての写真を表示しました';
-                    message.className = 'all-loaded-message';
-                    loadMoreBtn.parentNode.appendChild(message);
-                }
-            });
-        });
-    </script>
+    <script src="js/photoLoader.js"></script>
 </body>
 </html>
