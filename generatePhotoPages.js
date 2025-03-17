@@ -42,12 +42,6 @@ function generatePage(photo, photos, template) {
     content = content.replace(/\[\[LENS\]\]/g, photo.lens || '不明');
     content = content.replace(/\[\[FILM\]\]/g, photo.film || '不明');
     
-    // 写真メタデータの置き換え
-    const metadata = photo.aperture ? 
-        `F${photo.aperture}, ${photo.shutterSpeed}秒, ISO ${photo.iso}, ${photo.focalLength}mm` : 
-        'F--, --秒, ISO --, --mm';
-    content = content.replace(/\[\[PHOTO_METADATA\]\]/g, metadata);
-    
     // 説明文の置き換え
     let descriptionHtml = '';
     if (typeof photo.description === 'string') {
@@ -111,7 +105,7 @@ function getTagDisplayName(tag) {
     else if (tag === 'akita') return '秋田県';
     else if (tag === 'miyagi') return '宮城県';
     else if (tag === 'miyazaki') return '宮崎県';
-    else if (tag === 'shinjuku') return '新宿区';
+    else if (tag === 'osaka') return '大阪府';
     
     // カメラのタグ
     else if (tag === 'canon-ivsb2') return 'Canon IV Sb2';
