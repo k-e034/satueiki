@@ -133,12 +133,12 @@ function initPhotoViewer(photoData) {
         }
         
         // ギャラリーに戻るボタン
-        const galleryBtn = document.getElementById('gallery-btn');
-        if (galleryBtn) {
-            galleryBtn.addEventListener('click', function() {
-                window.location.href = '#';
-            });
-        }
+        //const galleryBtn = document.getElementById('gallery-btn');
+        //if (galleryBtn) {
+           // galleryBtn.addEventListener('click', function() {
+                //window.location.href = '#';
+            //});
+        //}
         
         // 前後の写真ページへのナビゲーション
         const prevBtn = document.getElementById('prev-photo');
