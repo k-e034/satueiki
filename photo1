@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>春の桜並木 | フォトジャーナル</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/photo-view.css">
+</head>
+<body class="photo-view">
+    <!-- ローディングオーバーレイ -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loader"></div>
+    </div>
+
+    <!-- ヘッダー -->
+    <header class="header-photo-view" id="photo-header">
+        <div class="header-container">
+            <div class="logo">
+                <a href="index.html">フォトジャーナル</a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">ホーム</a></li>
+                    <li><a href="posts.html">撮影記</a></li>
+                    <li><a href="gallery.html">ギャラリー</a></li>
+                    <li><a href="tags/tags.html">タグ検索</a></li>
+                    <li><a href="gear.html">機材紹介</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="immersive-container">
+        <!-- メイン写真表示 -->
+        <section class="photo-hero" id="photo-hero">
+            <img src="/api/placeholder/2000/1200" alt="春の桜並木の写真" class="photo-hero-image" id="main-photo">
+            <div class="photo-metadata-overlay">
+                <span>F8.0, 1/250秒, ISO 100, 50mm</span>
+            </div>
+            <div class="photo-title-overlay" id="title-overlay">
+                <h1>春の桜並木</h1>
+                <div class="photo-date">2025年3月15日</div>
+            </div>
+        </section>
+
+        <!-- 写真切り替えコントロール -->
+        <div class="photo-controls">
+            <button class="photo-control-btn" id="prev-photo">←</button>
+            <button class="photo-control-btn" id="next-photo">→</button>
+        </div>
+
+        <!-- 写真詳細情報 -->
+        <section class="photo-details">
+            <div class="photo-description">
+                <p>桜満開の季節、東京の目黒川沿いで撮影した一枚です。早朝の柔らかい光が桜の花びらを優しく照らし、川面に映る様子が幻想的な雰囲気を醸し出していました。</p>
+                
+                <p>この日は平日でしたが、すでに多くの人が桜の下でゆったりと時間を過ごしていました。私は人の少ない場所を探し、川沿いを歩きながら最も美しい構図を探しました。</p>
+                
+                <p>露出は少し抑えめにして、ハイライト部分の白飛びを防ぎながらも、花びらの繊細な質感を捉えることを心がけました。もう少し望遠レンズを持っていれば、桜の細部をより強調できたかもしれません。</p>
+                
+                <p>ポストプロセスでは、桜の淡いピンク色を自然に表現するために彩度を控えめに調整し、全体的な色温度を少し暖かみのある方向へ調整しました。この美しい光景が、写真を通じて少しでも伝わることを願っています。</p>
+            </div>
+            
+            <div class="photo-meta">
+                <div class="meta-item">
+                    <h4>撮影時期</h4>
+                    <p>2025年3月</p>
+                </div>
+                
+                <div class="meta-item">
+                    <h4>撮影場所</h4>
+                    <p>東京都目黒区（目黒川沿い）</p>
+                </div>
+                
+                <div class="meta-item">
+                    <h4>撮影機材</h4>
+                    <p>カメラ: Canon FTb-N</p>
+                    <p>レンズ: Canon FD 50mm F1.4 S.S.C.</p>
+                </div>
+                
+                <div class="meta-item">
+                    <h4>フィルム</h4>
+                    <p>Kodak ColorPlus 200</p>
+                </div>
+                
+                <div class="meta-item">
+                    <h4>撮影設定</h4>
+                    <p>絞り: F8.0</p>
+                    <p>シャッタースピード: 1/250秒</p>
+                </div>
+                
+                <div class="meta-item photo-tags">
+                    <h4>タグ</h4>
+                    <div class="tags">
+                        <a href="tags/2025-03.html" class="tag">2025年3月</a>
+                        <a href="tags/tokyo.html" class="tag">東京都</a>
+                        <a href="tags/sakura.html" class="tag">桜</a>
+                        <a href="tags/canon-ftbn.html" class="tag">Canon FTb-N</a>
+                        <a href="tags/fd-50mm.html" class="tag">Canon FD 50mm</a>
+                        <a href="tags/kodak-colorplus.html" class="tag">Kodak ColorPlus</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 関連写真 -->
+        <section class="related-photos">
+            <h3>関連写真</h3>
+            <div class="related-grid">
+                <a href="photo2.html" class="related-photo">
+                    <img src="/api/placeholder/600/400" alt="関連写真1">
+                    <div class="related-photo-title">桜のトンネル（上野公園）</div>
+                </a>
+                <a href="photo3.html" class="related-photo">
+                    <img src="/api/placeholder/600/400" alt="関連写真2">
+                    <div class="related-photo-title">夜桜のライトアップ（千鳥ヶ淵）</div>
+                </a>
+                <a href="photo4.html" class="related-photo">
+                    <img src="/api/placeholder/600/400" alt="関連写真3">
+                    <div class="related-photo-title">春の東京スカイツリー</div>
+                </a>
+                <a href="photo5.html" class="related-photo">
+                    <img src="/api/placeholder/600/400" alt="関連写真4">
+                    <div class="related-photo-title">春の新宿御苑</div>
+                </a>
+            </div>
+        </section>
+    </div>
+
+    <!-- ナビゲーションボタン -->
+    <button class="nav-btn" id="gallery-btn" title="ギャラリーに戻る">
+        ↑
+    </button>
+
+    <!-- JavaScript -->
+    <script src="js/script.js"></script>
+    <script>
+        // 写真固有のデータ（photo1.htmlの場合）
+        const photoData = {
+            id: 'photo1',
+            title: '春の桜並木',
+            date: '2025年3月15日',
+            metadata: 'F8.0, 1/250秒, ISO 100, 50mm',
+            nextPhoto: 'photo2.html',
+            prevPhoto: 'photo5.html',
+            relatedPhotos: ['photo2.html', 'photo3.html', 'photo4.html', 'photo5.html']
+        };
+        
+        // 共通のphotoViewerを初期化
+        initPhotoViewer(photoData);
+    </script>
+</body>
+</html>
