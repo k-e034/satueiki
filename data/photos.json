@@ -71,6 +71,23 @@
         "lens": "Pentax 6×7/90mm F2.8",
         "film": "Kodak Gold 200",
         "tags": ["2024-09", "tokyo", "landscape", "pentax-67", "67-90mm", "kodak-gold"]
+      },
+      {
+        "id": 5,
+        "title": "たこ焼き屋さん",
+        "description":[
+          "大阪への旅行中、通天閣の附近で撮影したもの。",
+          "素晴しいロゴタイプを見つけ、嬉しくなったのであった。"
+        ],
+        "image": "images/photos/0902468_0012.JPG",
+        "page": "photo5.html",
+        "date": "2024-09-01",
+        "dateDisplay": "2024年9月1日",
+        "location": "大阪府大阪市",
+        "camera": "Olympus OM-1",
+        "lens": "G.Zuiko Auto-S 50mm F1.4",
+        "film": "ILFORD ILFOCOLOR PLUS 400 Vintage Tone",
+        "tags": ["2024-09", "osaka", "snap", "olympus-om1", "zuiko-50mm1", "ilford-vintagetone"]
       }
   ]
 }
