@@ -1,0 +1,174 @@
+document.addEventListener("DOMContentLoaded", function() {
+    // 写真データを読み込む関数
+    async function loadPhotoData() {
+        try {
+            const response = await fetch('data/photos.json');
+            if (!response.ok) {
+                throw new Error('写真データの読み込みに失敗しました');
+            }
+            const data = await response.json();
+            return data.photos;
+        } catch (error) {
+            console.error('Error loading photo data:', error);
+            return [];
+        }
+    }
+
+    // 写真カードを作成する関数
+    function createPhotoCard(photo) {
+        const photoCard = document.createElement('div');
+        photoCard.className = 'feature-card';
+        
+        photoCard.innerHTML = `
+            <a href="${photo.page}">
+                <div class="feature-image" style="background-image: url('${photo.image}');"></div>
+            </a>
+        `;
+        
+        return photoCard;
+    }
+
+    // 写真グリッドに写真を表示する関数
+    async function displayPhotos(page = 1, perPage = 9, filteredPhotos = null) {
+        // 写真データを取得（フィルター済みデータか全データ）
+        const photos = filteredPhotos || await loadPhotoData();
+        const photoGrid = document.getElementById('photo-grid');
+        
+        // グリッドをクリア
+        photoGrid.innerHTML = '';
+        
+        // ページネーション計算
+        const start = (page - 1) * perPage;
+        const end = start + perPage;
+        const currentPhotos = photos.slice(start, end);
+        
+        // 写真カードを追加
+        currentPhotos.forEach(photo => {
+            const photoCard = createPhotoCard(photo);
+            photoGrid.appendChild(photoCard);
+        });
+        
+        // もっと見るボタンの表示/非表示を設定
+        const loadMoreBtn = document.getElementById('load-more');
+        if (end >= photos.length) {
+            loadMoreBtn.style.display = 'none';
+            
+            // すべての写真を表示したメッセージ
+            const allLoaded = document.querySelector('.all-loaded-message');
+            if (!allLoaded && photos.length > 0) {
+                const message = document.createElement('p');
+                message.textContent = 'すべての写真を表示しました';
+                message.className = 'all-loaded-message';
+                loadMoreBtn.parentNode.appendChild(message);
+            }
+        } else {
+            loadMoreBtn.style.display = 'block';
+            const allLoaded = document.querySelector('.all-loaded-message');
+            if (allLoaded) {
+                allLoaded.remove();
+            }
+        }
+        
+        // 写真がない場合のメッセージ
+        if (photos.length === 0) {
+            const noPhotos = document.createElement('p');
+            noPhotos.textContent = 'タグに一致する写真はありません';
+            noPhotos.className = 'no-photos-message';
+            photoGrid.appendChild(noPhotos);
+            
+            loadMoreBtn.style.display = 'none';
+        }
+        
+        return photos;
+    }
+
+    // URLからタグを取得
+    function getTagFromUrl() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get('tag');
+    }
+
+    // タグでフィルタリング
+    async function filterPhotosByTag(tag) {
+        const photos = await loadPhotoData();
+        return photos.filter(photo => photo.tags.includes(tag));
+    }
+
+    // メイン処理
+    async function init() {
+        // グローバル変数
+        let currentPage = 1;
+        let filteredPhotos = null;
+        
+        // タグパラメータの確認
+        const tag = getTagFromUrl();
+        if (tag) {
+            filteredPhotos = await filterPhotosByTag(tag);
+            
+            // タグのタイトルを表示（オプション）
+            const mainContent = document.querySelector('.main-content');
+            if (mainContent) {
+                const tagTitle = document.createElement('h2');
+                tagTitle.className = 'tag-filter-title';
+                tagTitle.textContent = `タグ: ${getTagDisplayName(tag)}`;
+                mainContent.insertBefore(tagTitle, mainContent.firstChild);
+            }
+        }
+        
+        // 初期表示
+        const photos = await displayPhotos(1, 9, filteredPhotos);
+        
+        // もっと見るボタンのイベントリスナー
+        const loadMoreBtn = document.getElementById('load-more');
+        if (loadMoreBtn) {
+            loadMoreBtn.addEventListener('click', function() {
+                currentPage++;
+                displayPhotos(currentPage, 9, filteredPhotos);
+            });
+        }
+    }
+    
+    // タグの表示名を取得
+    function getTagDisplayName(tag) {
+        if (tag.match(/^\d{4}-\d{2}$/)) {
+            // 年月タグ（例：2025-03 → 2025年3月）
+            const [year, month] = tag.split('-');
+            return `${year}年${parseInt(month)}月`;
+        } else if (tag === 'tokyo') {
+            return '東京都';
+        } else if (tag === 'kanagawa') {
+            return '神奈川県';
+        } else if (tag === 'akita') {
+            return '秋田県';
+        } else if (tag === 'miyagi') {
+            return '宮城県';
+        } else if (tag === 'miyazaki') {
+            return '宮崎県';
+        } else if (tag === 'shinjuku') {
+            return '新宿区';
+        } else if (tag === 'mono') {
+            return 'モノクロ';
+        } else if (tag === 'snap') {
+            return 'スナップショット';
+        } else if (tag === 'canon-ivsb2') {
+            return 'Canon IV Sb2';
+        } else if (tag === 'canon-ftbn') {
+            return 'Canon FTb-N';
+        } else if (tag === 'nikon-f70d') {
+            return 'Nikon F70D';
+        } else if (tag === 'nikon-d800') {
+            return 'Nikon D800';
+        } else if (tag === 'olympus-om1') {
+            return 'Olympus OM-1';
+        } else if (tag === 'nikkor-80-200mm') {
+            return 'AI AF-S Zoom-Nikkor 80-200mm F2.8 ED';
+        } else if (tag === 'ilford-xp2') {
+            return 'ILFORD XP2';
+        }
+        
+        return tag; // デフォルトはタグをそのまま返す
+    }
+    
+    // 初期化
+    init();
+});
