@@ -8,20 +8,6 @@
 
 // 写真ビューアの初期化
 function initPhotoViewer(photoData) {
-    // 即時実行関数でローディングアニメーションの処理
-    (function() {
-        // DOM読み込み完了前でも実行できるようにする
-        const loadingOverlay = document.getElementById('loading-overlay');
-        if (loadingOverlay) {
-            setTimeout(function() {
-                loadingOverlay.style.opacity = 0;
-                setTimeout(function() {
-                    loadingOverlay.style.display = 'none';
-                }, 500);
-            }, 1000); // 時間を短縮 (1500ms → 1000ms)
-        }
-    })();
-
     document.addEventListener('DOMContentLoaded', function() {
         // ヘッダーのスクロール処理
         window.addEventListener('scroll', function() {
@@ -107,18 +93,6 @@ function initPhotoViewer(photoData) {
                 }
             }
         });
-        
-        // 画像の読み込み完了イベント
-        if (mainPhoto) {
-            if (mainPhoto.complete) {
-                // すでに読み込み済みの場合
-                mainPhoto.style.opacity = 1;
-            } else {
-                mainPhoto.onload = function() {
-                    mainPhoto.style.opacity = 1;
-                };
-            }
-        }
         
         // スワイプナビゲーションとLazy Loadingを有効化
         enableSwipeNavigation();
