@@ -136,7 +136,7 @@ function initPhotoViewer(photoData) {
         const galleryBtn = document.getElementById('gallery-btn');
         if (galleryBtn) {
             galleryBtn.addEventListener('click', function() {
-                window.location.href = 'gallery.html';
+                window.location.href = '#';
             });
         }
         
