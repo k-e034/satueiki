@@ -293,7 +293,7 @@
         "snap",
         "canon-ivsb2",
         "canon-35mm",
-        "kodak-colormax"
+        "kodak-colorplus"
       ]
     },
     {
@@ -316,6 +316,29 @@
         "snap",
         "nikon-d800",
         "nikkor-50mm"
+      ]
+    },
+    {
+      "id": 14,
+      "title": "小休憩",
+      "description": [
+        "自然と集まって話す間柄に憧れる。"
+      ],
+      "image": "images/photos/0902468_0011.JPG",
+      "page": "photo14.html",
+      "date": "2024-09-01",
+      "dateDisplay": "2024年9月1日",
+      "location": "大阪府大阪市",
+      "camera": "Olympus OM-1",
+      "lens": "Olympus G.Zuiko 50mm F1.4",
+      "film": "ILFORD ILFOCOLOR 400 PLUS Vintage Tone",
+      "tags": [
+        "2024-09",
+        "osaka",
+        "snap",
+        "olympus-om1",
+        "zuiko-50mm1",
+        "ilford-vintagetone"
       ]
     }
   ]
