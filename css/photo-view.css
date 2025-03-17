@@ -236,8 +236,8 @@ body.photo-view {
     top: 0;
     left: 0;
     width: 100%;
-    background-color: rgba(0,0,0,0);
-    transition: background-color 0.3s ease;
+    background-color: rgba(0,0,0,0.3);
+    transition: background-color 0.3s ease, transform 0.3s ease;
     z-index: 50;
 }
 
@@ -267,6 +267,23 @@ body.photo-view {
     opacity: 1;
 }
 
+/* モバイル用のヘッダー制御 */
+.header-toggle {
+    display: none;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(0,0,0,0.5);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    z-index: 101;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
 /* レスポンシブデザイン */
 @media (max-width: 992px) {
     .related-grid {
@@ -280,14 +297,106 @@ body.photo-view {
     }
     
     .photo-hero {
-        height: 60vh;
+        height: 75vh; /* モバイルで少し高さを調整 */
     }
     
     .photo-title-overlay h1 {
         font-size: 2rem;
     }
     
+    /* モバイルでヘッダーを非表示にし、トグルボタンを表示 */
+    .header-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .header-photo-view {
+        transform: translateY(-100%); /* 初期状態では上に隠れている */
+    }
+    
+    .header-visible {
+        transform: translateY(0); /* トグル時に表示 */
+    }
+    
+    .photo-view .header-container {
+        padding: 1rem;
+    }
+    
+    .photo-view .logo {
+        font-size: 1.4rem;
+    }
+    
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    nav ul li {
+        margin: 0.5rem 0;
+    }
+    
     .photo-controls {
-        display: none;
+        bottom: 50%;
+        top: auto;
+    }
+    
+    .photo-control-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+    
+    .photo-meta {
+        padding: 1.5rem;
+    }
+    
+    .nav-btn {
+        bottom: 1.5rem;
+        right: 1.5rem;
+        width: 40px;
+        height: 40px;
+    }
+    
+    .photo-metadata-overlay {
+        top: auto;
+        bottom: 1rem;
+        left: 1rem;
+    }
+    
+    /* スワイプしやすいよう、コントロールを表示 */
+    .immersive-container .photo-controls {
+        opacity: 1;
+        background: linear-gradient(to right, rgba(0,0,0,0.3) 0%, transparent 15%, transparent 85%, rgba(0,0,0,0.3) 100%);
+        padding: 0;
+    }
+    
+    .photo-control-btn {
+        margin: 0 10px;
+    }
+}
+
+/* 縦長のスマホ向け調整 */
+@media (max-width: 480px) {
+    .photo-hero {
+        height: 60vh;
+    }
+    
+    .photo-title-overlay {
+        padding: 1.5rem 1rem;
+    }
+    
+    .photo-title-overlay h1 {
+        font-size: 1.6rem;
+    }
+    
+    .photo-details {
+        margin: 2rem auto;
+        padding: 0 1rem;
+        gap: 2rem;
+    }
+    
+    .related-grid {
+        grid-template-columns: 1fr;
     }
 }
