@@ -81,7 +81,7 @@ body.photo-view {
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.photo-control-btn:hover {
+.photo-control-btn:hover, .photo-control-btn.swipe-active {
     background-color: rgba(0,0,0,0.6);
     transform: scale(1.1);
 }
@@ -267,6 +267,35 @@ body.photo-view {
     opacity: 1;
 }
 
+/* スワイプインジケーター */
+.swipe-indicator {
+    position: fixed;
+    display: none;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0,0,0,0.7);
+    color: white;
+    font-size: 2rem;
+    padding: 1rem;
+    border-radius: 50%;
+    z-index: 50;
+    animation: fadeInOut 1s ease;
+}
+
+.swipe-indicator.left {
+    left: 1rem;
+}
+
+.swipe-indicator.right {
+    right: 1rem;
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
 /* モバイル用のヘッダー制御 */
 .header-toggle {
     display: none;
@@ -339,6 +368,33 @@ body.photo-view {
     .photo-controls {
         bottom: 50%;
         top: auto;
+        opacity: 0; /* モバイルでは非表示に変更 */
+    }
+    
+    /* スワイプ通知用スタイル */
+    .swipe-hint {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: rgba(0,0,0,0.7);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        opacity: 0;
+        animation: fadeInOut 3s ease-in-out;
+        animation-iteration-count: 1;
+        animation-delay: 2s;
+        z-index: 10;
+        white-space: nowrap;
+    }
+    
+    @keyframes fadeInOut {
+        0% { opacity: 0; }
+        20% { opacity: 1; }
+        80% { opacity: 1; }
+        100% { opacity: 0; }
     }
     
     .photo-control-btn {
@@ -362,17 +418,6 @@ body.photo-view {
         top: auto;
         bottom: 1rem;
         left: 1rem;
-    }
-    
-    /* スワイプしやすいよう、コントロールを表示 */
-    .immersive-container .photo-controls {
-        opacity: 1;
-        background: linear-gradient(to right, rgba(0,0,0,0.3) 0%, transparent 15%, transparent 85%, rgba(0,0,0,0.3) 100%);
-        padding: 0;
-    }
-    
-    .photo-control-btn {
-        margin: 0 10px;
     }
 }
 
