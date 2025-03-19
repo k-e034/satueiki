@@ -100,16 +100,19 @@ function getTagDisplayName(tag) {
     } 
     
     // 撮影場所のタグ
-    else if (tag === 'tokyo') return '東京都';
-    else if (tag === 'kanagawa') return '神奈川県';
     else if (tag === 'akita') return '秋田県';
     else if (tag === 'miyagi') return '宮城県';
-    else if (tag === 'miyazaki') return '宮崎県';
+    else if (tag === 'saitama') return '埼玉県';
+    else if (tag === 'tokyo') return '東京都';
+    else if (tag === 'kanagawa') return '神奈川県';
+    else if (tag === 'mie') return '三重県';
     else if (tag === 'osaka') return '大阪府';
+    else if (tag === 'miyazaki') return '宮崎県';
     
     // カメラのタグ
     else if (tag === 'canon-ivsb2') return 'Canon IV Sb2';
     else if (tag === 'canon-ftbn') return 'Canon FTb-N';
+    else if (tag === 'fuji-s5pro') return 'Fujifilm FinePix S5 Pro'
     else if (tag === 'lumix-g5') return 'Lumix G5';
     else if (tag === 'nikon-f70d') return 'Nikon F70D';
     else if (tag === 'nikon-d800') return 'Nikon D800';
