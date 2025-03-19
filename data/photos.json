@@ -340,6 +340,32 @@
         "zuiko-50mm1",
         "ilford-vintagetone"
       ]
+    },
+    {
+      "id": 15,
+      "title": "都井岬の馬",
+      "description": [
+        "宮崎旅行の最終日、串間市の都井岬に立ち寄った。この日の天気はやや不安定で、小降りの雨が降ったり止んだりを繰り返していた。",
+        "都井岬に棲息するミサキウマは飼育されているのではなく、野生の馬であるという。このときは海を見下ろす小高い丘に集まっていた。",
+        "自然の美しさを些かでも感じ取ることができたような気分になった。"
+      ],
+      "image": "images/photos/29990008_1.JPG",
+      "page": "photo15.html",
+      "date": "2025-02-05",
+      "dateDisplay": "2025年2月5日",
+      "location": "宮崎県串間市",
+      "camera": "Pentax 6×7",
+      "lens": "Super-Multi-Coated TAKUMAR 67/90mm F2.8",
+      "film": "Kodak Gold 200",
+      "tags": [
+        "2025-02",
+        "miyazaki",
+        "animals",
+        "landscape",
+        "pentax-67",
+        "67-90mm",
+        "kodak-gold"
+      ]
     }
   ]
 }
