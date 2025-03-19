@@ -139,7 +139,7 @@
     </section>
 
     <!-- トップに戻るボタン (モバイル用) -->
-    <a href="#" class="back-to-top" id="back-to-top">↑</a>
+    <button class="nav-btn" id="gallery-btn" title="トップに戻る">↑</button>
 
     <!-- フッター -->
     <footer>
@@ -172,5 +172,29 @@
     
     <!-- JavaScript -->
     <script src="js/photoLoader.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // トップに戻るボタン
+            const galleryBtn = document.getElementById('gallery-btn');
+            if (galleryBtn) {
+                // スクロール時の表示/非表示制御
+                window.addEventListener('scroll', function() {
+                    if (window.scrollY > 300) {
+                        galleryBtn.classList.add('visible');
+                    } else {
+                        galleryBtn.classList.remove('visible');
+                    }
+                });
+                
+                // クリック時の動作
+                galleryBtn.addEventListener('click', function() {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+        });
+    </script>
 </body>
 </html>

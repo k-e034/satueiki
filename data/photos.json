@@ -57,7 +57,7 @@
       "id": 3,
       "title": "高田馬場ガード下",
       "description": [
-        "『シルエット』と同日、もしくはその前日に撮影したと思われる。高田馬場駅周辺には雑多な雰囲気がある。",
+        "『<a href=\"photo2.html\">シルエット</a>』と同日、もしくはその前日に撮影したと思われる。高田馬場駅周辺には雑多な雰囲気がある。",
         "画面全体に日向と日陰との両方を収めており、モノクロフィルムならではの写りに期待を寄せている感じが見て取れる。"
       ],
       "image": "images/photos/0611480_0029.JPG",
@@ -309,7 +309,7 @@
       "location": "東京都新宿区",
       "camera": "Nikon D800",
       "lens": "AI AF Nikkor 50mm F1.4",
-      "film": "null",
+      "film": "-",
       "tags": [
         "2025-01",
         "tokyo",
@@ -380,7 +380,7 @@
       "location": "埼玉県さいたま市",
       "camera": "FUJIFILM FinePix S5 Pro",
       "lens": "AI AF Nikkor 50mm F1.4",
-      "film": "null",
+      "film": "-",
       "tags": [
         "2024-08",
         "saitama",

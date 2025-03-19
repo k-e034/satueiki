@@ -30,6 +30,16 @@ body {
     background-color: var(--background-color);
 }
 
+a{
+    text-decoration: none;
+    color:#f5f5f5;
+    transition: color 0.3s;
+  }
+  
+a:hover{
+    color : #3498db;
+  }
+
 /* ヘッダー */
 header {
     background-color: rgba(0,0,0,0.3);
@@ -80,6 +90,30 @@ nav ul li a {
 
 nav ul li a:hover {
     color: var(--accent-color);
+}
+
+.nav-btn {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background-color: rgba(0,0,0,0.5);
+    color: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.nav-btn:hover {
+    background-color: var(--accent-color);
+    transform: scale(1.1);
 }
 
 /* メインコンテンツ */
@@ -437,6 +471,18 @@ footer {
     
     .logo {
         margin-bottom: 1rem;
+    }
+    
+    .nav-btn {
+        bottom: 1.5rem;
+        right: 1.5rem;
+        width: 40px;
+        height: 40px;
+        opacity: 0;
+    }
+
+    .nav-btn.visible {
+        opacity: 1;
     }
     
     nav ul {
