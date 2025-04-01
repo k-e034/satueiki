@@ -388,6 +388,80 @@
         "fuji-s5pro",
         "nikkor-50mm"
       ]
+    },
+    {
+      "id": 17,
+      "title": "給水塔",
+      "description": [
+        "近所の団地の給水塔。ひときわ大きな存在感を放っている。モノクロフィルムで撮影することでその形の面白さを捉えることができるように思った。"
+      ],
+      "image": "images/photos/0331273_0023.JPG",
+      "page": "photo17.html",
+      "date": "2024-12-14",
+      "dateDisplay": "2025年12月14日",
+      "location": "東京都世田谷区",
+      "camera": "Nikon F70D",
+      "lens": "AI AF-S Zoom-Nikkor 28-200mm F3.5-5.6D",
+      "film": "ILFORD XP2 Super",
+      "tags": [
+        "2024-12",
+        "tokyo",
+        "snapshot",
+        "mono",
+        "nikon-f70",
+        "nikkor-28-200mm",
+        "ilford-xp2"
+      ]
+    },
+    {
+      "id": 18,
+      "title": "右カーブ",
+      "description": [
+        "中央自動車道の上り線、右カーブの標識。",
+        "ズームレンズの望遠側で圧縮効果を試してみたくなって撮影したものである。",
+        "前景には横断歩道の信号機が映り込んでいて、距離感の演出が為されているように思う。"
+      ],
+      "image": "images/photos/0331273_0021.JPG",
+      "page": "photo18.html",
+      "date": "2024-12-14",
+      "dateDisplay": "2024年12月14日",
+      "location": "東京都世田谷区",
+      "camera": "Nikon F70D",
+      "lens": "AI AF-S Zoom-Nikkor 28-200mm F3.5-5.6D",
+      "film": "ILFORD XP2 Super",
+      "tags": [
+        "2024-12",
+        "tokyo",
+        "snapshot",
+        "mono",
+        "nikon-f70d",
+        "nikkor-28-200mm",
+        "ilford-xp2"
+      ]
+    },
+    {
+      "id": 19,
+      "title": "ジャンプ",
+      "description": [
+        "2024年のクリスマスは、マクセルアクアパーク品川を訪れた。イルカショーを観たのだが、どのタイミングでどこにどの程度の高さで跳躍するのかを予測するのが難しく、撮影は容易ならざるの感があった。"
+      ],
+      "image": "images/photos/0331273_0028.JPG",
+      "page": "photo19.html",
+      "date": "2024-12-25",
+      "dateDisplay": "2024年12月25日",
+      "location": "東京都品川区",
+      "camera": "Nikon F70D",
+      "lens": "AI AF-S Nikkor 28-200mm F3.5-5.6D",
+      "film": "ILFORD XP2 Super",
+      "tags": [
+        "2024-12",
+        "tokyo",
+        "animals",
+        "mono",
+        "nion-f70d",
+        "nikkor-50mm",
+        "ilford-xp2"
+      ]
     }
   ]
 }
