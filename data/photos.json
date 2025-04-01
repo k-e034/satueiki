@@ -462,6 +462,29 @@
         "nikkor-50mm",
         "ilford-xp2"
       ]
+    },
+    {
+      "id": 20,
+      "title": "上履き",
+      "description": [
+        "民家のフェンスの外側に棒で吊された上履き。洗ったものを干してあったのか、落とし物を吊しておいたのかは不明だったが、片足しかないところを見るに後者であったかも知れない。"
+      ],
+      "image": "images/photos/0331090_0005.JPG",
+      "page": "photo20.html",
+      "date": "2025-03-25",
+      "dateDisplay": "2025年3月25日",
+      "location": "埼玉県さいたま市",
+      "camera": "Canon IV sb 2",
+      "lens": "Canon Lens 50mm F1.8",
+      "film": "FUJIFILM 200",
+      "tags": [
+        "2025-03",
+        "saitama",
+        "snap",
+        "canon-ivsb2",
+        "canon-50mm",
+        "fuji-200"
+      ]
     }
   ]
 }

@@ -142,6 +142,7 @@ function getTagDisplayName(tag) {
     else if (tag === 'kodak-colorplus') return 'Kodak ColorPlus 200';
     else if (tag === 'kodak-gold') return 'Kodak Gold 200';
     else if (tag === 'kodak-ultramax') return 'Kodak UltraMax 400';
+    else if (tag === 'fuji-200') return 'FUJIFILM 200';
     else if (tag === 'fuji-super') return 'FUJIFILM SUPER 400';
     else if (tag === 'ilford-ilfochrome') return 'ILFORD ILFOCHROME 100';
     else if (tag === 'ilford-xp2') return 'ILFORD XP2 Super 400';
