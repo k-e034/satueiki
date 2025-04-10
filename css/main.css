@@ -464,6 +464,82 @@ footer {
     text-decoration: underline;
 }
 
+/* ステッカーエフェクト用のスタイル */
+.sticker-container {
+    position: relative;
+    margin: 4rem auto;
+    max-width: 800px;
+    text-align: center;
+}
+
+.sticker-text {
+    filter: url(#sticker);
+    color: #f5f5f5;
+    font-size: 3rem;
+    font-weight: bold;
+    text-align: center;
+    padding: 20px;
+    transition: transform 0.3s ease;
+    cursor: default;
+}
+
+.sticker-subtitle {
+    color: #999;
+    font-size: 1.2rem;
+    text-align: center;
+    margin-top: 1rem;
+}
+
+/* ヘッダー部分にステッカーエフェクト */
+.logo a {
+    filter: url(#sticker);
+    transition: transform 0.3s ease;
+    padding: 5px;
+}
+
+/* タグセクションのタイトルにエフェクト追加 */
+.section-title.sticker-effect {
+    filter: url(#sticker);
+    transition: transform 0.3s ease;
+}
+
+/* フィーチャーコンテンツにもエフェクト追加 */
+.feature-card.sticker-card .feature-content h3 {
+    filter: url(#sticker);
+    padding: 5px;
+}
+
+/* CTA用のステッカーボタン */
+.sticker-button {
+    display: inline-block;
+    filter: url(#sticker);
+    background: #3498db;
+    color: white;
+    padding: 12px 24px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 30px;
+    margin-top: 2rem;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.sticker-button:hover {
+    transform: scale(1.05);
+}
+
+/* ライトエフェクトの追従アニメーション */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+.float-animation {
+    animation: float 6s ease-in-out infinite;
+}
+
 /* レスポンシブデザイン */
 @media (max-width: 768px) {
     .header-container {

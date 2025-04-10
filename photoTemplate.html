@@ -12,6 +12,62 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/photo-view.css">
 </head>
+
+<!-- SVGフィルター定義 - サイトカラースキームに調和するよう調整 -->
+<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0">
+    <defs>
+        <filter id="sticker">
+            <!-- ノイズテクスチャ生成 - 粗さを微調整 -->
+            <feTurbulence type="fractalNoise" baseFrequency="0.025" numOctaves="1" seed="14" stitchTiles="noStitch" result="noise"></feTurbulence>
+            
+            <!-- テクスチャの彩度を調整 - サイトのアクセントカラー(青)を考慮して調整 -->
+            <feColorMatrix in="noise" type="saturate" values="25" result="saturatedNoise"></feColorMatrix>
+            
+            <!-- ソース要素の輪郭を膨張 - 薄くして繊細に -->
+            <feMorphology in="SourceGraphic" operator="dilate" radius="4" result="dilated"></feMorphology>
+            
+            <!-- 影の色をサイトのダークカラーに近づけて自然な調和を図る -->
+            <feFlood x="0" y="0" width="100%" height="100%" flood-color="#1a252f" flood-opacity="0.95" result="shadow"></feFlood>
+            
+            <!-- ぼかし効果 - 繊細にぼかして自然な光沢感を出す -->
+            <feGaussianBlur in="SourceGraphic" stdDeviation="1.8" edgeMode="none" result="blurred"></feGaussianBlur>
+            
+            <!-- ノイズをオフセット -->
+            <feOffset in="saturatedNoise" dx="0" dy="0" result="offsetNoise"></feOffset>
+            
+            <!-- 影とソースのコンポジット -->
+            <feComposite in="shadow" in2="dilated" operator="in" result="shadowMask"></feComposite>
+            
+            <!-- 光源効果 - アクセントカラーに近い色味に調整 -->
+            <feDiffuseLighting in="blurred" surfaceScale="5" diffuseConstant="1.2" lighting-color="#4aa3df" result="lighting">
+                <fePointLight id="light" x="150" y="60" z="20"></fePointLight>
+            </feDiffuseLighting>
+            
+            <!-- コンポジット処理 -->
+            <feComposite in="offsetNoise" in2="SourceGraphic" operator="atop" result="noiseAtop"></feComposite>
+            <feComposite in="noiseAtop" in2="shadowMask" operator="atop" result="compositedShadow"></feComposite>
+            
+            <!-- 細かいノイズテクスチャを追加 - 立体感を強調 -->
+            <feTurbulence type="fractalNoise" baseFrequency="3" numOctaves="1" seed="0" stitchTiles="noStitch" result="fineNoise"></feTurbulence>
+            
+            <!-- 光源効果と影のコンポジット -->
+            <feComposite in="lighting" in2="compositedShadow" operator="in" result="lightedShadow"></feComposite>
+            
+            <!-- ブレンドモード調整 - サイトの色調に合わせて調整 -->
+            <feBlend in="lightedShadow" in2="compositedShadow" mode="color-dodge" result="blended"></feBlend>
+            
+            <!-- 最終的な色調整 - 微妙に青みがかった印象に -->
+            <feColorMatrix in="fineNoise" type="matrix" values="1    0    0    0    0   
+                                                              0.95  1.05  0    0    0   
+                                                              0.9   0    1.1  0    0   
+                                                              0.03  0    0    0    0" result="coloredNoise"></feColorMatrix>
+            
+            <!-- 最終合成 -->
+            <feComposite in="coloredNoise" in2="blended" operator="atop"></feComposite>
+        </filter>
+    </defs>
+</svg>
+
 <body class="photo-view">
     <!-- ヘッダー (モバイルでは初期非表示) -->
     <header class="header-photo-view" id="photo-header">
@@ -102,6 +158,20 @@
         
         // 共通のphotoViewerを初期化
         initPhotoViewer(photoData);
+    </script>
+    <script>
+        // ライトポイントの追従処理
+        const light = document.querySelector('#light');
+        if (light) {
+            document.addEventListener('mousemove', (e) => {
+                // マウス位置に応じてライトポイントを移動
+                const x = e.clientX;
+                const y = e.clientY;
+        
+                light.setAttribute('x', x);
+                light.setAttribute('y', y);
+            });
+        }
     </script>
 </body>
 </html>
