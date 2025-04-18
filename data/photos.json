@@ -485,6 +485,53 @@
         "canon-50mm",
         "fuji-200"
       ]
+    },
+    {
+      "id": 21,
+      "title": "立体交叉",
+      "description": [
+        "線路の下を通るアンダーパスが開通した。",
+        "都会の風景は変りやすいものだから、いつもその時々の風景をつい撮りたくなってしまう。"
+      ],
+      "image": "images/photos/1122257_0037.JPG",
+      "page": "photo21.html",
+      "date": "2024-11-13",
+      "dateDisplay": "2024年11月13日",
+      "location": "東京都新宿区",
+      "camera": "Canon IV sb 2",
+      "lens": "Canon Serenar 35mm F3.5",
+      "film": "Kodak ColorPlus 200",
+      "tags": [
+        "2024-11",
+        "tokyo",
+        "snap",
+        "canon-ivsb2",
+        "canon-35mm",
+        "kodak-colorplus"
+      ]
+    },
+    {
+      "id": 22,
+      "title": "山門",
+      "description": [
+        "烏山寺町通りには、その名の通り寺院が集中していて、ただ歩くだけでも楽しいものである。"
+      ],
+      "image": "images/photos/1122257_0014.JPG",
+      "page": "photo22.html",
+      "date": "2024-11-07",
+      "dateDisplay": "2024年11月7日",
+      "location": "東京都世田谷区",
+      "camera": "Canon IV sb 2",
+      "lens": "Canon Serenar 35mm F3.5",
+      "film": "Kodak ColorPlus 200",
+      "tags": [
+        "2024-11",
+        "tokyo",
+        "snap",
+        "canon-ivsb2",
+        "canon-35mm",
+        "kodak-colorplus"
+      ]
     }
   ]
 }
