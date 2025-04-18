@@ -18,66 +18,35 @@
         <!-- デスクトップ用の高品質フィルター -->
         <filter id="sticker-desktop">
             <!-- ノイズテクスチャ生成 - 粗さを微調整 -->
-            <feTurbulence type="fractalNoise" baseFrequency="0.025" numOctaves="1" seed="14" stitchTiles="noStitch" result="noise"></feTurbulence>
-            
-            <!-- テクスチャの彩度調整 -->
-            <feColorMatrix in="noise" type="saturate" values="25" result="saturatedNoise"></feColorMatrix>
-            
-            <!-- ソース要素の輪郭を膨張 -->
-            <feMorphology in="SourceGraphic" operator="dilate" radius="4" result="dilated"></feMorphology>
-            
-            <!-- 影の色設定 -->
-            <feFlood x="0" y="0" width="100%" height="100%" flood-color="#1a252f" flood-opacity="0.95" result="shadow"></feFlood>
-            
-            <!-- ぼかし効果 -->
-            <feGaussianBlur in="SourceGraphic" stdDeviation="1.8" edgeMode="none" result="blurred"></feGaussianBlur>
-            
-            <!-- ノイズをオフセット -->
-            <feOffset in="saturatedNoise" dx="0" dy="0" result="offsetNoise"></feOffset>
-            
-            <!-- 影とソースのコンポジット -->
-            <feComposite in="shadow" in2="dilated" operator="in" result="shadowMask"></feComposite>
-            
-            <!-- 光源効果 -->
+            <feTurbulence type="fractalNoise" baseFrequency="0.025" numOctaves="1" seed="14" stitchTiles="noStitch" result="noise"/>
+            <feColorMatrix in="noise" type="saturate" values="25" result="saturatedNoise"/>
+            <feMorphology in="SourceGraphic" operator="dilate" radius="4" result="dilated"/>
+            <feFlood x="0" y="0" width="100%" height="100%" flood-color="#1a252f" flood-opacity="0.95" result="shadow"/>
+            <feGaussianBlur in="SourceGraphic" stdDeviation="1.8" edgeMode="none" result="blurred"/>
+            <feOffset in="saturatedNoise" dx="0" dy="0" result="offsetNoise"/>
+            <feComposite in="shadow" in2="dilated" operator="in" result="shadowMask"/>
             <feDiffuseLighting in="blurred" surfaceScale="5" diffuseConstant="1.2" lighting-color="#4aa3df" result="lighting">
-                <fePointLight id="light-desktop" x="150" y="60" z="20"></fePointLight>
+                <fePointLight id="light-desktop" x="150" y="60" z="20"/>
             </feDiffuseLighting>
-            
-            <!-- コンポジット処理 -->
-            <feComposite in="offsetNoise" in2="SourceGraphic" operator="atop" result="noiseAtop"></feComposite>
-            <feComposite in="noiseAtop" in2="shadowMask" operator="atop" result="compositedShadow"></feComposite>
-            
-            <!-- 細かいノイズテクスチャ -->
-            <feTurbulence type="fractalNoise" baseFrequency="3" numOctaves="1" seed="0" stitchTiles="noStitch" result="fineNoise"></feTurbulence>
-            
-            <!-- 光源効果と影のコンポジット -->
-            <feComposite in="lighting" in2="compositedShadow" operator="in" result="lightedShadow"></feComposite>
-            
-            <!-- ブレンドモード調整 -->
-            <feBlend in="lightedShadow" in2="compositedShadow" mode="color-dodge" result="blended"></feBlend>
-            
-            <!-- 最終的な色調整 -->
-            <feColorMatrix in="fineNoise" type="matrix" values="1    0    0    0    0   
-                                                              0.95  1.05  0    0    0   
-                                                              0.9   0    1.1  0    0   
-                                                              0.03  0    0    0    0" result="coloredNoise"></feColorMatrix>
-            
-            <!-- 最終合成 -->
-            <feComposite in="coloredNoise" in2="blended" operator="atop"></feComposite>
+            <feComposite in="offsetNoise" in2="SourceGraphic" operator="atop" result="noiseAtop"/>
+            <feComposite in="noiseAtop" in2="shadowMask" operator="atop" result="compositedShadow"/>
+            <feTurbulence type="fractalNoise" baseFrequency="3" numOctaves="1" seed="0" stitchTiles="noStitch" result="fineNoise"/>
+            <feComposite in="lighting" in2="compositedShadow" operator="in" result="lightedShadow"/>
+            <feBlend in="lightedShadow" in2="compositedShadow" mode="color-dodge" result="blended"/>
+            <feColorMatrix in="fineNoise" type="matrix" values="1 0 0 0 0   0.95 1.05 0 0 0   0.9 0 1.1 0 0   0.03 0 0 0 0" result="coloredNoise"/>
+            <feComposite in="coloredNoise" in2="blended" operator="atop"/>
         </filter>
-        
         <!-- モバイル用の軽量フィルター -->
         <filter id="sticker-mobile">
-            <!-- 簡略化したフィルター -->
-            <feMorphology in="SourceGraphic" operator="dilate" radius="2" result="dilated"></feMorphology>
-            <feFlood x="0" y="0" width="100%" height="100%" flood-color="#1a252f" flood-opacity="0.9" result="shadow"></feFlood>
-            <feComposite in="shadow" in2="dilated" operator="in" result="shadowMask"></feComposite>
-            <feGaussianBlur in="SourceGraphic" stdDeviation="1" result="blurred"></feGaussianBlur>
+            <feMorphology in="SourceGraphic" operator="dilate" radius="2" result="dilated"/>
+            <feFlood x="0" y="0" width="100%" height="100%" flood-color="#1a252f" flood-opacity="0.9" result="shadow"/>
+            <feComposite in="shadow" in2="dilated" operator="in" result="shadowMask"/>
+            <feGaussianBlur in="SourceGraphic" stdDeviation="1" result="blurred"/>
             <feDiffuseLighting in="blurred" surfaceScale="3" diffuseConstant="1" lighting-color="#4aa3df" result="lighting">
-                <fePointLight id="light-mobile" x="150" y="60" z="15"></fePointLight>
+                <fePointLight id="light-mobile" x="150" y="60" z="15"/>
             </feDiffuseLighting>
-            <feComposite in="lighting" in2="shadowMask" operator="in" result="lightedShadow"></feComposite>
-            <feBlend in="lightedShadow" in2="shadowMask" mode="color-dodge"></feBlend>
+            <feComposite in="lighting" in2="shadowMask" operator="in" result="lightedShadow"/>
+            <feBlend in="lightedShadow" in2="shadowMask" mode="color-dodge"/>
         </filter>
     </defs>
 </svg>
@@ -86,29 +55,15 @@
     <!-- ヘッダー -->
     <header>
         <div class="header-container">
-            <div class="logo">
-                <a href="index.html">わたくしの撮影記</a>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="index.html">ホーム</a></li>
-                    <li><a href="#tag-section">タグ検索</a></li>
-                </ul>
-            </nav>
+            <div class="logo"><a href="index.html">わたくしの撮影記</a></div>
+            <nav><ul><li><a href="index.html">ホーム</a></li><li><a href="#tag-section">タグ検索</a></li></ul></nav>
         </div>
     </header>
 
     <!-- メインコンテンツ -->
     <div class="main-content">
-        <!-- 写真グリッド -->
-        <div id="photo-grid" class="feature-grid">
-            <!-- 写真カードはJavaScriptで動的に生成されます -->
-        </div>
-        
-        <!-- もっと見るボタン -->
-        <div class="load-more-container">
-            <button id="load-more" class="btn">もっと見る</button>
-        </div>
+        <div id="photo-grid" class="feature-grid"><!-- JavaScriptで動的に生成 --></div>
+        <div class="load-more-container"><button id="load-more" class="btn">もっと見る</button></div>
     </div>
 
     <!-- タグ検索セクション -->
@@ -195,6 +150,32 @@
 </div>
     </section>
 
+    <!-- トップに戻るボタン (モバイル用) -->
+    <button class="nav-btn" id="gallery-btn" title="トップに戻る">↑</button>
+
+    <!-- フッター -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section"><h3>わたくしの撮影記</h3><p>個人的な写真撮影の記録のブログです。</p></div>
+            <div class="footer-section"><h3>リンク</h3><ul><li><a href="index.html">ホーム</a></li></ul></div>
+            <div class="footer-section"><h3>フォロー</h3><p>SNSで最新の写真や撮影の裏側をチェックしてください。</p><div class="social-icons"><a href="#">I</a><a href="#">T</a><a href="#">F</a><a href="#">P</a></div></div>
+        </div>
+        <div class="copyright">&copy; 2025 k.e. All Rights Reserved.</div>
+    </footer>
+
     <script src="js/photoLoader.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const galleryBtn = document.getElementById('gallery-btn');
+            if (galleryBtn) {
+                window.addEventListener('scroll', function() {
+                    if (window.scrollY > 300) galleryBtn.classList.add('visible'); else galleryBtn.classList.remove('visible');
+                });
+                galleryBtn.addEventListener('click', function() {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            }
+        });
+    </script>
 </body>
 </html>
