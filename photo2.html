@@ -239,5 +239,23 @@
             }
         });
     </script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+      // iOSかどうか判定
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  
+      if (isIOS) {
+        // ロゴ要素を取得
+        const logoLink = document.querySelector('.logo a');
+    
+        // フィルターを取り除き、代替スタイルを適用
+        if (logoLink) {
+          logoLink.style.filter = 'none';
+          logoLink.style.textShadow = '0 2px 4px rgba(0,0,0,0.4), 0 0 8px rgba(52, 152, 219, 0.6)';
+          // 必要に応じて他のスタイルを追加
+        }
+      }
+    });
+    </script>
 </body>
 </html>
