@@ -35,9 +35,9 @@ const TAG_DISPLAY = {
   'zuiko-35mm':'Olympus Zuiko 35mm F3.5','zuiko-50mm1':'Olympus G.Zuiko 50mm F1.4',
   'zuiko-50mm2':'Olympus F.Zuiko 50mm F1.8','67-55mm':'Pentax SMC TAKUMAR 6×7/55mm F3.5',
   '67-90mm':'Pentax SMC TAKUMAR 6×7/90mm F2.8','67-135mm':'Pentax MACRO-TAKUMAR 6×7/135mm F4',
-  '67-200mm':'Pentax SMC TAKUMAR 6×7/200mm F4','nikkor-28-80mm':'Ai AF Zoom-Nikkor 28-80mm F3.5-5.6 D',
-  'nikkor-28-200mm':'Ai AF-S Zoom-Nikkor 28-200mm F3.5-5.6 D','nikkor-80-200mm':'Ai AF-S Zoom-Nikkor 80-200mm F2.8 ED',
-  'nikkor-50mm':'Ai AF Nikkor 50mm F1.4','serenar-35mm':'Canon Serenar 35mm F3.5',
+  '67-200mm':'Pentax SMC TAKUMAR 6×7/200mm F4','nikkor-28-80mm':'AI AF Zoom-Nikkor 28-80mm F3.5-5.6 D',
+  'nikkor-28-200mm':'AI AF-S Zoom-Nikkor 28-200mm F3.5-5.6 D','nikkor-80-200mm':'AI AF-S Zoom-Nikkor 80-200mm F2.8 ED',
+  'nikkor-50mm':'AI AF Nikkor 50mm F1.4','serenar-35mm':'Canon Serenar 35mm F3.5',
   /* フィルム */
   'kodak-colorplus':'Kodak ColorPlus 200','kodak-gold':'Kodak Gold 200','kodak-ultramax':'Kodak UltraMax 400',
   'fuji-200':'FUJIFILM 200','fuji-super':'FUJIFILM SUPER 400','ilford-ilfochrome':'ILFORD ILFOCHROME 100',

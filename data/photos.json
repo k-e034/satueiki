@@ -533,6 +533,30 @@
         "canon-35mm",
         "kodak-colorplus"
       ]
+    },
+    {
+      "id": 23,
+      "title": "高千穂峡・真名井の瀧",
+      "description": [
+        "宮崎旅行を通じて、最も楽しみにしていたのは高千穂峡への訪問であった。",
+        "鬱然とした山の中、切立った断崖が左右に迫り、間を川が流れている。わたくしが宮崎なる高千穂峡の存在を知ったのは中学生の頃であった。以来、いつか高千穂峡を訪問することを願っていたのだけれども、実際に訪問してみると想像よりもずっと美しく素晴しい風景・気候に魅了された。"
+      ],
+      "image": "images/photos/29970008.jpg",
+      "page": "photo23.html",
+      "date": "2025-02-04",
+      "dateDisplay": "2025年2月4日",
+      "location": "宮崎県高千穂町",
+      "camera": "Pentax 6×7",
+      "lens": "Super-Multi-Coated TAKUMAR 67/55mm F3.5",
+      "film": "Lomography Color Negative 100",
+      "tags": [
+        "2025-02",
+        "miyazaki",
+        "landscape",
+        "pentax-67",
+        "67-55mm",
+        "lomography-cn100"
+      ]
     }
   ]
 }
