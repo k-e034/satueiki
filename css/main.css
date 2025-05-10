@@ -1175,3 +1175,209 @@ footer {
         min-width: calc(33% - 0.5rem);
     }
 }
+
+/* ロールグリッド表示用のスタイル（main.cssの末尾に追加） */
+
+/* グリッドコンテナの基本設定を上書き */
+#photo-grid {
+    width: 100%;
+    max-width: none;
+}
+
+/* ロールグリッドスタイル */
+.roll-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)) !important;
+    gap: 30px !important;
+    padding: 40px 20px !important;
+    max-width: 1400px !important;
+    margin: 0 auto !important;
+}
+
+/* 各ロールのカード */
+.roll-section {
+    background: #1a1a1a;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 0;
+}
+
+.roll-section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+/* ロールタイトル */
+.roll-title {
+    padding: 15px 20px;
+    margin: 0;
+    font-size: 1.2rem;
+    background: rgba(255,255,255,0.05);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.roll-title a {
+    color: #f4f4f4;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.roll-title a:hover {
+    color: #4aa3df;
+}
+
+/* ロールメタ情報 */
+.roll-meta {
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: #999;
+    background: rgba(0,0,0,0.3);
+}
+
+/* サムネイルリンク */
+.roll-thumb-link {
+    display: block;
+    overflow: hidden;
+    height: 250px;
+    position: relative;
+}
+
+.roll-thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.roll-section:hover .roll-thumb {
+    transform: scale(1.05);
+}
+
+/* メインコンテンツの設定を調整 */
+.main-content {
+    padding: 0;
+}
+
+/* もっと見るボタンをロール表示時は非表示 */
+.roll-grid ~ .load-more-container {
+    display: none;
+}
+
+/* タグフィルタリング時の従来表示を確保 */
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 40px 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.feature-card {
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.feature-image {
+    height: 220px;
+    background-color: #222;
+    background-size: cover;
+    background-position: center;
+}
+
+.feature-content {
+    padding: 1.5rem;
+}
+
+.feature-content h3 {
+    margin-bottom: 0.5rem;
+    color: white;
+}
+
+.feature-content p {
+    margin-bottom: 1rem;
+    color: #aaa;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    .roll-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)) !important;
+        gap: 20px !important;
+        padding: 30px 15px !important;
+    }
+    
+    .roll-thumb-link {
+        height: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .roll-grid {
+        grid-template-columns: 1fr !important;
+        gap: 15px !important;
+        padding: 20px 10px !important;
+    }
+    
+    .roll-thumb-link {
+        height: 180px;
+    }
+    
+    .roll-title {
+        font-size: 1.1rem;
+        padding: 12px 15px;
+    }
+    
+    .roll-meta {
+        flex-direction: column;
+        gap: 5px;
+        text-align: center;
+    }
+}
+
+/* 既存のスタイルを上書き防止 */
+.roll-grid .roll-section {
+    max-width: none;
+    width: 100%;
+}
+
+.roll-grid img {
+    max-width: none;
+    width: 100%;
+    height: 100%;
+}
+
+/* 既存の.features, .feature-gridスタイルがある場合の優先度調整 */
+#photo-grid.roll-grid {
+    /* すべてのプロパティを優先 */
+    padding: 40px 20px !important;
+    gap: 30px !important;
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)) !important;
+}
+
+#photo-grid.roll-grid .roll-section {
+    /* ロールセクションのプロパティを優先 */
+    background: #1a1a1a !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+#photo-grid.roll-grid .roll-thumb {
+    /* サムネイル画像のプロパティを優先 */
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+}
