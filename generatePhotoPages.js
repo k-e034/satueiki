@@ -1,141 +1,205 @@
-/**
- * 写真詳細ページおよびタグ検索セクションを自動生成するスクリプト
- * Node.js環境で実行します
- * 
- * 使用方法:
- * 1. Node.jsをインストール
- * 2. このスクリプトを保存（例：generatePhotoPages.js）
- * 3. コマンドラインで実行: node generatePhotoPages.js
- */
+// *** generatePhotoPages.js – rebuilt for roll‑centric navigation ***
+// Usage:  node generatePhotoPages.js
+//   1. Keeps existing photoNN.html pages but changes their Prev/Next links so that they
+//      loop only within the same roll (film roll).
+//   2. Builds a static HTML page per roll (roll_XXXXX.html) that lists all thumbnails
+//      in that roll and links to the corresponding photoNN.html pages.
+//   3. Rewrites index.html so that <div id="photo-grid"> becomes a grid of roll
+//      representatives (first frame of each roll) linking to the roll page.  Tag
+//      search section logic is preserved.
+// -----------------------------------------------------------------------------
 
 const fs   = require('fs');
 const path = require('path');
 
-// 設定
-const PHOTOS_JSON_PATH = path.join(__dirname, 'data', 'photos.json');
-const TEMPLATE_PATH    = path.join(__dirname, 'photoTemplate.html');
-const INDEX_HTML_PATH  = path.join(__dirname, 'index.html');
-const OUTPUT_DIR       = path.join(__dirname);
+// ---- configuration ----------------------------------------------------------
+const DATA_DIR            = path.join(__dirname, 'data');
+const PHOTOS_JSON_PATH    = path.join(DATA_DIR, 'photos.json');
+const PHOTO_TEMPLATE_PATH = path.join(__dirname, 'photoTemplate.html');
+const ROLL_TEMPLATE_PATH  = path.join(__dirname, 'rollTemplate.html');
+const INDEX_HTML_PATH     = path.join(__dirname, 'index.html');
+const OUTPUT_DIR          = __dirname;           // photoNN.html を既定通り生成
+const ROLL_DIR            = path.join(__dirname, 'rolls');
+if (!fs.existsSync(ROLL_DIR)) fs.mkdirSync(ROLL_DIR);
 
-// タグと表示名の対応表
-const TAG_DISPLAY = {
-  /* 撮影場所 */
-  akita:      '秋田県', miyagi:    '宮城県', saitama: '埼玉県',
-  tokyo:      '東京都', kanagawa:  '神奈川県', osaka:   '大阪府',
-  mie:        '三重県', miyazaki:  '宮崎県',
-  /* カメラ */
-  'canon-ivsb2': 'Canon IV Sb2', 'canon-ftbn': 'Canon FTb-N',
-  'fuji-s5pro':  'Fujifilm FinePix S5 Pro', 'lumix-g5':'Lumix G5',
-  'nikon-f70d':  'Nikon F70D',          'nikon-d800':'Nikon D800',
-  'olympus-om1': 'Olympus OM-1',        'pentax-67':'Pentax 6×7',
-  /* レンズ */
-  'canon-35mm':'Canon Serenar 35mm F3.5','canon-50mm':'Canon Lens 50mm F1.8',
-  'fd-50mm':'Canon FD 50mm F1.4 S.S.C.','fd-80-200mm':'Canon NewFD 80-200mm F4',
-  'fd-300mm':'Canon NewFD 300mm F5.6','zuiko-28mm':'Olympus Zuiko 28mm F2.8',
-  'zuiko-35mm':'Olympus Zuiko 35mm F3.5','zuiko-50mm1':'Olympus G.Zuiko 50mm F1.4',
-  'zuiko-50mm2':'Olympus F.Zuiko 50mm F1.8','67-55mm':'Pentax SMC TAKUMAR 6×7/55mm F3.5',
-  '67-90mm':'Pentax SMC TAKUMAR 6×7/90mm F2.8','67-135mm':'Pentax MACRO-TAKUMAR 6×7/135mm F4',
-  '67-200mm':'Pentax SMC TAKUMAR 6×7/200mm F4','nikkor-28-80mm':'AI AF Zoom-Nikkor 28-80mm F3.5-5.6 D',
-  'nikkor-28-200mm':'AI AF-S Zoom-Nikkor 28-200mm F3.5-5.6 D','nikkor-80-200mm':'AI AF-S Zoom-Nikkor 80-200mm F2.8 ED',
-  'nikkor-50mm':'AI AF Nikkor 50mm F1.4','serenar-35mm':'Canon Serenar 35mm F3.5',
-  /* フィルム */
-  'kodak-colorplus':'Kodak ColorPlus 200','kodak-gold':'Kodak Gold 200','kodak-ultramax':'Kodak UltraMax 400',
-  'fuji-200':'FUJIFILM 200','fuji-super':'FUJIFILM SUPER 400','ilford-ilfochrome':'ILFORD ILFOCHROME 100',
-  'ilford-xp2':'ILFORD XP2 Super 400','ilford-vintagetone':'ILFORD ILFOCOLOR 400 PLUS Vintage Tone','lomography-cn100':'Lomography Color Negative 100',
-  /* スタイル */
-  mono:'モノクロ', landscape:'風景', snap:'スナップショット', longexposure:'長時間露光', night:'夜景', animals:'動物'
+// ---- helper: 汎用 -----------------------------------------------------------
+const PERIOD_KEY     = tag => /^\d{4}-\d{2}$/.test(tag);
+const getRollId = imgPath => {
+  const m = path.basename(imgPath).match(/^([^_]+)_/);
+  return m ? m[1] : 'misc';
 };
-// カテゴリ判定キー
-const PERIOD_KEY   = tag => /^\d{4}-\d{2}$/.test(tag);
-const LOCATION_KEYS = ['akita','miyagi','saitama','tokyo','kanagawa','osaka','mie','miyazaki'];
-const CAMERA_KEYS   = ['canon-ivsb2','canon-ftbn','fuji-s5pro','lumix-g5','nikon-f70d','nikon-d800','olympus-om1','pentax-67'];
-const LENS_KEYS     = ['canon-35mm','canon-50mm','fd-50mm','fd-80-200mm','fd-300mm','zuiko-28mm','zuiko-35mm','zuiko-50mm1','zuiko-50mm2','67-55mm','67-90mm','67-135mm','67-200mm','nikkor-28-80mm','nikkor-28-200mm','nikkor-80-200mm','nikkor-50mm','serenar-35mm'];
-const FILM_KEYS     = ['kodak-colorplus','kodak-gold','kodak-ultramax','fuji-200','fuji-super','ilford-ilfochrome','ilford-xp2','ilford-vintagetone','lomography-cn100'];
-const STYLE_KEYS    = ['mono','landscape','snap','longexposure','night','animals'];
+const formatDate = d => {
+  if (!d) return '日付不明';
+  const t = new Date(d); return `${t.getFullYear()}年${t.getMonth()+1}月${t.getDate()}日`;
+};
+const formatPeriod = d => {
+  if (!d) return '時期不明';
+  const t = new Date(d); return `${t.getFullYear()}年${t.getMonth()+1}月`;
+};
 
-/** データ読み込み */
-function loadData() {
-  try {
-    const raw = JSON.parse(fs.readFileSync(PHOTOS_JSON_PATH,'utf8'));
-    const photosData = Array.isArray(raw) ? raw : raw.photos;
-    if (!Array.isArray(photosData)) {
-      console.error('photos.json が配列ではありません'); process.exit(1);
-    }
-    const template = fs.readFileSync(TEMPLATE_PATH,'utf8');
-    return { photosData, template };
-  } catch(e) { console.error('データ読み込みエラー:', e); process.exit(1); }
-}
-
-function formatDate(d) {
-  if (!d) return '日付不明'; const dt=new Date(d);
-  return `${dt.getFullYear()}年${dt.getMonth()+1}月${dt.getDate()}日`;
-}
-function formatPeriod(d) {
-  if (!d) return '時期不明'; const dt=new Date(d);
-  return `${dt.getFullYear()}年${dt.getMonth()+1}月`;
-}
-function getTagDisplayName(tag) {
-  return (TAG_DISPLAY[tag]|| (PERIOD_KEY(tag)?formatPeriod(tag):tag)).replace(/_/g,' ');
+// ---- load raw data & templates ---------------------------------------------
+function load() {
+  const raw = JSON.parse(fs.readFileSync(PHOTOS_JSON_PATH,'utf8'));
+  const photos = Array.isArray(raw) ? raw : raw.photos;
+  if (!Array.isArray(photos)) throw new Error('photos.json は配列構造ではありません');
+  return {
+    photos,
+    tplPhoto : fs.readFileSync(PHOTO_TEMPLATE_PATH,'utf8'),
+    tplRoll  : fs.readFileSync(ROLL_TEMPLATE_PATH,'utf8'),
+    idxHtml  : fs.readFileSync(INDEX_HTML_PATH,'utf8')
+  };
 }
 
-/** ページ生成 */
-function generatePage(photo, photos, template) {
-  let c=template;
-  c=c.replace(/\[\[TITLE\]\]/g,photo.title)
-    .replace(/\[\[IMAGE\]\]/g,photo.image)
-    .replace(/\[\[DATE\]\]/g,photo.dateDisplay||formatDate(photo.date))
-    .replace(/\[\[SHOOTING_PERIOD\]\]/g,formatPeriod(photo.date))
-    .replace(/\[\[LOCATION\]\]/g,photo.location)
-    .replace(/\[\[CAMERA\]\]/g,photo.camera)
-    .replace(/\[\[LENS\]\]/g,photo.lens||'不明')
-    .replace(/\[\[FILM\]\]/g,photo.film||'不明');
-  const desc=Array.isArray(photo.description)?photo.description:[photo.description];
-  c=c.replace(/\[\[DESCRIPTION\]\]/g,desc.map(p=>`<p>${p}</p>`).join('\n'));
-  c=c.replace(/\[\[TAGS\]\]/g,(photo.tags||[]).map(t=>`<a href="index.html?tag=${t}" class="tag">${getTagDisplayName(t)}</a>`).join('\n'));
-  const idx=photos.findIndex(p=>p.id===photo.id);
-  const prev=idx>0?photos[idx-1].page:photos[photos.length-1].page;
-  const next=idx<photos.length-1?photos[idx+1].page:photos[0].page;
-  c=c.replace(/\[\[PHOTO_ID\]\]/g,`photo${photo.id}`)
-    .replace(/\[\[PREV_PHOTO\]\]/g,prev)
-    .replace(/\[\[NEXT_PHOTO\]\]/g,next);
-  return c;
+// ---- generate photo page fragment ------------------------------------------
+function renderPhotoPage(photo, listInSameRoll, tpl) {
+  let html = tpl;
+  html = html.replace(/\[\[TITLE]]/g, photo.title)
+             .replace(/\[\[IMAGE]]/g, photo.image)
+             .replace(/\[\[DATE]]/g, photo.dateDisplay || formatDate(photo.date))
+             .replace(/\[\[SHOOTING_PERIOD]]/g, formatPeriod(photo.date))
+             .replace(/\[\[LOCATION]]/g, photo.location)
+             .replace(/\[\[CAMERA]]/g, photo.camera)
+             .replace(/\[\[LENS]]/g, photo.lens || '不明')
+             .replace(/\[\[FILM]]/g, photo.film || '不明');
+
+  // description (array or string)
+  const descArr = Array.isArray(photo.description) ? photo.description : [photo.description];
+  html = html.replace(/\[\[DESCRIPTION]]/g, descArr.map(p=>`<p>${p}</p>`).join('\n'));
+
+  // tags
+  const tagLinks = (photo.tags||[]).map(t=>`<a href="index.html?tag=${t}" class="tag">${t}</a>`).join('\n');
+  html = html.replace(/\[\[TAGS]]/g, tagLinks);
+
+  // roll‑local prev/next
+  const idx = listInSameRoll.findIndex(p=>p.id===photo.id);
+  const prev = idx>0 ? listInSameRoll[idx-1] : listInSameRoll[listInSameRoll.length-1];
+  const next = idx<listInSameRoll.length-1 ? listInSameRoll[idx+1] : listInSameRoll[0];
+  html = html.replace(/\[\[PHOTO_ID]]/g, `photo${photo.id}`)
+             .replace(/\[\[PREV_PHOTO]]/g, prev.page)
+             .replace(/\[\[NEXT_PHOTO]]/g, next.page);
+
+  return html;
 }
 
-/** 全ページ生成 */
-function generatePages(photosData,template){
-  photosData.forEach(p=>{
-    const html=generatePage(p,photosData,template);
-    fs.writeFileSync(path.join(OUTPUT_DIR,p.page),html,'utf8');
-    console.log(`Generated: ${p.page}`);
+// ---- generate roll page -----------------------------------------------------
+function renderRollPage(rid, list, tplRoll) {
+  // ロール「D」は「Digital Photos」として表示
+  const rollTitle = rid === 'D' ? 'Digital Photos' : `Roll ${rid}`;
+  
+  // 撮影時期の取得（各写真の日付から最初の年月を取得）
+  const dates = list.map(p => p.date).filter(d => d);
+  let shootingPeriod = '時期不明';
+  if (dates.length > 0) {
+    const firstDate = dates.sort()[0];
+    shootingPeriod = formatPeriod(firstDate);
+  }
+  
+  // サムネイルサイズを統一（250x250pxの固定サイズ）
+  const thumbs = list.map(p=>
+    `<a href="../${p.page}" class="photo-thumb">
+      <img src="../${p.image}" alt="${p.title}" loading="lazy" />
+      <div class="thumb-overlay">
+        <div class="thumb-title">${p.title}</div>
+        <div class="thumb-date">${p.dateDisplay || formatDate(p.date)}</div>
+      </div>
+    </a>`
+  ).join('\n');
+  
+  // ロールの統計情報
+  const photoCount = list.length;
+  const cameras = [...new Set(list.map(p => p.camera).filter(c => c))];
+  const films = [...new Set(list.map(p => p.film).filter(f => f))];
+  
+  let html = tplRoll;
+  html = html.replace(/\[\[ROLL_ID]]/g, rid)
+             .replace(/\[\[ROLL_TITLE]]/g, rollTitle)
+             .replace(/\[\[SHOOTING_PERIOD]]/g, shootingPeriod)
+             .replace(/\[\[PHOTO_COUNT]]/g, photoCount)
+             .replace(/\[\[CAMERAS]]/g, cameras.join(', ') || '不明')
+             .replace(/\[\[FILMS]]/g, films.join(', ') || 'デジタル')  // ロールDの場合
+             .replace('[[THUMBS]]', thumbs);
+  
+  return html;
+}
+
+// ---- rewrite index.html photo‑grid -----------------------------------------
+function rewriteIndexHTML(idxHtml, rolls) {
+  // ロールをソート: Dは最後、その他は降順
+  const sortedRolls = Object.entries(rolls).sort((a, b) => {
+    const [ridA] = a;
+    const [ridB] = b;
+    
+    if (ridA === 'D') return 1;  // Dは最後
+    if (ridB === 'D') return -1; // Dは最後
+    return ridB.localeCompare(ridA); // その他は降順
   });
-}
-
-/** タグ検索更新 */
-function updateIndex(photosData){
-  const allTags=new Set();
-  photosData.forEach(p=>(p.tags||[]).forEach(t=>allTags.add(t)));
-  const tags=Array.from(allTags);
-  const cats=[
-    {title:'撮影時期', list:tags.filter(PERIOD_KEY).sort().reverse()},
-    {title:'撮影場所', list:LOCATION_KEYS.filter(k=>allTags.has(k))},
-    {title:'カメラ',    list:CAMERA_KEYS.filter(k=>allTags.has(k))},
-    {title:'レンズ',    list:LENS_KEYS.filter(k=>allTags.has(k))},
-    {title:'フィルム',  list:FILM_KEYS.filter(k=>allTags.has(k))},
-    {title:'写真のスタイル', list:STYLE_KEYS.filter(k=>allTags.has(k))}
-  ].filter(c=>c.list.length>0);
-  const html=cats.map(cat=>{
-    const links=cat.list.map(t=>`<a href="index.html?tag=${t}" class="tag">${getTagDisplayName(t)}</a>`).join('\n');
-    return `<div class="tag-category">\n  <h3>${cat.title}</h3>\n  <div class="tags">\n${links}\n  </div>\n</div>`;
+  
+  const rollSections = sortedRolls.map(([rid, list]) => {
+    const rep = list[0];
+    // ロール「D」は「Digital Photos」として表示
+    const displayTitle = rid === 'D' ? 'Digital Photos' : `Roll ${rid}`;
+    
+    // ロールの撮影時期を取得
+    const dates = list.map(p => p.date).filter(d => d);
+    let shootingPeriod = '時期不明';
+    if (dates.length > 0) {
+      const firstDate = dates.sort()[0];
+      shootingPeriod = formatPeriod(firstDate);
+    }
+    
+    return `<section class="roll-section">
+  <h2 class="roll-title"><a href="rolls/roll_${rid}.html">${displayTitle}</a></h2>
+  <div class="roll-meta">
+    <span class="roll-period">${shootingPeriod}</span>
+    <span class="roll-count">${list.length}枚</span>
+  </div>
+  <a href="rolls/roll_${rid}.html" class="roll-thumb-link">
+    <img src="${rep.image}" alt="${displayTitle}" class="roll-thumb" loading="lazy">
+  </a>
+</section>`;
   }).join('\n');
-  let idxHtml=fs.readFileSync(INDEX_HTML_PATH,'utf8');
-  idxHtml=idxHtml.replace(/<div class="tag-container">[\s\S]*?<\/div>/m,`<div class="tag-container">\n${html}\n</div>`);
-  fs.writeFileSync(INDEX_HTML_PATH,idxHtml,'utf8');
-  console.log('Updated index.html');
+
+  // replace the whole photo‑grid block (div id="photo-grid" …)
+  idxHtml = idxHtml.replace(/<div id="photo-grid"[\s\S]*?<\/div>/m,
+                            `<div id="photo-grid" class="roll-grid">\n${rollSections}\n</div>`);
+  return idxHtml;
 }
 
-// 実行
+// ---- main -------------------------------------------------------------------
 (function main(){
-  const {photosData,template}=loadData();
-  generatePages(photosData,template);
-  updateIndex(photosData);
+  const {photos, tplPhoto, tplRoll, idxHtml: originalIdx} = load();
+
+  // ------ group by roll ------------------------------------------------------
+  const rolls = {};
+  photos.forEach(p=>{
+    p.roll = p.roll || getRollId(p.image);  // 既存のrollか、ファイル名から判定
+    (rolls[p.roll] ||= []).push(p);
+  });
+
+  // ------ 1. photoNN.html (overwrite) ----------------------------------------
+  for (const list of Object.values(rolls)) {
+    list.forEach(p=>{
+      const html = renderPhotoPage(p, list, tplPhoto);
+      fs.writeFileSync(path.join(OUTPUT_DIR, p.page), html, 'utf8');
+      console.log(`photo page → ${p.page}`);
+    });
+  }
+
+  // ------ 2. roll pages ------------------------------------------------------
+  for (const [rid,list] of Object.entries(rolls)) {
+    const html = renderRollPage(rid, list, tplRoll);
+    fs.writeFileSync(path.join(ROLL_DIR, `roll_${rid}.html`), html, 'utf8');
+    console.log(`roll page  → rolls/roll_${rid}.html`);
+  }
+
+  // ------ 3. index.html ------------------------------------------------------
+  const newIdx = rewriteIndexHTML(originalIdx, rolls);
+  fs.writeFileSync(INDEX_HTML_PATH, newIdx, 'utf8');
+  console.log('index.html updated');
+  console.log('\nロール別表示構造:');
+  Object.keys(rolls).forEach(rid => {
+    const displayName = rid === 'D' ? 'Digital Photos' : `Roll ${rid}`;
+    console.log(`  - ${displayName}: ${rolls[rid].length}枚`);
+  });
+
 })();

@@ -1,223 +1,236 @@
 # coding: utf-8
-import os
-import json
+"""
+撮影記 – 写真管理ツール (roll 対応版)
+------------------------------------------------------------
+* 画像ファイル名のアンダースコア("_")より前を **roll ID** とみなし、
+  - JSON に `roll` キーを保持（既存データに無ければロード時に自動付与）
+  - GUI 左リストに Roll 列を追加
+  - 詳細フォームに Roll を表示（ユーザー編集可能）
+* Roll ごとの絞り込み機能
+  - 左上に Combobox を配置し、選択 roll だけ表示 / "すべて" を選択で解除
+* HTML 生成は既存ボタンのまま (generatePhotoPages.js が roll を解釈)
+
+依存: Pillow
+"""
+import os, json, shutil, re, subprocess
+from datetime import datetime
+from pathlib import Path
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
 from PIL import Image, ImageTk
-from datetime import datetime
-import re
-import shutil
-from pathlib import Path
 
-class PhotoManagerApp:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("撮影記 - 写真管理ツール")
-        self.root.geometry("1200x800")
-        
-        # プロジェクトディレクトリの設定
-        self.project_dir = os.path.dirname(os.path.abspath(__file__))
-        self.photos_dir = os.path.join(self.project_dir, "images", "photos")
-        self.json_file = os.path.join(self.project_dir, "data", "photos.json")
-        
-        # 写真データを読み込む
-        self.load_photos_data()
-        
-        # メインフレームの作成
-        self.create_widgets()
-        
-        # 写真一覧の更新
-        self.update_photo_list()
+# ------------------------------------------------------------
+PROJECT_DIR = Path(__file__).resolve().parent
+PHOTOS_JSON = PROJECT_DIR / "data" / "photos.json"
+PHOTOS_DIR  = PROJECT_DIR / "images" / "photos"
+GENERATE_JS = PROJECT_DIR / "generatePhotoPages.js"
 
-    def load_photos_data(self):
-        """JSONファイルから写真データを読み込む"""
+# ------------------------------------------------------------
+
+def get_roll_id(img_path: str) -> str:
+    """ファイル名の先頭～アンダースコア前を roll ID とする"""
+    if not img_path:
+        return "misc"
+    return Path(img_path).name.split("_")[0] if "_" in Path(img_path).name else "misc"
+
+# ------------------------------------------------------------
+class PhotoManager:
+    def __init__(self):
+        self.photos = []
+        self.load_json()
+
+    # ---------- data io ---------------------------------------------------
+    def load_json(self):
         try:
-            # data/photos.jsonが存在しない場合は作成
-            os.makedirs(os.path.dirname(self.json_file), exist_ok=True)
-            
-            if os.path.exists(self.json_file):
-                with open(self.json_file, 'r', encoding='utf-8') as f:
+            PHOTOS_JSON.parent.mkdir(parents=True, exist_ok=True)
+            if PHOTOS_JSON.exists():
+                with open(PHOTOS_JSON, "r", encoding="utf-8") as f:
                     data = json.load(f)
+                if isinstance(data, list):
+                    self.photos = data
+                else:
                     self.photos = data.get("photos", [])
             else:
                 self.photos = []
-                self.save_photos_data()  # 空のJSONファイルを作成
+            # roll を埋める / page を補完
+            for p in self.photos:
+                if "roll" not in p or not p["roll"]:
+                    p["roll"] = get_roll_id(p.get("image", ""))
+                if not p.get("page"):
+                    pid = p.get("id", 0)
+                    p["page"] = f"photo{pid}.html"
+                # ID が文字列になっている場合は整数に変換
+                if isinstance(p.get("id"), str):
+                    try:
+                        p["id"] = int(p["id"])
+                    except ValueError:
+                        p["id"] = self.next_id()
         except Exception as e:
-            messagebox.showerror("エラー", f"写真データの読み込み中にエラーが発生しました: {str(e)}")
+            messagebox.showerror("エラー", f"JSONファイルの読み込み中にエラーが発生しました: {str(e)}")
             self.photos = []
 
-    def save_photos_data(self):
-        """写真データをJSONファイルに保存する"""
+    def save_json(self):
         try:
-            # IDでソートして保存
-            self.photos.sort(key=lambda x: x.get("id", 0))
-            
-            with open(self.json_file, 'w', encoding='utf-8') as f:
+            self.photos.sort(key=lambda x: int(x.get("id", 0)))
+            with open(PHOTOS_JSON, "w", encoding="utf-8") as f:
                 json.dump({"photos": self.photos}, f, ensure_ascii=False, indent=2)
-                
-            messagebox.showinfo("成功", "写真データを保存しました。")
             return True
         except Exception as e:
-            messagebox.showerror("エラー", f"写真データの保存中にエラーが発生しました: {str(e)}")
+            messagebox.showerror("エラー", f"JSONファイルの保存中にエラーが発生しました: {str(e)}")
             return False
 
-    def create_widgets(self):
-        """UIウィジェットの作成"""
-        # メインフレームを分割
-        self.paned_window = ttk.PanedWindow(self.root, orient=tk.HORIZONTAL)
-        self.paned_window.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
-        
-        # 左側：写真リスト
-        self.left_frame = ttk.Frame(self.paned_window, width=300)
-        self.paned_window.add(self.left_frame, weight=1)
-        
-        # 右側：写真詳細
-        self.right_frame = ttk.Frame(self.paned_window)
-        self.paned_window.add(self.right_frame, weight=2)
-        
-        # 左側のコンテンツ
-        self.create_left_frame()
-        
-        # 右側のコンテンツ
-        self.create_right_frame()
-        
-        # 下部のボタンエリア
-        self.create_button_area()
+    # ---------- CRUD helpers ---------------------------------------------
+    def next_id(self) -> int:
+        if not self.photos:
+            return 1
+        return max((int(p.get("id", 0)) for p in self.photos), default=0) + 1
 
-    def create_left_frame(self):
-        """左側フレームのウィジェット作成"""
-        # 写真の追加ボタン
-        self.add_photo_btn = ttk.Button(self.left_frame, text="写真を追加", command=self.add_photos)
-        self.add_photo_btn.pack(fill=tk.X, pady=(0, 5))
-        
-        # 写真リストのラベル
-        list_label = ttk.Label(self.left_frame, text="写真一覧:")
-        list_label.pack(anchor=tk.W)
-        
-        # 写真リスト（Treeview）
-        self.photo_tree = ttk.Treeview(self.left_frame, columns=("id", "title"), show="headings")
-        self.photo_tree.heading("id", text="ID")
-        self.photo_tree.heading("title", text="タイトル")
-        self.photo_tree.column("id", width=50)
-        self.photo_tree.column("title", width=250)
-        self.photo_tree.pack(fill=tk.BOTH, expand=True)
-        
-        # 選択イベントのバインド
-        self.photo_tree.bind("<<TreeviewSelect>>", self.on_photo_select)
-        
-        # スクロールバー
-        scrollbar = ttk.Scrollbar(self.left_frame, orient=tk.VERTICAL, command=self.photo_tree.yview)
-        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
-        self.photo_tree.configure(yscrollcommand=scrollbar.set)
+    def add_photo_entry(self, img_filename: str):
+        pid = self.next_id()
+        now = datetime.now()
+        date_str = now.strftime("%Y-%m-%d")
+        date_disp = now.strftime("%Y年%m月%d日")
+        roll_id = get_roll_id(img_filename)
+        self.photos.append({
+            "id"         : pid,
+            "title"      : Path(img_filename).stem,
+            "description": ["写真の説明を入力してください"],
+            "image"      : f"images/photos/{img_filename}",
+            "page"       : f"photo{pid}.html",
+            "date"       : date_str,
+            "dateDisplay": date_disp,
+            "location"   : "",
+            "camera"     : "",
+            "lens"       : "",
+            "film"       : "",
+            "tags"       : [],
+            "roll"       : roll_id,
+        })
 
-    def create_right_frame(self):
-        """右側フレームのウィジェット作成"""
-        # 詳細情報フレーム
-        self.detail_frame = ttk.Frame(self.right_frame)
-        self.detail_frame.pack(fill=tk.BOTH, expand=True)
+    def get_all_rolls(self):
+        """全てのロールIDを取得する"""
+        rolls = set()
+        for p in self.photos:
+            roll = p.get("roll", "misc")
+            if roll:
+                rolls.add(roll)
+        return sorted(list(rolls))
+
+# ------------------------------------------------------------
+class PhotoManagerGUI:
+    def __init__(self, root: tk.Tk):
+        self.root = root
+        root.title("撮影記 – 写真管理ツール (Roll対応)")
+        root.geometry("1280x800")
+        self.pm = PhotoManager()
+        self.tk_img = None  # 画像参照を保持する変数
+        self.build_ui()
+        self.refresh_tree()
+
+    # ---------- UI builders ----------------------------------------------
+    def build_ui(self):
+        self.paned = ttk.PanedWindow(self.root, orient=tk.HORIZONTAL)
+        self.paned.pack(fill=tk.BOTH, expand=True)
+
+        self.left = ttk.Frame(self.paned, width=320)
+        self.paned.add(self.left, weight=1)
+
+        self.right = ttk.Frame(self.paned)
+        self.paned.add(self.right, weight=2)
+
+        self.build_left()
+        self.build_right()
+        self.build_bottom()
+
+    def build_left(self):
+        ttk.Button(self.left, text="写真を追加", command=self.on_add_photos).pack(fill=tk.X, pady=4)
+
+        ttk.Label(self.left, text="ロールで絞り込み:").pack(anchor=tk.W)
+        self.roll_var = tk.StringVar(value="すべて")
+        self.roll_combo = ttk.Combobox(self.left, textvariable=self.roll_var, state="readonly")
+        self.roll_combo.pack(fill=tk.X, pady=2)
+        self.roll_combo.bind("<<ComboboxSelected>>", lambda e: self.refresh_tree())
+
+        columns = ("id", "roll", "title")
+        self.tree = ttk.Treeview(self.left, columns=columns, show="headings")
+        self.tree.heading("id", text="ID")
+        self.tree.heading("roll", text="Roll")
+        self.tree.heading("title", text="タイトル")
+        self.tree.column("id", width=50, anchor=tk.CENTER)
+        self.tree.column("roll", width=90, anchor=tk.CENTER)
+        self.tree.column("title", width=160)
+        self.tree.pack(fill=tk.BOTH, expand=True)
+        self.tree.bind("<<TreeviewSelect>>", self.on_tree_select)
+
+        scr = ttk.Scrollbar(self.left, orient=tk.VERTICAL, command=self.tree.yview)
+        scr.pack(side=tk.RIGHT, fill=tk.Y)
+        self.tree.configure(yscrollcommand=scr.set)
+
+    def build_right(self):
+        self.preview_label = ttk.Label(self.right, text="プレビュー")
+        self.preview_label.pack(anchor=tk.W)
+        self.preview_img_label = ttk.Label(self.right)
+        self.preview_img_label.pack(pady=4)
+
+        # スクロール可能フレーム
+        canvas = tk.Canvas(self.right)
+        scrollbar = ttk.Scrollbar(self.right, orient=tk.VERTICAL, command=canvas.yview)
+        scrollable_frame = ttk.Frame(canvas)
         
-        # 写真プレビュー
-        self.preview_label = ttk.Label(self.detail_frame, text="プレビュー")
-        self.preview_label.pack(anchor=tk.W, pady=(0, 5))
-        
-        self.preview_frame = ttk.Frame(self.detail_frame, width=300, height=200, relief=tk.SUNKEN, borderwidth=1)
-        self.preview_frame.pack(fill=tk.X, padx=5, pady=5)
-        
-        self.preview_image = ttk.Label(self.preview_frame)
-        self.preview_image.pack(fill=tk.BOTH, expand=True)
-        
-        # スクロール可能なキャンバス
-        self.canvas = tk.Canvas(self.detail_frame)
-        self.scrollbar = ttk.Scrollbar(self.detail_frame, orient=tk.VERTICAL, command=self.canvas.yview)
-        self.scrollable_frame = ttk.Frame(self.canvas)
-        
-        self.scrollable_frame.bind(
+        scrollable_frame.bind(
             "<Configure>",
-            lambda e: self.canvas.configure(scrollregion=self.canvas.bbox("all"))
+            lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
         )
-        
-        self.canvas.create_window((0, 0), window=self.scrollable_frame, anchor=tk.NW)
-        self.canvas.configure(yscrollcommand=self.scrollbar.set)
-        
-        self.canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
-        self.scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
-        
-        # 基本情報
-        self.create_form_fields()
 
-    def create_form_fields(self):
-        """フォームフィールドの作成"""
-        fields_frame = ttk.Frame(self.scrollable_frame)
-        fields_frame.pack(fill=tk.X, expand=True, padx=10, pady=10)
-        
-        # 基本情報
-        ttk.Label(fields_frame, text="基本情報", font=("", 12, "bold")).grid(row=0, column=0, sticky=tk.W, pady=(10, 5))
-        
-        # ID（読み取り専用）
-        ttk.Label(fields_frame, text="ID:").grid(row=1, column=0, sticky=tk.W, pady=2)
-        self.id_var = tk.StringVar()
-        ttk.Entry(fields_frame, textvariable=self.id_var, state="readonly", width=10).grid(row=1, column=1, sticky=tk.W, pady=2)
-        
-        # タイトル
-        ttk.Label(fields_frame, text="タイトル:").grid(row=2, column=0, sticky=tk.W, pady=2)
-        self.title_var = tk.StringVar()
-        ttk.Entry(fields_frame, textvariable=self.title_var, width=40).grid(row=2, column=1, sticky=tk.W, pady=2)
-        
-        # 画像ファイル
-        ttk.Label(fields_frame, text="画像ファイル:").grid(row=3, column=0, sticky=tk.W, pady=2)
-        self.image_var = tk.StringVar()
-        ttk.Entry(fields_frame, textvariable=self.image_var, width=40, state="readonly").grid(row=3, column=1, sticky=tk.W, pady=2)
-        
-        # ページ
-        ttk.Label(fields_frame, text="ページ:").grid(row=4, column=0, sticky=tk.W, pady=2)
-        self.page_var = tk.StringVar()
-        ttk.Entry(fields_frame, textvariable=self.page_var, width=40).grid(row=4, column=1, sticky=tk.W, pady=2)
-        
-        # 日付
-        ttk.Label(fields_frame, text="日付 (YYYY-MM-DD):").grid(row=5, column=0, sticky=tk.W, pady=2)
-        self.date_var = tk.StringVar()
-        ttk.Entry(fields_frame, textvariable=self.date_var, width=40).grid(row=5, column=1, sticky=tk.W, pady=2)
-        
-        # 表示用日付
-        ttk.Label(fields_frame, text="表示用日付:").grid(row=6, column=0, sticky=tk.W, pady=2)
-        self.date_display_var = tk.StringVar()
-        ttk.Entry(fields_frame, textvariable=self.date_display_var, width=40).grid(row=6, column=1, sticky=tk.W, pady=2)
-        
-        # 撮影場所
-        ttk.Label(fields_frame, text="撮影場所:").grid(row=7, column=0, sticky=tk.W, pady=2)
-        self.location_var = tk.StringVar()
-        ttk.Entry(fields_frame, textvariable=self.location_var, width=40).grid(row=7, column=1, sticky=tk.W, pady=2)
-        
-        # カメラ
-        ttk.Label(fields_frame, text="カメラ:").grid(row=8, column=0, sticky=tk.W, pady=2)
-        self.camera_var = tk.StringVar()
-        ttk.Entry(fields_frame, textvariable=self.camera_var, width=40).grid(row=8, column=1, sticky=tk.W, pady=2)
-        
-        # レンズ
-        ttk.Label(fields_frame, text="レンズ:").grid(row=9, column=0, sticky=tk.W, pady=2)
-        self.lens_var = tk.StringVar()
-        ttk.Entry(fields_frame, textvariable=self.lens_var, width=40).grid(row=9, column=1, sticky=tk.W, pady=2)
-        
-        # フィルム
-        ttk.Label(fields_frame, text="フィルム:").grid(row=10, column=0, sticky=tk.W, pady=2)
-        self.film_var = tk.StringVar()
-        ttk.Entry(fields_frame, textvariable=self.film_var, width=40).grid(row=10, column=1, sticky=tk.W, pady=2)
-        
-        # 説明
-        ttk.Label(fields_frame, text="説明 (段落ごとに改行):").grid(row=11, column=0, sticky=tk.W, pady=2)
-        self.description_text = tk.Text(fields_frame, height=5, width=40)
-        self.description_text.grid(row=11, column=1, sticky=tk.W, pady=2)
-        
-        # タグ
-        ttk.Label(fields_frame, text="タグ (カンマ区切り):").grid(row=12, column=0, sticky=tk.W, pady=2)
-        self.tags_var = tk.StringVar()
-        ttk.Entry(fields_frame, textvariable=self.tags_var, width=40).grid(row=12, column=1, sticky=tk.W, pady=2)
-        
-        # タグ補助ボタン
-        tags_btn_frame = ttk.Frame(fields_frame)
-        tags_btn_frame.grid(row=13, column=1, sticky=tk.W, pady=2)
-        
+        canvas.create_window((0, 0), window=scrollable_frame, anchor=tk.NW)
+        canvas.configure(yscrollcommand=scrollbar.set)
+
+        canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=8)
+        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+
+        f = scrollable_frame
+
+        self.vars = {k: tk.StringVar() for k in (
+            "id","roll","title","image","page","date","dateDisplay","location","camera","lens","film","tags")}
+
+        def add_row(r, label, key, editable=True):
+            ttk.Label(f, text=label).grid(row=r, column=0, sticky=tk.W, pady=2)
+            if key == "roll" and editable:
+                # ロール用のCombobox
+                combo = ttk.Combobox(f, textvariable=self.vars[key], width=50)
+                combo.grid(row=r, column=1, sticky=tk.W)
+                combo.bind("<FocusIn>", self.on_roll_combobox_focus)
+                combo.bind("<Return>", lambda e: combo.selection_clear())  # 新規入力時の処理
+                return combo
+            else:
+                ent = ttk.Entry(f, textvariable=self.vars[key], width=50)
+                if not editable:
+                    ent.config(state="readonly")
+                ent.grid(row=r, column=1, sticky=tk.W)
+                return ent
+
+        row = 0
+        add_row(row, "ID", "id", editable=False); row+=1
+        self.roll_combo_widget = add_row(row, "Roll", "roll", editable=True); row+=1
+        add_row(row, "タイトル", "title"); row+=1
+        add_row(row, "画像パス", "image", editable=False); row+=1
+        add_row(row, "ページ", "page"); row+=1
+        add_row(row, "日付", "date"); row+=1
+        add_row(row, "表示用日付", "dateDisplay"); row+=1
+        add_row(row, "場所", "location"); row+=1
+        add_row(row, "カメラ", "camera"); row+=1
+        add_row(row, "レンズ", "lens"); row+=1
+        add_row(row, "フィルム", "film"); row+=1
+        ttk.Label(f, text="タグ(,区切り)").grid(row=row, column=0, sticky=tk.W, pady=2)
+        ttk.Entry(f, textvariable=self.vars["tags"], width=50).grid(row=row, column=1, sticky=tk.W); row+=1
+        ttk.Label(f, text="説明 (複数行)").grid(row=row, column=0, sticky=tk.W, pady=2)
+        self.desc_text = tk.Text(f, width=50, height=6)
+        self.desc_text.grid(row=row, column=1, sticky=tk.W); row+=1
+
         # よく使うタグのボタン
+        tags_btn_frame = ttk.Frame(f)
+        tags_btn_frame.grid(row=row, column=1, sticky=tk.W, pady=2)
+        
         common_tags = [
             ("2025-03", "2025年3月"), ("tokyo", "東京都"), ("mono", "モノクロ"),
             ("nikon-f70d", "Nikon F70D"), ("snap", "スナップ")
@@ -228,322 +241,211 @@ class PhotoManagerApp:
                            command=lambda t=tag: self.add_tag(t))
             btn.grid(row=0, column=i, padx=2)
 
-    def create_button_area(self):
-        """ボタンエリアの作成"""
-        button_frame = ttk.Frame(self.root)
-        button_frame.pack(fill=tk.X, padx=10, pady=10)
-        
-        # 保存ボタン
-        self.save_btn = ttk.Button(button_frame, text="変更を保存", command=self.save_current_photo)
-        self.save_btn.pack(side=tk.LEFT, padx=5)
-        
-        # 削除ボタン
-        self.delete_btn = ttk.Button(button_frame, text="写真を削除", command=self.delete_photo)
-        self.delete_btn.pack(side=tk.LEFT, padx=5)
-        
-        # JSON保存ボタン
-        self.save_json_btn = ttk.Button(button_frame, text="JSONファイルを保存", command=self.save_photos_data)
-        self.save_json_btn.pack(side=tk.RIGHT, padx=5)
-        
-        # ページ生成ボタン
-        self.generate_btn = ttk.Button(button_frame, text="HTMLページを生成", command=self.generate_pages)
-        self.generate_btn.pack(side=tk.RIGHT, padx=5)
+    def build_bottom(self):
+        bar = ttk.Frame(self.root)
+        bar.pack(fill=tk.X, padx=8, pady=4)
+        ttk.Button(bar, text="変更を保存", command=self.on_save).pack(side=tk.LEFT, padx=4)
+        ttk.Button(bar, text="削除", command=self.on_delete).pack(side=tk.LEFT, padx=4)
+        ttk.Button(bar, text="JSON保存", command=self.on_save_json).pack(side=tk.RIGHT, padx=4)
+        ttk.Button(bar, text="HTML生成", command=self.on_generate).pack(side=tk.RIGHT, padx=4)
 
-    def update_photo_list(self):
-        """写真リストを更新"""
-        # Treeviewをクリア
-        for item in self.photo_tree.get_children():
-            self.photo_tree.delete(item)
-        
-        # 写真をリストに追加
-        for photo in self.photos:
-            self.photo_tree.insert("", "end", values=(photo.get("id", ""), photo.get("title", "")))
+    def on_roll_combobox_focus(self, event):
+        """ロールコンボボックスにフォーカスが入った時に全てのロールを表示する"""
+        rolls = self.pm.get_all_rolls()
+        if rolls:
+            self.roll_combo_widget['values'] = rolls
 
-    def on_photo_select(self, event):
-        """写真が選択されたときの処理"""
-        selected_items = self.photo_tree.selection()
-        if not selected_items:
+    def refresh_tree(self):
+        sel_roll = self.roll_var.get()
+        rolls = self.pm.get_all_rolls()
+        self.roll_combo["values"] = ["すべて"] + rolls
+        if sel_roll not in self.roll_combo["values"]:
+            self.roll_var.set("すべて")
+            sel_roll = "すべて"
+        
+        for i in self.tree.get_children():
+            self.tree.delete(i)
+        for p in self.pm.photos:
+            roll = p.get("roll", "misc")
+            if sel_roll != "すべて" and roll != sel_roll:
+                continue
+            self.tree.insert("", tk.END, values=(p.get("id"), roll, p.get("title")))
+
+    def on_tree_select(self, _):
+        sel = self.tree.selection()
+        if not sel: return
+        values = self.tree.item(sel[0], "values")
+        if not values: return
+        try:
+            pid = int(values[0])
+        except (ValueError, IndexError):
             return
+        photo = next((p for p in self.pm.photos if int(p.get("id", 0)) == pid), None)
+        if not photo: return
         
-        # 選択された行のデータを取得
-        item = selected_items[0]
-        photo_id = self.photo_tree.item(item, "values")[0]
-        
-        # IDからphotoデータを検索
-        photo = next((p for p in self.photos if str(p.get("id", "")) == str(photo_id)), None)
-        if photo:
-            self.display_photo_details(photo)
-
-    def display_photo_details(self, photo):
-        """写真の詳細情報を表示"""
-        # フォームにデータを設定
-        self.id_var.set(photo.get("id", ""))
-        self.title_var.set(photo.get("title", ""))
-        self.image_var.set(photo.get("image", ""))
-        self.page_var.set(photo.get("page", ""))
-        self.date_var.set(photo.get("date", ""))
-        self.date_display_var.set(photo.get("dateDisplay", ""))
-        self.location_var.set(photo.get("location", ""))
-        self.camera_var.set(photo.get("camera", ""))
-        self.lens_var.set(photo.get("lens", ""))
-        self.film_var.set(photo.get("film", ""))
-        
-        # テキストエリアをクリアして説明文を設定
-        self.description_text.delete(1.0, tk.END)
-        description = photo.get("description", "")
-        if isinstance(description, list):
-            self.description_text.insert(tk.END, "\n".join(description))
+        for k in self.vars:
+            value = photo.get(k, "")
+            if k == "tags" and isinstance(value, list):
+                value = ", ".join(value)
+            self.vars[k].set(str(value))
+            
+        self.desc_text.delete("1.0", tk.END)
+        desc = photo.get("description", [])
+        if isinstance(desc, list):
+            self.desc_text.insert(tk.END, "\n".join(desc))
         else:
-            self.description_text.insert(tk.END, description)
-        
-        # タグを設定
-        self.tags_var.set(", ".join(photo.get("tags", [])))
-        
-        # プレビュー画像を表示
-        self.display_preview(photo.get("image", ""))
+            self.desc_text.insert(tk.END, str(desc))
+        self.show_preview(photo.get("image", ""))
 
-    def display_preview(self, image_path):
-        """プレビュー画像を表示"""
+    def show_preview(self, rel_path: str):
         try:
-            full_path = os.path.join(self.project_dir, image_path)
-            if os.path.exists(full_path):
-                # PILで画像を開く
-                img = Image.open(full_path)
+            if not rel_path:
+                self.preview_img_label.configure(image="")
+                return
                 
-                # プレビューサイズに合わせてリサイズ
-                width = 300
-                ratio = width / img.width
-                height = int(img.height * ratio)
-                
-                img = img.resize((width, height), Image.LANCZOS)
-                
-                # Tkinter用の画像に変換
+            full = PROJECT_DIR / rel_path
+            if full.exists():
+                img = Image.open(full)
+                w = 320; ratio = w / img.width; h = int(img.height * ratio)
+                img = img.resize((w, h), Image.LANCZOS)
                 self.tk_img = ImageTk.PhotoImage(img)
-                
-                # ラベルに表示
-                self.preview_image.configure(image=self.tk_img)
+                self.preview_img_label.configure(image=self.tk_img)
             else:
-                self.preview_image.configure(image="")
-                messagebox.showwarning("警告", "画像ファイルが見つかりません: " + image_path)
+                self.preview_img_label.configure(image="")
         except Exception as e:
-            self.preview_image.configure(image="")
-            messagebox.showwarning("エラー", f"画像のプレビュー表示中にエラーが発生しました: {str(e)}")
+            self.preview_img_label.configure(image="")
+            print(f"プレビューエラー: {e}")
 
-    def add_photos(self):
-        """写真を追加"""
-        # ファイル選択ダイアログを表示
-        filepaths = filedialog.askopenfilenames(
-            title="追加する写真を選択",
-            filetypes=[("画像ファイル", "*.jpg *.jpeg *.png *.JPG *.JPEG *.PNG")]
-        )
-        
-        if not filepaths:
-            return
-            
-        # 写真の追加処理
-        for filepath in filepaths:
-            self.add_single_photo(filepath)
-            
-        # リストを更新
-        self.update_photo_list()
+    def on_add_photos(self):
+        files = filedialog.askopenfilenames(title="追加する写真を選択", filetypes=[("画像", "*.jpg *.jpeg *.png")])
+        if not files: return
+        PHOTOS_DIR.mkdir(parents=True, exist_ok=True)
+        for fp in files:
+            fname = Path(fp).name
+            target = PHOTOS_DIR / fname
+            if target.exists() and not messagebox.askyesno("確認", f"{fname} は既に存在します。上書きしますか？"):
+                continue
+            shutil.copy2(fp, target)
+            self.pm.add_photo_entry(fname)
+        self.pm.save_json()
+        self.refresh_tree()
 
-    def add_single_photo(self, filepath):
-        """単一の写真を追加"""
-        try:
-            # ファイル名を取得
-            filename = os.path.basename(filepath)
-            
-            # ファイルが既に存在する場合はスキップ
-            target_path = os.path.join(self.photos_dir, filename)
-            if os.path.exists(target_path):
-                if not messagebox.askyesno("確認", f"ファイル {filename} は既に存在します。上書きしますか？"):
-                    return None
-            
-            # photos ディレクトリが存在しない場合は作成
-            os.makedirs(self.photos_dir, exist_ok=True)
-            
-            # 写真ファイルをコピー
-            shutil.copy2(filepath, target_path)
-            
-            # 次のIDを決定
-            next_id = 1
-            if self.photos:
-                next_id = max(photo.get("id", 0) for photo in self.photos) + 1
-                
-            # 写真の情報を取得
-            img = Image.open(target_path)
-            img_date = datetime.now()  # 現在日時をデフォルトに
-            
-            # 日付のフォーマット
-            date_str = img_date.strftime("%Y-%m-%d")
-            date_display = img_date.strftime("%Y年%m月%d日")
-            
-            # 写真エントリを作成
-            new_photo = {
-                "id": next_id,
-                "title": os.path.splitext(filename)[0],
-                "description": ["写真の説明を入力してください"],
-                "image": f"images/photos/{filename}",
-                "page": f"photo{next_id}.html",
-                "date": date_str,
-                "dateDisplay": date_display,
-                "location": "",
-                "camera": "",
-                "lens": "",
-                "film": "",
-                "tags": []
-            }
-            
-            # 写真リストに追加
-            self.photos.append(new_photo)
-            
-            return new_photo
-        except Exception as e:
-            messagebox.showerror("エラー", f"写真の追加中にエラーが発生しました: {str(e)}")
-            return None
-
-    def save_current_photo(self):
-        """現在選択されている写真の情報を保存"""
-        selected_items = self.photo_tree.selection()
-        if not selected_items:
+    def on_save(self):
+        sel = self.tree.selection()
+        if not sel:
             messagebox.showwarning("警告", "保存する写真が選択されていません")
             return
             
-        item = selected_items[0]
-        photo_id = self.photo_tree.item(item, "values")[0]
-        
-        # IDからphotoデータを検索
-        photo_index = None
-        for i, photo in enumerate(self.photos):
-            if str(photo.get("id", "")) == str(photo_id):
-                photo_index = i
-                break
-                
-        if photo_index is None:
-            messagebox.showerror("エラー", "写真データが見つかりません")
+        values = self.tree.item(sel[0], "values")
+        if not values:
             return
             
-        # フォームからデータを取得
-        title = self.title_var.get()
-        page = self.page_var.get()
-        date = self.date_var.get()
-        date_display = self.date_display_var.get()
-        location = self.location_var.get()
-        camera = self.camera_var.get()
-        lens = self.lens_var.get()
-        film = self.film_var.get()
+        try:
+            pid = int(values[0])
+        except ValueError:
+            messagebox.showerror("エラー", "無効な写真IDです")
+            return
+            
+        photo = next((p for p in self.pm.photos if int(p.get("id", 0)) == pid), None)
+        if not photo:
+            messagebox.showerror("エラー", "写真が見つかりません")
+            return
+            
+        # ロールの変更を確認
+        old_roll = photo.get("roll", "misc")
+        new_roll = self.vars["roll"].get().strip()
         
-        # 説明を取得（改行で分割してリスト化）
-        description_text = self.description_text.get(1.0, tk.END).strip()
-        description = [p for p in description_text.split("\n") if p.strip()]
+        if new_roll and new_roll != old_roll:
+            if messagebox.askyesno("ロール変更の確認", 
+                                 f"ロールを '{old_roll}' から '{new_roll}' に変更しますか？\n"
+                                 "これは今後のファイル名生成に影響する可能性があります。"):
+                photo["roll"] = new_roll
+        elif not new_roll:
+            messagebox.showwarning("警告", "ロールを空にすることはできません。")
+            return
+            
+        for k in self.vars:
+            if k == "id":
+                try:
+                    photo[k] = int(self.vars[k].get())
+                except ValueError:
+                    photo[k] = pid
+            elif k == "tags":
+                tags_text = self.vars[k].get()
+                photo[k] = [tag.strip() for tag in tags_text.split(",") if tag.strip()]
+            elif k != "roll":  # roll は上で処理済み
+                photo[k] = self.vars[k].get()
+                
+        desc_text = self.desc_text.get("1.0", tk.END).strip()
+        photo["description"] = [p for p in desc_text.split("\n") if p.strip()]
         
-        # タグを取得（カンマで分割してリスト化）
-        tags_text = self.tags_var.get()
-        tags = [tag.strip() for tag in tags_text.split(",") if tag.strip()]
-        
-        # 写真データを更新
-        self.photos[photo_index].update({
-            "title": title,
-            "page": page,
-            "date": date,
-            "dateDisplay": date_display,
-            "location": location,
-            "camera": camera,
-            "lens": lens,
-            "film": film,
-            "description": description,
-            "tags": tags
-        })
-        
-        # Treeviewを更新
-        self.photo_tree.item(item, values=(photo_id, title))
-        
-        messagebox.showinfo("成功", "写真情報を更新しました")
+        if self.pm.save_json():
+            messagebox.showinfo("成功", "写真情報を更新しました")
+            self.refresh_tree()
 
-    def delete_photo(self):
-        """選択された写真を削除"""
-        selected_items = self.photo_tree.selection()
-        if not selected_items:
+    def on_delete(self):
+        sel = self.tree.selection()
+        if not sel:
             messagebox.showwarning("警告", "削除する写真が選択されていません")
             return
             
-        if not messagebox.askyesno("確認", "選択した写真を削除しますか？\n(JSONデータのみ削除され、実際の画像ファイルは残ります)"):
+        values = self.tree.item(sel[0], "values")
+        if not values:
             return
             
-        item = selected_items[0]
-        photo_id = self.photo_tree.item(item, "values")[0]
+        try:
+            pid = int(values[0])
+        except ValueError:
+            messagebox.showerror("エラー", "無効な写真IDです")
+            return
+            
+        if not messagebox.askyesno("確認", "この写真を削除しますか？\n(JSONデータのみ削除され、実際の画像ファイルは残ります)"):
+            return
+            
+        self.pm.photos = [p for p in self.mp.photos if int(p.get("id", 0)) != pid]
         
-        # IDからphotoデータを検索して削除
-        self.photos = [p for p in self.photos if str(p.get("id", "")) != str(photo_id)]
-        
-        # Treeviewから削除
-        self.photo_tree.delete(item)
-        
+        if self.pm.save_json():
+            messagebox.showinfo("成功", "写真データを削除しました")
+            self.refresh_tree()
+            
         # フォームをクリア
-        self.clear_form()
-        
-        messagebox.showinfo("成功", "写真データを削除しました")
+        for var in self.vars.values():
+            var.set("")
+        self.desc_text.delete("1.0", tk.END)
+        self.preview_img_label.configure(image="")
 
-    def clear_form(self):
-        """フォームをクリア"""
-        self.id_var.set("")
-        self.title_var.set("")
-        self.image_var.set("")
-        self.page_var.set("")
-        self.date_var.set("")
-        self.date_display_var.set("")
-        self.location_var.set("")
-        self.camera_var.set("")
-        self.lens_var.set("")
-        self.film_var.set("")
-        self.description_text.delete(1.0, tk.END)
-        self.tags_var.set("")
-        self.preview_image.configure(image="")
+    def on_save_json(self):
+        if self.pm.save_json():
+            messagebox.showinfo("保存完了", "JSONファイルを保存しました")
+
+    def on_generate(self):
+        if not GENERATE_JS.exists():
+            messagebox.showerror("エラー", "generatePhotoPages.js が見つかりません")
+            return
+        try:
+            # まずJSONファイルを保存
+            if not self.pm.save_json():
+                return
+                
+            subprocess.run(["node", str(GENERATE_JS)], check=True, cwd=str(PROJECT_DIR))
+            messagebox.showinfo("完了", "HTMLファイルを生成しました")
+        except subprocess.CalledProcessError as e:
+            messagebox.showerror("エラー", f"HTML生成中にエラーが発生しました: {e}")
+        except FileNotFoundError:
+            messagebox.showerror("エラー", "node コマンドが見つかりません。Node.jsがインストールされていることを確認してください。")
 
     def add_tag(self, tag):
         """タグを追加"""
-        current_tags = self.tags_var.get()
+        current_tags = self.vars["tags"].get()
         if current_tags:
             tags = [t.strip() for t in current_tags.split(",")]
             if tag not in tags:
                 tags.append(tag)
-                self.tags_var.set(", ".join(tags))
+                self.vars["tags"].set(", ".join(tags))
         else:
-            self.tags_var.set(tag)
-
-    def generate_pages(self):
-        """HTMLページを生成"""
-        # まず写真データを保存
-        if not self.save_photos_data():
-            return
-            
-        # Node.jsを使ってページを生成
-        try:
-            script_path = os.path.join(self.project_dir, "generatePhotoPages.js")
-            if not os.path.exists(script_path):
-                messagebox.showerror("エラー", "generatePhotoPages.jsが見つかりません")
-                return
-                
-            # コマンドを実行
-            import subprocess
-            result = subprocess.run(["node", script_path], 
-                                   cwd=self.project_dir,
-                                   capture_output=True, 
-                                   text=True)
-                                   
-            if result.returncode == 0:
-                # stdoutがNoneの場合の対応
-                output_message = result.stdout if result.stdout else ""
-                messagebox.showinfo("成功", f"HTMLページの生成が完了しました\n{output_message}")
-            else:
-                # stderrがNoneの場合の対応
-                error_message = result.stderr if result.stderr else ""
-                messagebox.showerror("エラー", f"HTMLページの生成中にエラーが発生しました\n{error_message}")
-        except Exception as e:
-            messagebox.showerror("エラー", f"HTMLページの生成中にエラーが発生しました: {str(e)}")
-
+            self.vars["tags"].set(tag)
 
 if __name__ == "__main__":
     root = tk.Tk()
-    app = PhotoManagerApp(root)
+    app = PhotoManagerGUI(root)
     root.mainloop()

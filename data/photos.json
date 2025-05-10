@@ -9,7 +9,7 @@
         "松島を訪れたのは東北旅行の最終日であった。私はこの東北旅行で初めてフィルムカメラでの撮影に臨んだのだが、この写真は最初期のお気に入りのカットである。",
         "また、この旅行を機にフィルムカメラでの撮影にとりつかれることとなったのである。その意味でも記念すべき一枚だろう。"
       ],
-      "image": "images/photos/0428501_0005.JPG",
+      "image": "images/photos/0002_0005.JPG",
       "page": "photo1.html",
       "date": "2024-04-05",
       "dateDisplay": "2024年4月15日",
@@ -24,7 +24,8 @@
         "nikon-f70d",
         "nikkor-28-80mm",
         "kodak-ultramax"
-      ]
+      ],
+      "roll": "0002"
     },
     {
       "id": 2,
@@ -35,7 +36,7 @@
         "初めてモノクロフィルムでの撮影に挑戦した際の写真で、とにかくコントラストのはっきりした被写体を探してずいぶん歩き回ったのだった。",
         "自分らしい写真表現を模索し始めるきっかけとなる一枚である。"
       ],
-      "image": "images/photos/0611480_0033.JPG",
+      "image": "images/photos/0003_0033.JPG",
       "page": "photo2.html",
       "date": "2024-06-12",
       "dateDisplay": "2024年6月某日",
@@ -51,7 +52,8 @@
         "nikon-f70d",
         "nikkor-50mm",
         "ilford-xp2"
-      ]
+      ],
+      "roll": "0003"
     },
     {
       "id": 3,
@@ -60,7 +62,7 @@
         "『<a href=\"photo2.html\">シルエット</a>』と同日、もしくはその前日に撮影したと思われる。高田馬場駅周辺には雑多な雰囲気がある。",
         "画面全体に日向と日陰との両方を収めており、モノクロフィルムならではの写りに期待を寄せている感じが見て取れる。"
       ],
-      "image": "images/photos/0611480_0029.JPG",
+      "image": "images/photos/0003_0029.JPG",
       "page": "photo3.html",
       "date": "2024-06-12",
       "dateDisplay": "2024年6月某日",
@@ -76,7 +78,8 @@
         "nikon-f70d",
         "nikkor-80-200mm",
         "ilford-xp2"
-      ]
+      ],
+      "roll": "0003"
     },
     {
       "id": 4,
@@ -85,7 +88,7 @@
         "ある曇りの日、橋を渡っていたときに美しい光が目を引いた。持っていたカメラで撮影した写真である。",
         "空には雲が広がっているが厚くはなく、午後の光が雲間から漏れ、黄金の輝きに見えた。"
       ],
-      "image": "images/photos/07290006_e.jpg",
+      "image": "images/photos/0010_0006_e.jpg",
       "page": "photo4.html",
       "date": "2024-09-23",
       "dateDisplay": "2024年9月23日",
@@ -100,7 +103,8 @@
         "pentax-67",
         "67-90mm",
         "kodak-gold"
-      ]
+      ],
+      "roll": "0010"
     },
     {
       "id": 5,
@@ -109,7 +113,7 @@
         "友人たちとの旅行中、通天閣の附近で撮影したもの。",
         "素晴しいロゴタイプを見つけ、嬉しくなったのであった。"
       ],
-      "image": "images/photos/0902468_0012.JPG",
+      "image": "images/photos/0008_0012.JPG",
       "page": "photo5.html",
       "date": "2024-09-01",
       "dateDisplay": "2024年9月1日",
@@ -124,7 +128,8 @@
         "olympus-om1",
         "zuiko-50mm1",
         "ilford-vintagetone"
-      ]
+      ],
+      "roll": "0008"
     },
     {
       "id": 6,
@@ -133,7 +138,7 @@
         "散歩中、ふと立ち寄った公園で写真を撮っていたら、忽然と現れた猫。",
         "慌てるそぶりもなく悠然と茂みに向かっていて、どうやらここがお決まりの休憩場所らしかった。"
       ],
-      "image": "images/photos/0807462_0025.JPG",
+      "image": "images/photos/0005_0025.JPG",
       "page": "photo6.html",
       "date": "2024-07-22",
       "dateDisplay": "2024年7月22日ごろ",
@@ -149,7 +154,8 @@
         "canon-ftbn",
         "fd-50mm",
         "kodak-colorplus"
-      ]
+      ],
+      "roll": "0005"
     },
     {
       "id": 7,
@@ -158,10 +164,10 @@
         "東京都新宿区の諏訪神社の前を通りかかると、木々が鮮やかに色づいていた。",
         "よく晴れた日で、空の青さも彩りを豊かにしている。"
       ],
-      "image": "images/photos/18950005.jpg",
+      "image": "images/photos/0013_0005.jpg",
       "page": "photo7.html",
-      "date": "2024-12-03",
-      "dateDisplay": "2024年12月3日",
+      "date": "2024-12-01",
+      "dateDisplay": "2024年12月1日",
       "location": "東京都新宿区",
       "camera": "Pentax 6×7",
       "lens": "Super-Multi-Coated TAKUMAR6×7/55mm F3.5",
@@ -173,7 +179,8 @@
         "pentax-67",
         "67-55mm",
         "kodak-gold"
-      ]
+      ],
+      "roll": "0013"
     },
     {
       "id": 8,
@@ -182,7 +189,7 @@
         "大阪駅前の大きなペデストリアンデッキからの眺望である。",
         "雨が降る中、手すりにカメラを据えて撮影した。"
       ],
-      "image": "images/photos/0902468_0026.JPG",
+      "image": "images/photos/0008_0026.JPG",
       "page": "photo8.html",
       "date": "2024-09-01",
       "dateDisplay": "2024年9月1日",
@@ -198,7 +205,8 @@
         "olympus-om1",
         "zuiko-50mm1",
         "ilford-vintagetone"
-      ]
+      ],
+      "roll": "0008"
     },
     {
       "id": 9,
@@ -207,7 +215,7 @@
         "新宿駅東口から大ガード方向へ向かった場所にある公衆電話。",
         "公衆電話を見つけるとつい写真に撮りたくなってしまうのは一体何の因果だろうか。"
       ],
-      "image": "images/photos/0807462_0043.JPG",
+      "image": "images/photos/0006_0043.JPG",
       "page": "photo9.html",
       "date": "2024-07-04",
       "dateDisplay": "2024年7月4日",
@@ -222,7 +230,8 @@
         "nikon-f70d",
         "nikkor-50mm",
         "fuji-super"
-      ]
+      ],
+      "roll": "0006"
     },
     {
       "id": 10,
@@ -231,7 +240,7 @@
         "夕方、日が沈む頃になるとドラマチックな風景へと変貌する。",
         "やわらかな光に包まれると自ずと幸せな気分になるだろう。"
       ],
-      "image": "images/photos/0807462_0036.JPG",
+      "image": "images/photos/0005_0036.JPG",
       "page": "photo10.html",
       "date": "2024-07-29",
       "dateDisplay": "2024年7月29日",
@@ -246,7 +255,8 @@
         "canon-ftbn",
         "fd-80-200mm",
         "kodak-colorplus"
-      ]
+      ],
+      "roll": "0005"
     },
     {
       "id": 11,
@@ -255,7 +265,7 @@
         "西を向くと太陽が雲を照らしていた。雲はダイナミックに空に広がり、絵画を見ているかのような気分であった。",
         "驚くほど素晴しい描写のレンズであるが、70年以上も昔のものである。"
       ],
-      "image": "images/photos/1122257_0023.JPG",
+      "image": "images/photos/0012_0023.JPG",
       "page": "photo11.html",
       "date": "2024-11-09",
       "dateDisplay": "2025年11月9日",
@@ -271,7 +281,8 @@
         "canon-ivsb2",
         "canon-35mm",
         "kodak-colorplus"
-      ]
+      ],
+      "roll": "0012"
     },
     {
       "id": 12,
@@ -279,7 +290,7 @@
       "description": [
         "新大久保駅のプラットフォーム上を写す。季節や時間帯によっては晴れた午後でもホーム上はずいぶん暗くなる。ホーム屋根と列車の隙間から一筋に伸びた光が足下まで伸びていたのが印象的である。"
       ],
-      "image": "images/photos/1122257_0021.JPG",
+      "image": "images/photos/0012_0021.JPG",
       "page": "photo12.html",
       "date": "2024-11-08",
       "dateDisplay": "2024年11月8日",
@@ -294,7 +305,8 @@
         "canon-ivsb2",
         "canon-35mm",
         "kodak-colorplus"
-      ]
+      ],
+      "roll": "0012"
     },
     {
       "id": 13,
@@ -302,7 +314,7 @@
       "description": [
         "地下鉄駅へ降りると、青みがかった照明を見ることが多いと思うのは気のせいだろうか。不思議な空間である。なぜなら、昼でも夜でも地下鉄駅に降りれば、アナウンスや列車の走る音、人々の喧噪、そして青い照明がほとんど変化を感じさせないからである。その意味で、地下鉄駅は時刻に囚われない空間でもあり、わたくしはそれが好きである。"
       ],
-      "image": "images/photos/DSC_6554.jpg",
+      "image": "images/photos/D_6554.jpg",
       "page": "photo13.html",
       "date": "2025-01-23",
       "dateDisplay": "2025年1月23日",
@@ -316,7 +328,8 @@
         "snap",
         "nikon-d800",
         "nikkor-50mm"
-      ]
+      ],
+      "roll": "D"
     },
     {
       "id": 14,
@@ -324,7 +337,7 @@
       "description": [
         "どんな会話をしていたのだろう。楽しげに話し合える関係に憧れを抱いた。"
       ],
-      "image": "images/photos/0902468_0011.JPG",
+      "image": "images/photos/0008_0011.JPG",
       "page": "photo14.html",
       "date": "2024-09-01",
       "dateDisplay": "2024年9月1日",
@@ -339,7 +352,8 @@
         "olympus-om1",
         "zuiko-50mm1",
         "ilford-vintagetone"
-      ]
+      ],
+      "roll": "0008"
     },
     {
       "id": 15,
@@ -349,7 +363,7 @@
         "都井岬に棲息するミサキウマは飼育されているのではなく、野生の馬であるという。そのためいつも一箇所に留まっているわけではなく、どこにいるのかは馬の気分次第であろう。このときは海を見下ろす小高い丘に十数頭程度が集まっていた。",
         "自然の美しさを些かでも感じ取ることができたような気分になった。"
       ],
-      "image": "images/photos/29990008_1.JPG",
+      "image": "images/photos/0017_0008_1.JPG",
       "page": "photo15.html",
       "date": "2025-02-05",
       "dateDisplay": "2025年2月5日",
@@ -365,7 +379,8 @@
         "pentax-67",
         "67-90mm",
         "kodak-gold"
-      ]
+      ],
+      "roll": "0017"
     },
     {
       "id": 16,
@@ -373,7 +388,7 @@
       "description": [
         "八月中旬、少し日が傾きかけてきた頃に見た入道雲は日本の夏らしさを強く実感させてくれた。小学生時代の夏休みを想起し、ノスタルジックな情緒が醸し出された。"
       ],
-      "image": "images/photos/DSCF1915.jpg",
+      "image": "images/photos/D_1915.jpg",
       "page": "photo16.html",
       "date": "2024-08-17",
       "dateDisplay": "2025年8月17日",
@@ -387,7 +402,8 @@
         "snap",
         "fuji-s5pro",
         "nikkor-50mm"
-      ]
+      ],
+      "roll": "D"
     },
     {
       "id": 17,
@@ -395,7 +411,7 @@
       "description": [
         "近所の団地の給水塔。ひときわ大きな存在感を放っている。モノクロフィルムで撮影することでその形の面白さを捉えることができるように思った。"
       ],
-      "image": "images/photos/0331273_0023.JPG",
+      "image": "images/photos/0014_0023.JPG",
       "page": "photo17.html",
       "date": "2024-12-14",
       "dateDisplay": "2025年12月14日",
@@ -411,7 +427,8 @@
         "nikon-f70d",
         "nikkor-28-200mm",
         "ilford-xp2"
-      ]
+      ],
+      "roll": "0014"
     },
     {
       "id": 18,
@@ -421,7 +438,7 @@
         "ズームレンズの望遠側で圧縮効果を試してみたくなって撮影したものである。",
         "前景には横断歩道の信号機が映り込んでいて、距離感の演出が為されているように思う。"
       ],
-      "image": "images/photos/0331273_0021.JPG",
+      "image": "images/photos/0014_0021.JPG",
       "page": "photo18.html",
       "date": "2024-12-14",
       "dateDisplay": "2024年12月14日",
@@ -437,7 +454,8 @@
         "nikon-f70d",
         "nikkor-28-200mm",
         "ilford-xp2"
-      ]
+      ],
+      "roll": "0014"
     },
     {
       "id": 19,
@@ -445,7 +463,7 @@
       "description": [
         "この日、わたくしはマクセルアクアパーク品川を訪れた。昨今の潮流では好ましからざるものとの誹りが耳に入ることも段々と増えてきたイルカショーであるが、わたくしとしては幼い頃からイルカショーが好きなのだ。水棲生物、とりわけ大型の海洋動物たるイルカの体表は、傍目に艶やかな皮膚がなだらかな曲面を描いて美しい流線型の体軀を立派に形づくっている。魚類のそれを垂直廻転させた向きに発達した尾鰭で水を強く蹴りのけ、大きな推進力を生み出す。それは水面上数メートルの高さまで跳躍するのに十分な程で、人類には到底真似できない芸当を可能にしている。そこにわたくしは神秘を見出しているのだと思う。"
       ],
-      "image": "images/photos/0331273_0028.JPG",
+      "image": "images/photos/0014_0028.JPG",
       "page": "photo19.html",
       "date": "2024-12-25",
       "dateDisplay": "2024年12月25日",
@@ -461,7 +479,8 @@
         "nikon-f70d",
         "nikkor-50mm",
         "ilford-xp2"
-      ]
+      ],
+      "roll": "0014"
     },
     {
       "id": 20,
@@ -469,7 +488,7 @@
       "description": [
         "民家のフェンスの外側に棒で吊された上履き。洗ったものを干してあったのか、落とし物を吊しておいたのかは不明だったが、片足しかないところを見るに後者であったかも知れない。"
       ],
-      "image": "images/photos/0331090_0005.JPG",
+      "image": "images/photos/0018_0005.JPG",
       "page": "photo20.html",
       "date": "2025-03-25",
       "dateDisplay": "2025年3月25日",
@@ -484,7 +503,8 @@
         "canon-ivsb2",
         "canon-50mm",
         "fuji-200"
-      ]
+      ],
+      "roll": "0018"
     },
     {
       "id": 21,
@@ -493,7 +513,7 @@
         "工事が終わり、線路の下を通るトンネルが開通した。",
         "都会の風景は工事や開発の度に少しずつ、変っていく。いま見ている光景もだんだん変って行ってしまうと思えばこそ、その瞬間の風景を切り取りたくなってしまう。"
       ],
-      "image": "images/photos/1122257_0037.JPG",
+      "image": "images/photos/0012_0037.JPG",
       "page": "photo21.html",
       "date": "2024-11-13",
       "dateDisplay": "2024年11月13日",
@@ -508,7 +528,8 @@
         "canon-ivsb2",
         "canon-35mm",
         "kodak-colorplus"
-      ]
+      ],
+      "roll": "0012"
     },
     {
       "id": 22,
@@ -517,7 +538,7 @@
         "散歩をしていて楽しい場所というのは、安心が得られる場所だろうと思う。心の安らぎや癒やしというものは落ち着きとか静謐といったものに通底するものがあるのだとわたくしは思う。",
         "この撮影場所の界隈には、数多くの寺院が並び立っていて非常に和やかな雰囲気が感じられるので、散歩にはうってつけである。"
       ],
-      "image": "images/photos/1122257_0014.JPG",
+      "image": "images/photos/0012_0014.JPG",
       "page": "photo22.html",
       "date": "2024-11-07",
       "dateDisplay": "2024年11月7日",
@@ -532,7 +553,8 @@
         "canon-ivsb2",
         "canon-35mm",
         "kodak-colorplus"
-      ]
+      ],
+      "roll": "0012"
     },
     {
       "id": 23,
@@ -541,7 +563,7 @@
         "宮崎旅行を通じて、最も楽しみにしていたのは高千穂峡への訪問であった。",
         "鬱然とした山の中、切立った断崖が左右に迫り、間を川が流れている。わたくしが宮崎なる高千穂峡の存在を知ったのは中学生の頃であった。以来、いつか高千穂峡を訪問することを願っていたのだけれども、実際に訪問してみると想像よりもずっと美しく素晴しい風景・気候に魅了された。"
       ],
-      "image": "images/photos/29970008.jpg",
+      "image": "images/photos/0016_0008.jpg",
       "page": "photo23.html",
       "date": "2025-02-04",
       "dateDisplay": "2025年2月4日",
@@ -556,7 +578,171 @@
         "pentax-67",
         "67-55mm",
         "lomography-cn100"
-      ]
+      ],
+      "roll": "0016"
+    },
+    {
+      "id": 24,
+      "title": "横断歩道あり",
+      "description": [
+        "東北旅行二日目は男鹿半島を一周した。この写真は、入道埼の駐車場から道を渡って灯台の方へと繫がる横断歩道である。"
+      ],
+      "image": "images/photos/0001_0030.JPG",
+      "page": "photo24.html",
+      "date": "2024-04-03",
+      "dateDisplay": "2024年4月3日",
+      "location": "秋田県男鹿市",
+      "camera": "Nikon F70D",
+      "lens": "AI-AF Zoom-Nikkor 28-80mm F3.5-5.6D",
+      "film": "Kodak UltraMax 400",
+      "tags": [
+        "2024-04",
+        "akita",
+        "snap",
+        "nikon-f70d",
+        "nikkor-28-80",
+        "kodak-ultramax"
+      ],
+      "roll": "0001"
+    },
+    {
+      "id": 25,
+      "title": "入道埼灯台",
+      "description": [
+        "男鹿半島の入道埼灯台は静かな雰囲気(atomosphère paisible)が印象的な場所であった。ウニ丼が美味であったことをよく覚えている。"
+      ],
+      "image": "images/photos/0001_0032.JPG",
+      "page": "photo25.html",
+      "date": "2024-04-03",
+      "dateDisplay": "2025年4月3日",
+      "location": "秋田県男鹿市",
+      "camera": "Nikon F70D",
+      "lens": "AI-AF Zoom-Nikkor 28-80mm F3.5-5.6D",
+      "film": "Kodak UltraMax 400",
+      "tags": [
+        "2024-04",
+        "akita",
+        "snap",
+        "landscape",
+        "nikon-f70d",
+        "nikkor-28-80",
+        "kodak-ultramax"
+      ],
+      "roll": "0001"
+    },
+    {
+      "id": 26,
+      "title": "赤い橋",
+      "description": [
+        "松島公園の駐車場から雄島という島への橋である。鮮やかな朱色が美しい海水の色や青々とした松、そして白い土に映えていた。"
+      ],
+      "image": "images/photos/0002_0002.JPG",
+      "page": "photo26.html",
+      "date": "2024-04-05",
+      "dateDisplay": "2025年4月5日",
+      "location": "宮城県宮城郡松島町",
+      "camera": "Nikon F70D",
+      "lens": "AI-AF Zoom-Nikkor 28-80mm F3.5-5.6D",
+      "film": "Kodak UltraMax 400",
+      "tags": [
+        "2024-04",
+        "miyagi",
+        "snap",
+        "nikon-f70d",
+        "nikkor-28-80",
+        "kodak-ultramax"
+      ],
+      "roll": "0002"
+    },
+    {
+      "id": 27,
+      "title": "雄島の鳥居",
+      "description": [
+        "雄島は島全体がかつて修験者達の墓であって、そこかしこに墓碑が建てられていた。霊験あらたかな空気を感じた場所であった。"
+      ],
+      "image": "images/photos/0002_0004.JPG",
+      "page": "photo27.html",
+      "date": "2024-04-05",
+      "dateDisplay": "2025年4月5日",
+      "location": "宮城県宮城郡松島町",
+      "camera": "Nikon F70D\n",
+      "lens": "AI-AF Zoom-Nikkor 28-80mm F3.5-5.6D\n",
+      "film": "Kodak UltraMax 400\n",
+      "tags": [
+        "2024-04",
+        "miyagi",
+        "snap",
+        "nikon-f70d",
+        "nikkor-28-80",
+        "kodak-ultramax"
+      ],
+      "roll": "0002"
+    },
+    {
+      "id": 28,
+      "title": "樹列",
+      "description": [
+        "早稲田大学戸山キャンパスの正門から延びるスロープの脇には背の高い樹々が列をなして植わっている。それが秋の夕暮れには見事な色に染まるので圧巻である。"
+      ],
+      "image": "images/photos/0013_0006.jpg",
+      "page": "photo28.html",
+      "date": "2024-12-01",
+      "dateDisplay": "2024年12月1日",
+      "location": "東京都新宿区",
+      "camera": "Pentax 6×7",
+      "lens": "Super-Multi-Coated TAKUMAR 6×7/55mm F3.5",
+      "film": "Kodak Gold 200",
+      "tags": [
+        "2024-12",
+        "tokyo",
+        "snap",
+        "landscape",
+        "pentax-67",
+        "67-55",
+        "kodak-gold"
+      ],
+      "roll": "0013"
+    },
+    {
+      "id": 29,
+      "title": "午後の日差し",
+      "description": [
+        "写真の説明を入力してください"
+      ],
+      "image": "images/photos/0013_0001.jpg",
+      "page": "photo29.html",
+      "date": "2024-05-11",
+      "dateDisplay": "2025年05月11日",
+      "location": "",
+      "camera": "",
+      "lens": "",
+      "film": "",
+      "tags": [],
+      "roll": "0013"
+    },
+    {
+      "id": 30,
+      "title": "ホーム",
+      "description": [
+        "中央線グリーン車の無料開放期間中に乗車した際に写したもの。一階席の窓のすぐ外はプラットフォームの縁の高さである。中央線の車窓で、この景色を見るのは初めてのことであった。"
+      ],
+      "image": "images/photos/0013_0009.jpg",
+      "page": "photo30.html",
+      "date": "2024-12-07",
+      "dateDisplay": "2024年12月07日",
+      "location": "東京都",
+      "camera": "Pentax 6×7",
+      "lens": "Super-Multi-Coated TAKUMAR 6×7/55mm F3.5",
+      "film": "Kodak Gold 200",
+      "tags": [
+        "2024-12",
+        "tokyo",
+        "snap",
+        "pentax-67",
+        "67-55",
+        "kodak-gold"
+      ],
+      "roll": "0013"
     }
   ]
 }

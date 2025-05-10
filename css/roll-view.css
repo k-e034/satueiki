@@ -1,0 +1,263 @@
+/* ロールビュー専用のスタイル */
+
+.roll-view {
+    background-color: #111;
+    color: #f4f4f4;
+}
+
+/* ロールヘッダー */
+.roll-hero {
+    padding: 80px 20px 40px;
+    background: linear-gradient(135deg, #1a252f 0%, #111 100%);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.roll-title-overlay {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.roll-title-overlay h1 {
+    font-size: 3rem;
+    margin-bottom: 30px;
+    font-weight: 300;
+    letter-spacing: 2px;
+}
+
+.roll-hero .roll-meta {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+.roll-hero .meta-item {
+    text-align: center;
+    min-width: 150px;
+}
+
+.roll-hero .meta-item h4 {
+    font-size: 0.9rem;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+.roll-hero .meta-item p {
+    font-size: 1.1rem;
+    color: #f4f4f4;
+    margin: 5px 0;
+}
+
+/* 写真グリッド */
+.roll-photos {
+    padding: 60px 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.photos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    justify-items: center;
+}
+
+/* 写真サムネイル */
+.photo-thumb {
+    display: block;
+    position: relative;
+    width: 250px;
+    height: 250px;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: #000;
+}
+
+.photo-thumb:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+
+.photo-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.photo-thumb:hover img {
+    transform: scale(1.1);
+}
+
+/* サムネイルオーバーレイ */
+.thumb-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0,0,0,0.8));
+    padding: 40px 20px 20px;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+}
+
+.photo-thumb:hover .thumb-overlay {
+    transform: translateY(0);
+}
+
+.thumb-title {
+    font-size: 1.1rem;
+    font-weight: 300;
+    margin-bottom: 5px;
+    color: #fff;
+}
+
+.thumb-date {
+    font-size: 0.9rem;
+    color: #999;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    .roll-title-overlay h1 {
+        font-size: 2rem;
+    }
+    
+    .roll-hero .roll-meta {
+        gap: 20px;
+    }
+    
+    .roll-hero .meta-item {
+        min-width: auto;
+    }
+    
+    .photos-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+    }
+    
+    .photo-thumb {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1;
+    }
+    
+    /* モバイルではホバー効果を常に表示 */
+    .thumb-overlay {
+        transform: translateY(0);
+        background: linear-gradient(transparent, rgba(0,0,0,0.7));
+    }
+}
+
+@media (max-width: 480px) {
+    .roll-photos {
+        padding: 40px 10px;
+    }
+    
+    .photos-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 10px;
+    }
+    
+    .roll-title-overlay h1 {
+        font-size: 1.5rem;
+    }
+    
+    .roll-hero .roll-meta {
+        flex-direction: column;
+        gap: 15px;
+    }
+}
+
+/* index.htmlでのロールセクション表示 */
+.roll-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+    padding: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.roll-section {
+    background: #1a1a1a;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.roll-section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+.roll-title {
+    padding: 15px 20px;
+    margin: 0;
+    font-size: 1.2rem;
+    background: rgba(255,255,255,0.05);
+}
+
+.roll-title a {
+    color: #f4f4f4;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.roll-title a:hover {
+    color: #4aa3df;
+}
+
+.roll-meta {
+    padding: 0 20px 10px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: #999;
+}
+
+.roll-thumb-link {
+    display: block;
+    overflow: hidden;
+    height: 250px;
+}
+
+.roll-thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.roll-section:hover .roll-thumb {
+    transform: scale(1.05);
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    .roll-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+    }
+    
+    .roll-thumb-link {
+        height: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .roll-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        padding: 10px;
+    }
+    
+    .roll-thumb-link {
+        height: 180px;
+    }
+}

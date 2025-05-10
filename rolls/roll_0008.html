@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roll 0008 | わたくしの撮影記</title>
+    <link rel="icon" href="../images/icons/favicon.ico" sizes="32x32">
+    <link rel="icon" href="../images/icons/favicon.svg" type="image/svg">
+    <link rel="shortcut icon" href="../images/icons/favicon.svg" type="image/svg">
+    <link rel="apple-touch-icon" href="../images/icons/apple-touch-icon.png" sizes="180x180">
+    <link rel="mask-icon" href="../images/icons/safari-pinned-tab.svg" color="#3498db">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/photo-view.css">
+    <link rel="stylesheet" href="../css/roll-view.css">
+</head>
+
+<!-- SVGフィルター定義はphotoTemplate.htmlと同様 -->
+<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0">
+    <defs>
+        <!-- デスクトップ用の高品質フィルター -->
+        <filter id="sticker-desktop">
+            <feTurbulence type="fractalNoise" baseFrequency="0.025" numOctaves="1" seed="14" stitchTiles="noStitch" result="noise"></feTurbulence>
+            <feColorMatrix in="noise" type="saturate" values="25" result="saturatedNoise"></feColorMatrix>
+            <feMorphology in="SourceGraphic" operator="dilate" radius="4" result="dilated"></feMorphology>
+            <feFlood x="0" y="0" width="100%" height="100%" flood-color="#1a252f" flood-opacity="0.95" result="shadow"></feFlood>
+            <feGaussianBlur in="SourceGraphic" stdDeviation="1.8" edgeMode="none" result="blurred"></feGaussianBlur>
+            <feOffset in="saturatedNoise" dx="0" dy="0" result="offsetNoise"></feOffset>
+            <feComposite in="shadow" in2="dilated" operator="in" result="shadowMask"></feComposite>
+            <feDiffuseLighting in="blurred" surfaceScale="5" diffuseConstant="1.2" lighting-color="#4aa3df" result="lighting">
+                <fePointLight id="light-desktop" x="150" y="60" z="20"></fePointLight>
+            </feDiffuseLighting>
+            <feComposite in="offsetNoise" in2="SourceGraphic" operator="atop" result="noiseAtop"></feComposite>
+            <feComposite in="noiseAtop" in2="shadowMask" operator="atop" result="compositedShadow"></feComposite>
+            <feTurbulence type="fractalNoise" baseFrequency="3" numOctaves="1" seed="0" stitchTiles="noStitch" result="fineNoise"></feTurbulence>
+            <feComposite in="lighting" in2="compositedShadow" operator="in" result="lightedShadow"></feComposite>
+            <feBlend in="lightedShadow" in2="compositedShadow" mode="color-dodge" result="blended"></feBlend>
+            <feColorMatrix in="fineNoise" type="matrix" values="1 0 0 0 0   0.95 1.05 0 0 0   0.9 0 1.1 0 0   0.03 0 0 0 0" result="coloredNoise"></feColorMatrix>
+            <feComposite in="coloredNoise" in2="blended" operator="atop"></feComposite>
+        </filter>
+        
+        <!-- モバイル用の軽量フィルター -->
+        <filter id="sticker-mobile">
+            <feMorphology in="SourceGraphic" operator="dilate" radius="2" result="dilated"></feMorphology>
+            <feFlood x="0" y="0" width="100%" height="100%" flood-color="#1a252f" flood-opacity="0.9" result="shadow"></feFlood>
+            <feComposite in="shadow" in2="dilated" operator="in" result="shadowMask"></feComposite>
+            <feGaussianBlur in="SourceGraphic" stdDeviation="1" result="blurred"></feGaussianBlur>
+            <feDiffuseLighting in="blurred" surfaceScale="3" diffuseConstant="1" lighting-color="#4aa3df" result="lighting">
+                <fePointLight id="light-mobile" x="150" y="60" z="15"></fePointLight>
+            </feDiffuseLighting>
+            <feComposite in="lighting" in2="shadowMask" operator="in" result="lightedShadow"></feComposite>
+            <feBlend in="lightedShadow" in2="shadowMask" mode="color-dodge"></feBlend>
+        </filter>
+    </defs>
+</svg>
+
+<body class="roll-view">
+    <!-- ヘッダー -->
+    <header class="header-photo-view" id="roll-header">
+        <div class="header-container">
+            <div class="logo">
+                <a href="../index.html">わたくしの撮影記</a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="../index.html">ホーム</a></li>
+                    <li><a href="../index.html#tag-section">タグ検索</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="immersive-container">
+        <!-- ロールヘッダー -->
+        <section class="roll-hero">
+            <div class="roll-title-overlay">
+                <h1>Roll 0008</h1>
+                <div class="roll-meta">
+                    <div class="meta-item">
+                        <h4>撮影時期</h4>
+                        <p>2024年9月</p>
+                    </div>
+                    <div class="meta-item">
+                        <h4>写真数</h4>
+                        <p>3枚</p>
+                    </div>
+                    <div class="meta-item">
+                        <h4>撮影機材</h4>
+                        <p>カメラ: Olympus OM-1</p>
+                        <p>フィルム/形式: ILFORD ILFOCOLOR 400 PLUS Vintage Tone</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 写真グリッド -->
+        <section class="roll-photos">
+            <div class="photos-grid">
+                <a href="../photo5.html" class="photo-thumb">
+      <img src="../images/photos/0008_0012.JPG" alt="たこ焼き屋さん" loading="lazy" />
+      <div class="thumb-overlay">
+        <div class="thumb-title">たこ焼き屋さん</div>
+        <div class="thumb-date">2024年9月1日</div>
+      </div>
+    </a>
+<a href="../photo8.html" class="photo-thumb">
+      <img src="../images/photos/0008_0026.JPG" alt="梅田の夜景" loading="lazy" />
+      <div class="thumb-overlay">
+        <div class="thumb-title">梅田の夜景</div>
+        <div class="thumb-date">2024年9月1日</div>
+      </div>
+    </a>
+<a href="../photo14.html" class="photo-thumb">
+      <img src="../images/photos/0008_0011.JPG" alt="小休憩" loading="lazy" />
+      <div class="thumb-overlay">
+        <div class="thumb-title">小休憩</div>
+        <div class="thumb-date">2024年9月1日</div>
+      </div>
+    </a>
+            </div>
+        </section>
+    </div>
+
+    <!-- ナビゲーションボタン -->
+    <button class="nav-btn" id="gallery-btn" title="トップに戻る">
+        ↑
+    </button>
+
+    <!-- フッター -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>わたくしの撮影記</h3>
+                <p>個人的な写真撮影の記録のブログです。</p>
+            </div>
+            <div class="footer-section">
+                <h3>リンク</h3>
+                <ul>
+                    <li><a href="../index.html">ホーム</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>フォロー</h3>
+                <p>SNSで最新の写真や撮影の裏側をチェックしてください。</p>
+                <div class="social-icons">
+                    <a href="#">I</a>
+                    <a href="#">T</a>
+                    <a href="#">F</a>
+                    <a href="#">P</a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">&copy; 2025 k.e. All Rights Reserved.</div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="../js/scripts.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const galleryBtn = document.getElementById('gallery-btn');
+            if (galleryBtn) {
+                window.addEventListener('scroll', function() {
+                    if (window.scrollY > 300) galleryBtn.classList.add('visible'); else galleryBtn.classList.remove('visible');
+                });
+                galleryBtn.addEventListener('click', function() {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            }
+        });
+    </script>
+    <!-- マウス追従効果 -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const lightDesktop = document.querySelector('#light-desktop');
+            const lightMobile = document.querySelector('#light-mobile');
+        
+            if (lightDesktop && lightMobile) {
+                document.addEventListener('mousemove', (e) => {
+                    const x = e.clientX;
+                    const y = e.clientY;
+                    lightDesktop.setAttribute('x', x);
+                    lightDesktop.setAttribute('y', y);
+                    lightMobile.setAttribute('x', x);
+                    lightMobile.setAttribute('y', y);
+                });
+            
+                document.addEventListener('touchmove', (e) => {
+                    if (e.touches && e.touches[0]) {
+                        const x = e.touches[0].clientX;
+                        const y = e.touches[0].clientY;
+                        lightMobile.setAttribute('x', x);
+                        lightMobile.setAttribute('y', y);
+                    }
+                }, { passive: true });
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+            
+            if (isIOS) {
+                const logoLink = document.querySelector('.logo a');
+                
+                if (logoLink) {
+                    logoLink.style.filter = 'none';
+                    0 0 8px rgba(52, 152, 219, 0.6)';
+                    // 必要に応じて他のスタイルを追加
+                }
+            }
+        });
+    </script>
+</body>
+</html>
