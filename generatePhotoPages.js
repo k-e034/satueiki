@@ -95,8 +95,9 @@ function renderRollPage(rid, list, tplRoll) {
   }
   
   // サムネイルサイズを統一（250x250pxの固定サイズ）
+  // 各写真に一意のIDを付けて重複を防ぐ
   const thumbs = list.map(p=>
-    `<a href="../${p.page}" class="photo-thumb">
+    `<a href="../${p.page}" class="photo-thumb" data-photo-id="${p.id}">
       <img src="../${p.image}" alt="${p.title}" loading="lazy" />
       <div class="thumb-overlay">
         <div class="thumb-title">${p.title}</div>
@@ -124,8 +125,18 @@ function renderRollPage(rid, list, tplRoll) {
 
 // ---- rewrite index.html photo‑grid -----------------------------------------
 function rewriteIndexHTML(idxHtml, rolls) {
+  // ロールを重複チェック
+  const uniqueRolls = new Map();
+  
+  // ロールを整理し、重複を削除
+  Object.entries(rolls).forEach(([rid, list]) => {
+    if (!uniqueRolls.has(rid)) {
+      uniqueRolls.set(rid, list);
+    }
+  });
+  
   // ロールをソート: Dは最後、その他は降順
-  const sortedRolls = Object.entries(rolls).sort((a, b) => {
+  const sortedRolls = Array.from(uniqueRolls.entries()).sort((a, b) => {
     const [ridA] = a;
     const [ridB] = b;
     
@@ -147,7 +158,7 @@ function rewriteIndexHTML(idxHtml, rolls) {
       shootingPeriod = formatPeriod(firstDate);
     }
     
-    return `<section class="roll-section">
+    return `<section class="roll-section" data-roll-id="${rid}">
   <h2 class="roll-title"><a href="rolls/roll_${rid}.html">${displayTitle}</a></h2>
   <div class="roll-meta">
     <span class="roll-period">${shootingPeriod}</span>
@@ -159,9 +170,30 @@ function rewriteIndexHTML(idxHtml, rolls) {
 </section>`;
   }).join('\n');
 
-  // replace the whole photo‑grid block (div id="photo-grid" …)
-  idxHtml = idxHtml.replace(/<div id="photo-grid"[\s\S]*?<\/div>/m,
-                            `<div id="photo-grid" class="roll-grid">\n${rollSections}\n</div>`);
+  // divタグの内容全体を置き換える
+  const newPhotoGrid = `<div id="photo-grid" class="roll-grid">
+${rollSections}
+</div>`;
+  
+  // photo-gridセクション全体を置き換える
+  // 既存のphoto-gridを完全に削除してから新しく作成
+  const existingGrid = idxHtml.match(/<div id="photo-grid"[\s\S]*?<\/div>/m);
+  if (existingGrid) {
+    idxHtml = idxHtml.replace(existingGrid[0], newPhotoGrid);
+  } else {
+    // photo-gridが見つからない場合、main-contentの後に追加
+    idxHtml = idxHtml.replace(
+      /<div class="main-content">/,
+      '<div class="main-content">\n' + newPhotoGrid
+    );
+  }
+  
+  // もっと見るボタンのコンテナを非表示にする
+  idxHtml = idxHtml.replace(
+    /<div class="load-more-container"[\s\S]*?<\/div>/m,
+    '<div class="load-more-container" style="display: none;"><button id="load-more" class="btn">もっと見る</button></div>'
+  );
+  
   return idxHtml;
 }
 
@@ -173,7 +205,13 @@ function rewriteIndexHTML(idxHtml, rolls) {
   const rolls = {};
   photos.forEach(p=>{
     p.roll = p.roll || getRollId(p.image);  // 既存のrollか、ファイル名から判定
-    (rolls[p.roll] ||= []).push(p);
+    if (!rolls[p.roll]) {
+      rolls[p.roll] = [];
+    }
+    // 重複チェック
+    if (!rolls[p.roll].find(existing => existing.id === p.id)) {
+      rolls[p.roll].push(p);
+    }
   });
 
   // ------ 1. photoNN.html (overwrite) ----------------------------------------
@@ -196,10 +234,28 @@ function rewriteIndexHTML(idxHtml, rolls) {
   const newIdx = rewriteIndexHTML(originalIdx, rolls);
   fs.writeFileSync(INDEX_HTML_PATH, newIdx, 'utf8');
   console.log('index.html updated');
+  
+  // デバッグ: 生成されたHTML の最初の数行を確認
+  const photoGridMatch = newIdx.match(/<div id="photo-grid"[\s\S]*?<\/div>/m);
+  if (photoGridMatch) {
+    console.log('\n生成されたphoto-gridセクション:');
+    console.log(photoGridMatch[0]);
+  }
+  
   console.log('\nロール別表示構造:');
-  Object.keys(rolls).forEach(rid => {
+  const rollIds = Object.keys(rolls);
+  rollIds.forEach(rid => {
     const displayName = rid === 'D' ? 'Digital Photos' : `Roll ${rid}`;
     console.log(`  - ${displayName}: ${rolls[rid].length}枚`);
   });
+  
+  // 重複チェック
+  console.log('\n重複チェック:');
+  const uniqueRolls = new Set(rollIds);
+  if (uniqueRolls.size !== rollIds.length) {
+    console.warn('警告: ロールIDに重複があります！');
+  } else {
+    console.log('ロールIDに重複はありません');
+  }
 
 })();
