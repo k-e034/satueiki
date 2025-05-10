@@ -5,13 +5,15 @@ document.addEventListener("DOMContentLoaded", function() {
         return urlParams.get('tag');
     }
 
-    // タグフィルタリングの場合のみ実行
+    // タグがない場合は何もしない
     const tag = getTagFromUrl();
     if (!tag) {
-        // タグがない場合は何もしない（ロール表示はgeneratePhotoPages.jsが担当）
         console.log('タグなし - generatePhotoPages.jsで生成されたロール表示を使用');
         return;
     }
+
+    // タグがある場合のみ以下を実行
+    console.log(`タグ「${tag}」で写真をフィルタリング中...`);
 
     // 写真データを読み込む関数
     async function loadPhotoData() {
@@ -35,6 +37,10 @@ document.addEventListener("DOMContentLoaded", function() {
         photoCard.innerHTML = `
             <a href="${photo.page}">
                 <div class="feature-image" style="background-image: url('${photo.image}');"></div>
+                <div class="feature-content">
+                    <div class="post-date">${photo.dateDisplay || ''}</div>
+                    <h3>${photo.title}</h3>
+                </div>
             </a>
         `;
         return photoCard;
@@ -42,8 +48,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // タグによるフィルタリング
     async function filterPhotosByTag(tag) {
-        console.log(`タグ "${tag}" で写真をフィルタリング中...`);
-        
         const photos = await loadPhotoData();
         const filteredPhotos = photos.filter(photo => 
             photo.tags && photo.tags.includes(tag)
@@ -104,7 +108,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         }
         
-        // ロールを表示する場合のリンクを追加
+        // 「ロール一覧に戻る」リンクを追加
         const backToRolls = document.createElement('div');
         backToRolls.style.textAlign = 'center';
         backToRolls.style.margin = '2rem 0';
