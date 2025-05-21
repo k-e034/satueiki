@@ -63,7 +63,7 @@
     <!-- メインコンテンツ -->
     <div class="main-content">
     <div id="photo-grid" class="roll-grid">
-<section class="roll-section">
+<section class="roll-section" data-tags="2025-03,miyagi,canon-ivsb2,canon-35mm,kodak-colorplus">
   <h2 class="roll-title"><a href="rolls/roll_0018.html">Roll 0018</a></h2>
   <div class="roll-meta">
     <span class="roll-period">2025年3月</span>
@@ -348,12 +348,71 @@
     document.addEventListener('DOMContentLoaded', function() {
       const tagLinks = document.querySelectorAll('.tag');
       const selectedTagsDiv = document.getElementById('selected-tags');
+      const rollSections = document.querySelectorAll('.roll-section');
       let selectedTags = [];
+
+      // タグの日本語表示名マッピング
+      const tagDisplayNames = {
+        '2025-03': '2025年3月',
+        '2025-02': '2025年2月',
+        '2025-01': '2025年1月',
+        '2024-12': '2024年12月',
+        '2024-11': '2024年11月',
+        '2024-09': '2024年9月',
+        '2024-08': '2024年8月',
+        '2024-07': '2024年7月',
+        '2024-06': '2024年6月',
+        '2024-04': '2024年4月',
+        'miyagi': '宮城県',
+        'saitama': '埼玉県',
+        'tokyo': '東京都',
+        'kanagawa': '神奈川県',
+        'osaka': '大阪府',
+        'miyazaki': '宮崎県',
+        'canon-ivsb2': 'Canon IV Sb2',
+        'canon-ftbn': 'Canon FTb-N',
+        'fuji-s5pro': 'Fujifilm FinePix S5 Pro',
+        'nikon-f70d': 'Nikon F70D',
+        'nikon-d800': 'Nikon D800',
+        'olympus-om1': 'Olympus OM-1',
+        'pentax-67': 'Pentax 6×7',
+        'canon-35mm': 'Canon Serenar 35mm F3.5',
+        'canon-50mm': 'Canon Lens 50mm F1.8',
+        'fd-50mm': 'Canon FD 50mm F1.4 S.S.C.',
+        'fd-80-200mm': 'Canon NewFD 80-200mm F4',
+        'zuiko-50mm1': 'Olympus G.Zuiko 50mm F1.4',
+        '67-55mm': 'Pentax SMC TAKUMAR 6×7/55mm F3.5',
+        '67-90mm': 'Pentax SMC TAKUMAR 6×7/90mm F2.8',
+        'nikkor-28-80mm': 'AI AF Zoom-Nikkor 28-80mm F3.5-5.6 D',
+        'nikkor-28-200mm': 'AI AF-S Zoom-Nikkor 28-200mm F3.5-5.6 D',
+        'nikkor-80-200mm': 'AI AF-S Zoom-Nikkor 80-200mm F2.8 ED',
+        'nikkor-50mm': 'AI AF Nikkor 50mm F1.4',
+        'kodak-colorplus': 'Kodak ColorPlus 200',
+        'kodak-gold': 'Kodak Gold 200',
+        'kodak-ultramax': 'Kodak UltraMax 400',
+        'fuji-200': 'FUJIFILM 200',
+        'fuji-super': 'FUJIFILM SUPER 400',
+        'ilford-xp2': 'ILFORD XP2 Super 400',
+        'ilford-vintagetone': 'ILFORD ILFOCOLOR 400 PLUS Vintage Tone',
+        'lomography-cn100': 'Lomography Color Negative 100'
+      };
 
       // URLから初期選択タグを取得
       const params = new URLSearchParams(window.location.search);
       if (params.has('tag')) {
         selectedTags = params.get('tag').split(',');
+      }
+
+      // 写真のフィルタリング
+      function filterPhotos() {
+        rollSections.forEach(section => {
+          const sectionTags = section.getAttribute('data-tags')?.split(',') || [];
+          if (selectedTags.length === 0 || selectedTags.some(tag => sectionTags.includes(tag))) {
+            section.style.display = '';
+          } else {
+            section.style.display = 'none';
+          }
+        });
       }
 
       // 選択状態を反映
@@ -366,20 +425,25 @@
             link.classList.remove('selected');
           }
         });
+
         // 選択中タグ表示
         selectedTagsDiv.innerHTML = '';
         selectedTags.forEach(tag => {
           const tagElem = document.createElement('span');
           tagElem.className = 'selected-tag';
-          tagElem.textContent = tag;
+          tagElem.textContent = tagDisplayNames[tag] || tag;
           tagElem.title = 'クリックで解除';
           tagElem.onclick = function() {
             selectedTags = selectedTags.filter(t => t !== tag);
             updateTagSelection();
             updateURL();
+            filterPhotos();
           };
           selectedTagsDiv.appendChild(tagElem);
         });
+
+        // 写真のフィルタリングを実行
+        filterPhotos();
       }
 
       // URLを更新
@@ -391,7 +455,6 @@
           url.searchParams.delete('tag');
         }
         window.history.replaceState({}, '', url);
-        // ここで写真の絞り込み処理も呼び出す（必要なら）
       }
 
       // タグクリック時
@@ -409,6 +472,7 @@
         });
       });
 
+      // 初期表示時にフィルタリングを実行
       updateTagSelection();
     });
     </script>
