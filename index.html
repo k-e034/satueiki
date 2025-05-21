@@ -407,16 +407,24 @@
       function filterPhotos() {
         rollSections.forEach(section => {
           const sectionTags = section.getAttribute('data-tags')?.split(',') || [];
-          if (selectedTags.length === 0 || selectedTags.some(tag => sectionTags.includes(tag))) {
-            section.style.display = '';
-          } else {
-            section.style.display = 'none';
+          const shouldDisplay = selectedTags.length === 0 || 
+            selectedTags.some(tag => sectionTags.includes(tag));
+          
+          section.style.display = shouldDisplay ? '' : 'none';
+          
+          // アニメーション効果を追加
+          if (shouldDisplay) {
+            section.style.opacity = '0';
+            setTimeout(() => {
+              section.style.opacity = '1';
+            }, 50);
           }
         });
       }
 
       // 選択状態を反映
       function updateTagSelection() {
+        // タグの選択状態を更新
         tagLinks.forEach(link => {
           const tag = link.getAttribute('data-tag');
           if (selectedTags.includes(tag)) {
@@ -426,7 +434,7 @@
           }
         });
 
-        // 選択中タグ表示
+        // 選択中タグ表示を更新
         selectedTagsDiv.innerHTML = '';
         selectedTags.forEach(tag => {
           const tagElem = document.createElement('span');
@@ -441,9 +449,6 @@
           };
           selectedTagsDiv.appendChild(tagElem);
         });
-
-        // 写真のフィルタリングを実行
-        filterPhotos();
       }
 
       // URLを更新
@@ -457,23 +462,38 @@
         window.history.replaceState({}, '', url);
       }
 
-      // タグクリック時
+      // タグクリック時の処理
       tagLinks.forEach(link => {
         link.addEventListener('click', function(e) {
           e.preventDefault();
           const tag = link.getAttribute('data-tag');
+          
+          // タグの選択状態を更新
           if (selectedTags.includes(tag)) {
             selectedTags = selectedTags.filter(t => t !== tag);
           } else {
             selectedTags.push(tag);
           }
+
+          // 即座にUIを更新
           updateTagSelection();
           updateURL();
+          filterPhotos();
         });
       });
 
-      // 初期表示時にフィルタリングを実行
+      // 初期表示時の処理
       updateTagSelection();
+      filterPhotos();
+
+      // CSSトランジション用のスタイルを追加
+      const style = document.createElement('style');
+      style.textContent = `
+        .roll-section {
+          transition: opacity 0.3s ease-in-out;
+        }
+      `;
+      document.head.appendChild(style);
     });
     </script>
     <!-- styleタグで選択中タグのCSSを追記 -->
