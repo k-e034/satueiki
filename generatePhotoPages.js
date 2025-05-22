@@ -1,13 +1,4 @@
-// *** generatePhotoPages.js – rebuilt for roll‑centric navigation ***
-// Usage:  node generatePhotoPages.js
-//   1. Keeps existing photoNN.html pages but changes their Prev/Next links so that they
-//      loop only within the same roll (film roll).
-//   2. Builds a static HTML page per roll (roll_XXXXX.html) that lists all thumbnails
-//      in that roll and links to the corresponding photoNN.html pages.
-//   3. Rewrites index.html so that <div id="photo-grid"> becomes a grid of roll
-//      representatives (first frame of each roll) linking to the roll page.  Tag
-//      search section logic is preserved.
-// -----------------------------------------------------------------------------
+// *** generatePhotoPages.js – タグ表示名を統一 ***
 
 const fs   = require('fs');
 const path = require('path');
@@ -18,9 +9,52 @@ const PHOTOS_JSON_PATH    = path.join(DATA_DIR, 'photos.json');
 const PHOTO_TEMPLATE_PATH = path.join(__dirname, 'photoTemplate.html');
 const ROLL_TEMPLATE_PATH  = path.join(__dirname, 'rollTemplate.html');
 const INDEX_HTML_PATH     = path.join(__dirname, 'index.html');
-const OUTPUT_DIR          = __dirname;           // photoNN.html を既定通り生成
+const OUTPUT_DIR          = __dirname;
 const ROLL_DIR            = path.join(__dirname, 'rolls');
 if (!fs.existsSync(ROLL_DIR)) fs.mkdirSync(ROLL_DIR);
+
+// ---- タグ表示名のマッピング（index.htmlと統一）---------------------------
+const tagDisplayNames = {
+    // 撮影時期
+    '2025-03': '2025年3月', '2025-02': '2025年2月', '2025-01': '2025年1月',
+    '2024-12': '2024年12月', '2024-11': '2024年11月', '2024-09': '2024年9月',
+    '2024-08': '2024年8月', '2024-07': '2024年7月', '2024-06': '2024年6月',
+    '2024-04': '2024年4月',
+    
+    // 撮影場所
+    'miyagi': '宮城県', 'saitama': '埼玉県', 'tokyo': '東京都', 
+    'kanagawa': '神奈川県', 'osaka': '大阪府', 'miyazaki': '宮崎県', 'akita': '秋田県',
+    
+    // カメラ
+    'canon-ivsb2': 'Canon IV Sb2', 'canon-ftbn': 'Canon FTb-N',
+    'fuji-s5pro': 'Fujifilm FinePix S5 Pro', 'nikon-f70d': 'Nikon F70D',
+    'nikon-d800': 'Nikon D800', 'olympus-om1': 'Olympus OM-1',
+    'pentax-67': 'Pentax 6×7',
+    
+    // レンズ
+    'canon-35mm': 'Canon Serenar 35mm F3.5', 'canon-50mm': 'Canon Lens 50mm F1.8',
+    'fd-50mm': 'Canon FD 50mm F1.4 S.S.C.', 'fd-80-200mm': 'Canon NewFD 80-200mm F4',
+    'zuiko-50mm1': 'Olympus G.Zuiko 50mm F1.4', 
+    '67-55mm': 'Pentax SMC TAKUMAR 6×7/55mm F3.5',
+    '67-90mm': 'Pentax SMC TAKUMAR 6×7/90mm F2.8',
+    'nikkor-28-80mm': 'AI AF Zoom-Nikkor 28-80mm F3.5-5.6 D',
+    'nikkor-28-80': 'AI AF Zoom-Nikkor 28-80mm F3.5-5.6 D',
+    'nikkor-28-200mm': 'AI AF-S Zoom-Nikkor 28-200mm F3.5-5.6 D',
+    'nikkor-80-200mm': 'AI AF-S Zoom-Nikkor 80-200mm F2.8 ED',
+    'nikkor-50mm': 'AI AF Nikkor 50mm F1.4',
+    '67-55': 'Pentax SMC TAKUMAR 6×7/55mm F3.5',
+    
+    // フィルム
+    'kodak-colorplus': 'Kodak ColorPlus 200', 'kodak-gold': 'Kodak Gold 200',
+    'kodak-ultramax': 'Kodak UltraMax 400', 'fuji-200': 'FUJIFILM 200',
+    'fuji-super': 'FUJIFILM SUPER 400', 'ilford-xp2': 'ILFORD XP2 Super 400',
+    'ilford-vintagetone': 'ILFORD ILFOCOLOR 400 PLUS Vintage Tone',
+    'lomography-cn100': 'Lomography Color Negative 100',
+    
+    // 写真のスタイル
+    'mono': 'モノクロ', 'landscape': '風景', 'snap': 'スナップショット',
+    'longexposure': '長時間露光', 'night': '夜景', 'animals': '動物'
+};
 
 // ---- helper: 汎用 -----------------------------------------------------------
 const PERIOD_KEY     = tag => /^\d{4}-\d{2}$/.test(tag);
@@ -66,8 +100,11 @@ function renderPhotoPage(photo, listInSameRoll, tpl) {
   const descArr = Array.isArray(photo.description) ? photo.description : [photo.description];
   html = html.replace(/\[\[DESCRIPTION]]/g, descArr.map(p=>`<p>${p}</p>`).join('\n'));
 
-  // tags
-  const tagLinks = (photo.tags||[]).map(t=>`<a href="index.html?tag=${t}" class="tag">${t}</a>`).join('\n');
+  // tags - 表示名を適用
+  const tagLinks = (photo.tags||[]).map(t=>{
+    const displayName = tagDisplayNames[t] || t; // 表示名がない場合は元のタグを使用
+    return `<a href="index.html?tag=${t}" class="tag">${displayName}</a>`;
+  }).join('\n');
   html = html.replace(/\[\[TAGS]]/g, tagLinks);
 
   // roll‑local prev/next
