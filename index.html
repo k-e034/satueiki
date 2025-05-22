@@ -210,6 +210,7 @@
     
     
     
+    
         
     </div>
 
@@ -346,7 +347,7 @@
       }
     });
     </script>
-    <!-- タグ選択・表示用のJavaScriptを追加 -->
+    <!-- タグ選択・表示用のJavaScriptを修正版 -->
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         class TagManager {
@@ -358,7 +359,7 @@
                     '2024-08': '2024年8月', '2024-07': '2024年7月', '2024-06': '2024年6月',
                     '2024-04': '2024年4月', 'miyagi': '宮城県', 'saitama': '埼玉県',
                     'tokyo': '東京都', 'kanagawa': '神奈川県', 'osaka': '大阪府',
-                    'miyazaki': '宮崎県', 'canon-ivsb2': 'Canon IV Sb2',
+                    'miyazaki': '宮崎県', 'akita': '秋田県', 'canon-ivsb2': 'Canon IV Sb2',
                     'canon-ftbn': 'Canon FTb-N', 'fuji-s5pro': 'Fujifilm FinePix S5 Pro',
                     'nikon-f70d': 'Nikon F70D', 'nikon-d800': 'Nikon D800',
                     'olympus-om1': 'Olympus OM-1', 'pentax-67': 'Pentax 6×7',
@@ -368,11 +369,15 @@
                     '67-90mm': 'Pentax SMC TAKUMAR 6×7/90mm F2.8', 'nikkor-28-80mm': 'AI AF Zoom-Nikkor 28-80mm F3.5-5.6 D',
                     'nikkor-28-200mm': 'AI AF-S Zoom-Nikkor 28-200mm F3.5-5.6 D',
                     'nikkor-80-200mm': 'AI AF-S Zoom-Nikkor 80-200mm F2.8 ED',
-                    'nikkor-50mm': 'AI AF Nikkor 50mm F1.4', 'kodak-colorplus': 'Kodak ColorPlus 200',
-                    'kodak-gold': 'Kodak Gold 200', 'kodak-ultramax': 'Kodak UltraMax 400',
-                    'fuji-200': 'FUJIFILM 200', 'fuji-super': 'FUJIFILM SUPER 400',
-                    'ilford-xp2': 'ILFORD XP2 Super 400', 'ilford-vintagetone': 'ILFORD ILFOCOLOR 400 PLUS Vintage Tone',
-                    'lomography-cn100': 'Lomography Color Negative 100'
+                    'nikkor-50mm': 'AI AF Nikkor 50mm F1.4', 'nikkor-28-80': 'AI AF Zoom-Nikkor 28-80mm F3.5-5.6 D',
+                    '67-55': 'Pentax SMC TAKUMAR 6×7/55mm F3.5',
+                    'kodak-colorplus': 'Kodak ColorPlus 200', 'kodak-gold': 'Kodak Gold 200', 
+                    'kodak-ultramax': 'Kodak UltraMax 400', 'fuji-200': 'FUJIFILM 200', 
+                    'fuji-super': 'FUJIFILM SUPER 400', 'ilford-xp2': 'ILFORD XP2 Super 400', 
+                    'ilford-vintagetone': 'ILFORD ILFOCOLOR 400 PLUS Vintage Tone',
+                    'lomography-cn100': 'Lomography Color Negative 100',
+                    'mono': 'モノクロ', 'landscape': '風景', 'snap': 'スナップショット',
+                    'longexposure': '長時間露光', 'night': '夜景', 'animals': '動物'
                 };
                 this.init();
             }
@@ -406,8 +411,11 @@
             
             // スクロール位置を保持してタグを切り替える
             toggleTag(tag) {
-                // 現在のスクロール位置を記録
-                const currentScrollY = window.scrollY;
+                // 現在のスクロール位置を記録（より正確な値を取得）
+                const currentScrollY = window.pageYOffset || document.documentElement.scrollTop;
+                
+                // スクロール復元のための参照点を設定
+                const scrollAnchor = this.createScrollAnchor();
                 
                 if (this.selectedTags.has(tag)) {
                     this.selectedTags.delete(tag);
@@ -415,16 +423,92 @@
                     this.selectedTags.add(tag);
                 }
                 
+                // DOM操作を非同期で実行してスクロール位置を維持
+                this.performUpdate(scrollAnchor, currentScrollY);
+            }
+            
+            // スクロール位置復元用のアンカーを作成
+            createScrollAnchor() {
+                const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+                const viewportHeight = window.innerHeight;
+                
+                // 画面中央付近の要素を基準点として使用
+                const targetY = scrollY + viewportHeight / 2;
+                const elements = document.elementsFromPoint(window.innerWidth / 2, viewportHeight / 2);
+                
+                // 適切な基準要素を選択
+                const anchorElement = elements.find(el => 
+                    el.classList.contains('roll-section') || 
+                    el.classList.contains('tag-section') ||
+                    el.tagName === 'SECTION' ||
+                    el.tagName === 'DIV'
+                ) || document.body;
+                
+                return {
+                    element: anchorElement,
+                    offsetTop: anchorElement.offsetTop,
+                    currentScrollY: scrollY
+                };
+            }
+            
+            // DOM更新とスクロール位置復元を実行
+            performUpdate(scrollAnchor, originalScrollY) {
+                // DOM更新前の状態を保存
+                const beforeHeight = document.documentElement.scrollHeight;
+                
+                // UI更新を実行
                 this.updateUI();
                 this.updateURL();
                 
-                // DOM更新後にスクロール位置を復元
+                // DOM更新をフレーム単位で分離
                 requestAnimationFrame(() => {
                     this.filterContent(() => {
-                        // フィルタリング完了後にスクロール位置を復元
-                        window.scrollTo(0, currentScrollY);
+                        // DOM更新完了後にスクロール位置を復元
+                        requestAnimationFrame(() => {
+                            this.restoreScrollPosition(scrollAnchor, originalScrollY, beforeHeight);
+                        });
                     });
                 });
+            }
+            
+            // スクロール位置を正確に復元
+            restoreScrollPosition(scrollAnchor, originalScrollY, beforeHeight) {
+                try {
+                    const afterHeight = document.documentElement.scrollHeight;
+                    const heightDifference = afterHeight - beforeHeight;
+                    
+                    // 複数の復元方法を試行
+                    let targetScrollY = originalScrollY;
+                    
+                    // 方法1: アンカー要素ベースの復元
+                    if (scrollAnchor.element && scrollAnchor.element.offsetParent) {
+                        const newOffsetTop = scrollAnchor.element.offsetTop;
+                        const offsetDifference = newOffsetTop - scrollAnchor.offsetTop;
+                        targetScrollY = Math.max(0, originalScrollY + offsetDifference);
+                    }
+                    // 方法2: 高さ変化ベースの復元（フォールバック）
+                    else if (Math.abs(heightDifference) < window.innerHeight) {
+                        targetScrollY = Math.max(0, originalScrollY + heightDifference * 0.5);
+                    }
+                    
+                    // スムーズでない即座の移動
+                    window.scrollTo(0, targetScrollY);
+                    
+                    // 微調整のための再チェック
+                    setTimeout(() => {
+                        const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+                        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+                        
+                        if (Math.abs(currentScroll - targetScrollY) > 10 && targetScrollY <= maxScroll) {
+                            window.scrollTo(0, Math.min(targetScrollY, maxScroll));
+                        }
+                    }, 50);
+                    
+                } catch (error) {
+                    // エラー時は元の位置に戻す
+                    console.warn('スクロール位置の復元に失敗:', error);
+                    window.scrollTo(0, Math.max(0, originalScrollY));
+                }
             }
             
             updateUI() {
@@ -434,7 +518,7 @@
                     tagElement.classList.toggle('selected', this.selectedTags.has(tag));
                 });
                 
-                // 選択中タグの表示を更新（スクロール位置に影響しないように）
+                // 選択中タグの表示を更新
                 this.updateSelectedTagsDisplay();
             }
             
@@ -442,12 +526,15 @@
                 const container = document.getElementById('selected-tags');
                 if (!container) return;
                 
-                // 高さの変化を最小限に抑えるため、最小高さを設定
+                // 高さの変化を最小限に抑える
                 if (this.selectedTags.size === 0) {
-                    container.style.display = 'none';
-                    container.innerHTML = '';
+                    // 空の状態でも最小高さを維持
+                    container.style.display = 'block';
+                    container.style.minHeight = '60px';
+                    container.innerHTML = '<div style="padding: 1rem; color: #666; text-align: center;">タグを選択してロールを絞り込み</div>';
                 } else {
                     container.style.display = 'block';
+                    container.style.minHeight = '60px';
                     container.innerHTML = '';
                     
                     this.selectedTags.forEach(tag => {
@@ -471,7 +558,7 @@
                 } else {
                     url.searchParams.delete('tag');
                 }
-                // スクロール位置に影響しないようにreplaceStateを使用
+                // replaceStateでブラウザ履歴に影響しないよう更新
                 window.history.replaceState({}, '', url);
             }
             
@@ -479,17 +566,17 @@
                 const rollSections = document.querySelectorAll('.roll-section');
                 
                 if (this.selectedTags.size === 0) {
-                    // タグが選択されていない場合は全て表示
+                    // 全て表示状態に戻す
                     rollSections.forEach(section => {
                         section.style.display = '';
                         section.style.opacity = '1';
                     });
                     this.showMessage('');
                 } else {
-                    // タグが選択されている場合はフィルタリング
+                    // フィルタリング実行
                     let visibleCount = 0;
                     
-                    rollSections.forEach((section, index) => {
+                    rollSections.forEach(section => {
                         const sectionTags = section.getAttribute('data-tags');
                         const shouldShow = sectionTags && 
                             Array.from(this.selectedTags).some(tag => 
@@ -498,7 +585,6 @@
                         
                         if (shouldShow) {
                             section.style.display = '';
-                            // 即座に不透明度を設定（アニメーションによるレイアウトシフトを防ぐ）
                             section.style.opacity = '1';
                             visibleCount++;
                         } else {
@@ -512,9 +598,8 @@
                     );
                 }
                 
-                // コールバックがある場合は実行
+                // コールバック実行
                 if (callback) {
-                    // DOM更新が完了するまで少し待つ
                     setTimeout(callback, 10);
                 }
             }
@@ -531,8 +616,9 @@
                         background-color: rgba(255,255,255,0.05);
                         border-radius: 8px;
                         color: #aaa;
-                        min-height: 1rem;
+                        min-height: 2rem;
                         transition: opacity 0.2s ease;
+                        box-sizing: border-box;
                     `;
                     
                     // selected-tagsの直後に挿入
@@ -554,7 +640,8 @@
                 } else {
                     messageEl.style.opacity = '0';
                     setTimeout(() => {
-                        messageEl.style.display = 'none';
+                        messageEl.textContent = '';
+                        messageEl.style.display = 'block'; // 高さを維持
                     }, 200);
                 }
             }
@@ -563,18 +650,24 @@
         // 初期化
         window.tagManager = new TagManager();
         
-        // CSS追加（レイアウトシフト防止のための改良）
+        // CSS追加（レイアウトシフト防止強化版）
         const style = document.createElement('style');
         style.textContent = `
+            /* スムーズスクロールを無効化 */
+            html {
+                scroll-behavior: auto !important;
+            }
+            
             #selected-tags {
                 margin-bottom: 1rem;
                 padding: 1rem;
                 background-color: rgba(52, 152, 219, 0.1);
                 border-radius: 8px;
                 border: 1px solid rgba(52, 152, 219, 0.3);
-                display: none;
-                min-height: 2.5rem; /* 最小高さを設定してレイアウトシフトを防ぐ */
-                transition: all 0.2s ease;
+                display: block;
+                min-height: 60px;
+                box-sizing: border-box;
+                transition: none; /* アニメーションを無効化 */
             }
             
             .selected-tag {
@@ -586,7 +679,7 @@
                 margin: 0.2em 0.5em 0.2em 0;
                 cursor: pointer;
                 font-size: 0.9em;
-                transition: all 0.2s ease; /* アニメーション時間を短縮 */
+                transition: background-color 0.1s ease; /* 短縮 */
                 position: relative;
             }
             
@@ -608,45 +701,30 @@
             }
             
             .roll-section {
-                transition: opacity 0.2s ease; /* アニメーション時間を短縮 */
+                transition: opacity 0.1s ease; /* 短縮 */
             }
             
             .roll-section:hover {
                 transform: translateY(-5px);
             }
             
-            /* メッセージ要素の高さを固定してレイアウトシフトを防ぐ */
+            /* メッセージ要素の固定高さ */
             #filter-message {
                 box-sizing: border-box;
+                min-height: 2rem;
             }
             
-            /* スムーズスクロールを無効化（位置固定のため） */
-            html {
-                scroll-behavior: auto !important;
+            /* レイアウトシフト防止のための安定化 */
+            .main-content {
+                min-height: 100vh;
+            }
+            
+            .roll-grid {
+                min-height: 400px; /* 最小高さを設定 */
             }
         `;
         document.head.appendChild(style);
     });
     </script>
-    <!-- styleタグで選択中タグのCSSを追記 -->
-    <style>
-    .selected-tags {
-      margin-bottom: 1em;
-    }
-    .selected-tag {
-      display: inline-block;
-      background: #3498db;
-      color: #fff;
-      border-radius: 12px;
-      padding: 0.2em 0.8em;
-      margin-right: 0.5em;
-      cursor: pointer;
-      font-size: 0.95em;
-    }
-    .tag.selected {
-      background: #3498db;
-      color: #fff;
-    }
-    </style>
 </body>
 </html>
