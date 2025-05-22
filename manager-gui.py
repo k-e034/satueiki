@@ -418,6 +418,8 @@ class PhotoManagerGUI:
         if self.pm.save_json():
             messagebox.showinfo("保存完了", "JSONファイルを保存しました")
 
+
+
     def on_generate(self):
         if not GENERATE_JS.exists():
             messagebox.showerror("エラー", "generatePhotoPages.js が見つかりません")
@@ -427,12 +429,15 @@ class PhotoManagerGUI:
             if not self.pm.save_json():
                 return
                 
+            # generatePhotoPages.jsを実行
             subprocess.run(["node", str(GENERATE_JS)], check=True, cwd=str(PROJECT_DIR))
-            messagebox.showinfo("完了", "HTMLファイルを生成しました")
+            
+            messagebox.showinfo("完了", "HTMLファイルを生成しました（data-tags属性付き）")
         except subprocess.CalledProcessError as e:
             messagebox.showerror("エラー", f"HTML生成中にエラーが発生しました: {e}")
         except FileNotFoundError:
             messagebox.showerror("エラー", "node コマンドが見つかりません。Node.jsがインストールされていることを確認してください。")
+
 
     def add_tag(self, tag):
         """タグを追加"""
@@ -444,6 +449,86 @@ class PhotoManagerGUI:
                 self.vars["tags"].set(", ".join(tags))
         else:
             self.vars["tags"].set(tag)
+
+    def get_roll_tags(self, roll_id):
+        """指定されたロールの全タグを取得"""
+        tags = set()
+        for photo in self.photos:
+            if photo.get("roll") == roll_id and photo.get("tags"):
+                tags.update(photo["tags"])
+        return sorted(list(tags))
+
+    def update_index_with_data_tags(self):
+        """index.htmlのroll-sectionにdata-tags属性を追加"""
+        try:
+            index_path = PROJECT_DIR / "index.html"
+            if not index_path.exists():
+                return False
+                
+            with open(index_path, "r", encoding="utf-8") as f:
+                content = f.read()
+            
+            # ロール別にグループ化
+            rolls = {}
+            for photo in self.photos:
+                roll_id = photo.get("roll", "misc")
+                if roll_id not in rolls:
+                    rolls[roll_id] = []
+                rolls[roll_id].append(photo)
+            
+            # 各ロールのdata-tags属性を生成
+            roll_tags_map = {}
+            for roll_id, photos in rolls.items():
+                all_tags = set()
+                for photo in photos:
+                    if photo.get("tags"):
+                        all_tags.update(photo["tags"])
+                roll_tags_map[roll_id] = sorted(list(all_tags))
+            
+            # roll-sectionのdata-tags属性を更新
+            import re
+            
+            def update_roll_section(match):
+                section_content = match.group(0)
+                
+                # ロールIDを抽出
+                roll_match = re.search(r'href="rolls/roll_([^"]+)\.html"', section_content)
+                if not roll_match:
+                    return section_content
+                    
+                roll_id = roll_match.group(1)
+                
+                # 既存のdata-tags属性を削除
+                section_content = re.sub(r'\s*data-tags="[^"]*"', '', section_content)
+                
+                # 新しいdata-tags属性を追加
+                if roll_id in roll_tags_map and roll_tags_map[roll_id]:
+                    tags_str = ','.join(roll_tags_map[roll_id])
+                    section_content = section_content.replace(
+                        '<section class="roll-section"',
+                        f'<section class="roll-section" data-tags="{tags_str}"'
+                    )
+                
+                return section_content
+            
+            # 全てのroll-sectionを更新
+            updated_content = re.sub(
+                r'<section class="roll-section"[^>]*>.*?</section>',
+                update_roll_section,
+                content,
+                flags=re.DOTALL
+            )
+            
+            # ファイルに保存
+            with open(index_path, "w", encoding="utf-8") as f:
+                f.write(updated_content)
+                
+            return True
+            
+        except Exception as e:
+            print(f"index.html更新エラー: {e}")
+            return False
+
 
 if __name__ == "__main__":
     root = tk.Tk()

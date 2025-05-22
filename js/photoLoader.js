@@ -1,3 +1,4 @@
+// js/photoLoader.js - common.jsを使用するように簡素化
 document.addEventListener("DOMContentLoaded", function() {
     // URLパラメータからタグを取得
     function getTagFromUrl() {
@@ -15,107 +16,10 @@ document.addEventListener("DOMContentLoaded", function() {
     // タグがある場合のみ以下を実行
     console.log(`タグ「${tag}」で写真をフィルタリング中...`);
 
-    // 写真データを読み込む関数
-    async function loadPhotoData() {
-        try {
-            const response = await fetch('data/photos.json');
-            if (!response.ok) {
-                throw new Error('写真データの読み込みに失敗しました');
-            }
-            const data = await response.json();
-            return data.photos;
-        } catch (error) {
-            console.error('Error loading photo data:', error);
-            return [];
-        }
+    // common.jsのTaggedPhotoLoaderを使用
+    if (window.taggedPhotoLoader) {
+        window.taggedPhotoLoader.filterPhotosByTag(tag);
+    } else {
+        console.error('TaggedPhotoLoader が見つかりません。common.js が読み込まれているか確認してください。');
     }
-
-    // 写真カードを作成する関数
-    function createPhotoCard(photo) {
-        const photoCard = document.createElement('div');
-        photoCard.className = 'feature-card';
-        photoCard.innerHTML = `
-            <a href="${photo.page}">
-                <div class="feature-image" style="background-image: url('${photo.image}');"></div>
-                <div class="feature-content">
-                    <div class="post-date">${photo.dateDisplay || ''}</div>
-                    <h3>${photo.title}</h3>
-                </div>
-            </a>
-        `;
-        return photoCard;
-    }
-
-    // タグによるフィルタリング
-    async function filterPhotosByTag(tag) {
-        const photos = await loadPhotoData();
-        const filteredPhotos = photos.filter(photo => 
-            photo.tags && photo.tags.includes(tag)
-        );
-        
-        const photoGrid = document.getElementById('photo-grid');
-        
-        // タグフィルタ時は従来の個別写真表示に変更
-        photoGrid.className = 'feature-grid';
-        photoGrid.innerHTML = '';
-        
-        // ページタイトルを更新
-        const mainContent = document.querySelector('.main-content');
-        let title = mainContent.querySelector('h2');
-        if (!title) {
-            title = document.createElement('h2');
-            title.className = 'section-title';
-            mainContent.insertBefore(title, photoGrid);
-        }
-        title.textContent = `タグ「${tag}」の写真`;
-
-        if (filteredPhotos.length === 0) {
-            const noPhotos = document.createElement('p');
-            noPhotos.textContent = 'タグに一致する写真はありません';
-            noPhotos.className = 'no-photos-message';
-            noPhotos.style.textAlign = 'center';
-            noPhotos.style.color = '#aaa';
-            noPhotos.style.margin = '2rem 0';
-            photoGrid.appendChild(noPhotos);
-            document.getElementById('load-more').style.display = 'none';
-        } else {
-            // 最初の9枚のみ表示
-            filteredPhotos.slice(0, 9).forEach(photo => {
-                const photoCard = createPhotoCard(photo);
-                photoGrid.appendChild(photoCard);
-            });
-            
-            const loadMoreBtn = document.getElementById('load-more');
-            if (filteredPhotos.length <= 9) {
-                loadMoreBtn.style.display = 'none';
-            } else {
-                loadMoreBtn.style.display = 'block';
-                loadMoreBtn.onclick = function() {
-                    const currentCount = photoGrid.children.length;
-                    const nextBatch = filteredPhotos.slice(currentCount, currentCount + 9);
-                    nextBatch.forEach(photo => {
-                        const photoCard = createPhotoCard(photo);
-                        photoGrid.appendChild(photoCard);
-                    });
-                    if (currentCount + nextBatch.length >= filteredPhotos.length) {
-                        loadMoreBtn.style.display = 'none';
-                        const message = document.createElement('p');
-                        message.textContent = 'すべての写真を表示しました';
-                        message.className = 'all-loaded-message';
-                        loadMoreBtn.parentNode.appendChild(message);
-                    }
-                };
-            }
-        }
-        
-        // 「ロール一覧に戻る」リンクを追加
-        const backToRolls = document.createElement('div');
-        backToRolls.style.textAlign = 'center';
-        backToRolls.style.margin = '2rem 0';
-        backToRolls.innerHTML = `<a href="index.html" class="btn">ロール一覧に戻る</a>`;
-        mainContent.insertBefore(backToRolls, mainContent.firstChild);
-    }
-
-    // タグフィルタリングを実行
-    filterPhotosByTag(tag);
 });

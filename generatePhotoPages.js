@@ -122,6 +122,17 @@ function renderRollPage(rid, list, tplRoll) {
   return html;
 }
 
+// ---- ロールの代表タグを取得する関数 ----------------------------------------
+function getRollTags(list) {
+  const allTags = new Set();
+  list.forEach(photo => {
+    if (photo.tags && Array.isArray(photo.tags)) {
+      photo.tags.forEach(tag => allTags.add(tag));
+    }
+  });
+  return Array.from(allTags);
+}
+
 // ---- rewrite index.html photo‑grid -----------------------------------------
 function rewriteIndexHTML(idxHtml, rolls) {
   // ロールをソート: Dは最後、その他は降順
@@ -147,7 +158,11 @@ function rewriteIndexHTML(idxHtml, rolls) {
       shootingPeriod = formatPeriod(firstDate);
     }
     
-    return `<section class="roll-section">
+    // ロールのdata-tags属性を生成
+    const rollTags = getRollTags(list);
+    const dataTagsAttr = rollTags.length > 0 ? ` data-tags="${rollTags.join(',')}"` : '';
+    
+    return `<section class="roll-section"${dataTagsAttr}>
   <h2 class="roll-title"><a href="rolls/roll_${rid}.html">${displayTitle}</a></h2>
   <div class="roll-meta">
     <span class="roll-period">${shootingPeriod}</span>
@@ -211,7 +226,8 @@ ${rollSections}
   console.log('\nロール別表示構造:');
   Object.keys(rolls).forEach(rid => {
     const displayName = rid === 'D' ? 'Digital Photos' : `Roll ${rid}`;
-    console.log(`  - ${displayName}: ${rolls[rid].length}枚`);
+    const rollTags = getRollTags(rolls[rid]);
+    console.log(`  - ${displayName}: ${rolls[rid].length}枚 (タグ: ${rollTags.join(', ')})`);
   });
 
 })();
