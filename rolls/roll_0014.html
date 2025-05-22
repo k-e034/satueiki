@@ -54,7 +54,7 @@
 </svg>
 
 <body class="roll-view">
-    <!-- ヘッダー -->
+    <!-- ヘッダー (モバイルでは初期非表示) -->
     <header class="header-photo-view" id="roll-header">
         <div class="header-container">
             <div class="logo">
@@ -165,7 +165,37 @@
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 });
             }
+            
+            // モバイル向けヘッダートグル機能を追加
+            const isMobile = window.innerWidth <= 768;
+            if (isMobile) {
+                addHeaderToggle();
+            }
         });
+        
+        // モバイル向けのヘッダートグルボタンを追加
+        function addHeaderToggle() {
+            const toggleBtn = document.createElement('button');
+            toggleBtn.className = 'header-toggle';
+            toggleBtn.innerHTML = '≡';
+            toggleBtn.setAttribute('aria-label', 'メニュー切替');
+            
+            document.body.appendChild(toggleBtn);
+            
+            toggleBtn.addEventListener('click', function() {
+                const header = document.getElementById('roll-header');
+                header.classList.toggle('header-visible');
+            });
+            
+            // ロールエリアをタップしたらヘッダーを隠す
+            const rollHero = document.querySelector('.roll-hero');
+            if (rollHero) {
+                rollHero.addEventListener('click', function() {
+                    const header = document.getElementById('roll-header');
+                    header.classList.remove('header-visible');
+                });
+            }
+        }
     </script>
     <!-- マウス追従効果 -->
     <script>
@@ -203,7 +233,7 @@
                 
                 if (logoLink) {
                     logoLink.style.filter = 'none';
-                    0 0 8px rgba(52, 152, 219, 0.6)';
+                    logoLink.style.textShadow = '0 2px 4px rgba(0,0,0,0.4), 0 0 8px rgba(52, 152, 219, 0.6)';
                     // 必要に応じて他のスタイルを追加
                 }
             }

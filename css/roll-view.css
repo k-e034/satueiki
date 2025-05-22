@@ -122,6 +122,31 @@
     color: #999;
 }
 
+/* モバイル用のヘッダー制御 */
+.header-toggle {
+    display: none;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(0,0,0,0.5);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    z-index: 101;
+    font-size: 1.2rem;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.header-toggle:hover {
+    background-color: var(--accent-color);
+    transform: scale(1.1);
+}
+
 /* レスポンシブ対応 */
 @media (max-width: 768px) {
     .roll-title-overlay h1 {
@@ -152,6 +177,37 @@
         transform: translateY(0);
         background: linear-gradient(transparent, rgba(0,0,0,0.7));
     }
+    
+    /* モバイルでヘッダーを非表示にし、トグルボタンを表示 */
+    .header-toggle {
+        display: flex;
+    }
+    
+    .header-photo-view {
+        transform: translateY(-100%); /* 初期状態では上に隠れている */
+        transition: transform 0.3s ease;
+    }
+    
+    .header-visible {
+        transform: translateY(0); /* トグル時に表示 */
+    }
+    
+    .roll-view .header-container {
+        padding: 1rem;
+    }
+    
+    .roll-view .logo {
+        font-size: 1.4rem;
+    }
+    
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    nav ul li {
+        margin: 0.5rem 0;
+    }
 }
 
 @media (max-width: 480px) {
@@ -171,6 +227,14 @@
     .roll-hero .roll-meta {
         flex-direction: column;
         gap: 15px;
+    }
+    
+    .header-toggle {
+        top: 15px;
+        right: 15px;
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
     }
 }
 
