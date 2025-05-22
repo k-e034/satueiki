@@ -409,13 +409,10 @@
                 });
             }
             
-            // スクロール位置を保持してタグを切り替える
+            // スクロール位置を保持してタグを切り替える（ページ最下部からの相対位置を使用）
             toggleTag(tag) {
-                // 現在のスクロール位置を記録（より正確な値を取得）
-                const currentScrollY = window.pageYOffset || document.documentElement.scrollTop;
-                
-                // スクロール復元のための参照点を設定
-                const scrollAnchor = this.createScrollAnchor();
+                // ページ最下部からの距離を計算して保存
+                const scrollPosition = this.getBottomRelativePosition();
                 
                 if (this.selectedTags.has(tag)) {
                     this.selectedTags.delete(tag);
@@ -423,91 +420,65 @@
                     this.selectedTags.add(tag);
                 }
                 
-                // DOM操作を非同期で実行してスクロール位置を維持
-                this.performUpdate(scrollAnchor, currentScrollY);
-            }
-            
-            // スクロール位置復元用のアンカーを作成
-            createScrollAnchor() {
-                const scrollY = window.pageYOffset || document.documentElement.scrollTop;
-                const viewportHeight = window.innerHeight;
-                
-                // 画面中央付近の要素を基準点として使用
-                const targetY = scrollY + viewportHeight / 2;
-                const elements = document.elementsFromPoint(window.innerWidth / 2, viewportHeight / 2);
-                
-                // 適切な基準要素を選択
-                const anchorElement = elements.find(el => 
-                    el.classList.contains('roll-section') || 
-                    el.classList.contains('tag-section') ||
-                    el.tagName === 'SECTION' ||
-                    el.tagName === 'DIV'
-                ) || document.body;
-                
-                return {
-                    element: anchorElement,
-                    offsetTop: anchorElement.offsetTop,
-                    currentScrollY: scrollY
-                };
-            }
-            
-            // DOM更新とスクロール位置復元を実行
-            performUpdate(scrollAnchor, originalScrollY) {
-                // DOM更新前の状態を保存
-                const beforeHeight = document.documentElement.scrollHeight;
-                
                 // UI更新を実行
                 this.updateUI();
                 this.updateURL();
                 
-                // DOM更新をフレーム単位で分離
+                // DOM更新を非同期で実行
                 requestAnimationFrame(() => {
                     this.filterContent(() => {
                         // DOM更新完了後にスクロール位置を復元
                         requestAnimationFrame(() => {
-                            this.restoreScrollPosition(scrollAnchor, originalScrollY, beforeHeight);
+                            this.restoreBottomRelativePosition(scrollPosition);
                         });
                     });
                 });
             }
             
-            // スクロール位置を正確に復元
-            restoreScrollPosition(scrollAnchor, originalScrollY, beforeHeight) {
+            // ページ最下部からの相対位置を取得
+            getBottomRelativePosition() {
+                const currentScrollY = window.pageYOffset || document.documentElement.scrollTop;
+                const documentHeight = document.documentElement.scrollHeight;
+                const windowHeight = window.innerHeight;
+                
+                // 最下部からの距離を計算
+                const distanceFromBottom = documentHeight - currentScrollY - windowHeight;
+                
+                return {
+                    distanceFromBottom: distanceFromBottom,
+                    documentHeight: documentHeight,
+                    currentScrollY: currentScrollY,
+                    windowHeight: windowHeight
+                };
+            }
+            
+            // ページ最下部からの相対位置を使ってスクロール位置を復元
+            restoreBottomRelativePosition(savedPosition) {
                 try {
-                    const afterHeight = document.documentElement.scrollHeight;
-                    const heightDifference = afterHeight - beforeHeight;
+                    const newDocumentHeight = document.documentElement.scrollHeight;
+                    const currentWindowHeight = window.innerHeight;
                     
-                    // 複数の復元方法を試行
-                    let targetScrollY = originalScrollY;
+                    // 新しい高さでの目標スクロール位置を計算
+                    const targetScrollY = newDocumentHeight - savedPosition.distanceFromBottom - currentWindowHeight;
                     
-                    // 方法1: アンカー要素ベースの復元
-                    if (scrollAnchor.element && scrollAnchor.element.offsetParent) {
-                        const newOffsetTop = scrollAnchor.element.offsetTop;
-                        const offsetDifference = newOffsetTop - scrollAnchor.offsetTop;
-                        targetScrollY = Math.max(0, originalScrollY + offsetDifference);
-                    }
-                    // 方法2: 高さ変化ベースの復元（フォールバック）
-                    else if (Math.abs(heightDifference) < window.innerHeight) {
-                        targetScrollY = Math.max(0, originalScrollY + heightDifference * 0.5);
-                    }
+                    // 有効な範囲内に収める
+                    const maxScrollY = Math.max(0, newDocumentHeight - currentWindowHeight);
+                    const finalScrollY = Math.max(0, Math.min(targetScrollY, maxScrollY));
                     
-                    // スムーズでない即座の移動
-                    window.scrollTo(0, targetScrollY);
+                    // 即座にスクロール位置を設定
+                    window.scrollTo(0, finalScrollY);
                     
-                    // 微調整のための再チェック
-                    setTimeout(() => {
-                        const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-                        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-                        
-                        if (Math.abs(currentScroll - targetScrollY) > 10 && targetScrollY <= maxScroll) {
-                            window.scrollTo(0, Math.min(targetScrollY, maxScroll));
-                        }
-                    }, 50);
+                    console.log('スクロール位置復元:', {
+                        saved: savedPosition,
+                        newHeight: newDocumentHeight,
+                        targetY: targetScrollY,
+                        finalY: finalScrollY
+                    });
                     
                 } catch (error) {
-                    // エラー時は元の位置に戻す
                     console.warn('スクロール位置の復元に失敗:', error);
-                    window.scrollTo(0, Math.max(0, originalScrollY));
+                    // フォールバック: 元の位置を試す
+                    window.scrollTo(0, savedPosition.currentScrollY);
                 }
             }
             
@@ -526,28 +497,16 @@
                 const container = document.getElementById('selected-tags');
                 if (!container) return;
                 
-                // 高さの変化を最小限に抑える
+                // 高さの変化を完全に排除
                 if (this.selectedTags.size === 0) {
-                    // 空の状態でも最小高さを維持
-                    container.style.display = 'block';
-                    container.style.minHeight = '60px';
-                    container.innerHTML = '<div style="padding: 1rem; color: #666; text-align: center;">タグを選択してロールを絞り込み</div>';
+                    container.innerHTML = '<div style="padding: 1rem; color: #666; text-align: center; line-height: 1.5;">タグを選択してロールを絞り込み</div>';
                 } else {
-                    container.style.display = 'block';
-                    container.style.minHeight = '60px';
-                    container.innerHTML = '';
-                    
+                    let tagsHtml = '';
                     this.selectedTags.forEach(tag => {
-                        const tagElement = document.createElement('span');
-                        tagElement.className = 'selected-tag';
-                        tagElement.textContent = this.tagDisplayNames[tag] || tag;
-                        tagElement.title = 'クリックで解除';
-                        tagElement.onclick = (e) => {
-                            e.stopPropagation();
-                            this.toggleTag(tag);
-                        };
-                        container.appendChild(tagElement);
+                        const displayName = this.tagDisplayNames[tag] || tag;
+                        tagsHtml += `<span class="selected-tag" onclick="window.tagManager.toggleTag('${tag}')" title="クリックで解除">${displayName} ×</span>`;
                     });
+                    container.innerHTML = tagsHtml;
                 }
             }
             
@@ -616,8 +575,8 @@
                         background-color: rgba(255,255,255,0.05);
                         border-radius: 8px;
                         color: #aaa;
-                        min-height: 2rem;
-                        transition: opacity 0.2s ease;
+                        height: 50px;
+                        line-height: 50px;
                         box-sizing: border-box;
                     `;
                     
@@ -625,25 +584,12 @@
                     const selectedTags = document.getElementById('selected-tags');
                     if (selectedTags && selectedTags.parentNode) {
                         selectedTags.parentNode.insertBefore(messageEl, selectedTags.nextSibling);
-                    } else {
-                        document.getElementById('photo-grid').parentNode.insertBefore(
-                            messageEl, 
-                            document.getElementById('photo-grid')
-                        );
                     }
                 }
                 
-                if (message) {
-                    messageEl.textContent = message;
-                    messageEl.style.display = 'block';
-                    messageEl.style.opacity = '1';
-                } else {
-                    messageEl.style.opacity = '0';
-                    setTimeout(() => {
-                        messageEl.textContent = '';
-                        messageEl.style.display = 'block'; // 高さを維持
-                    }, 200);
-                }
+                // メッセージの内容だけを変更（高さは固定）
+                messageEl.textContent = message || ' ';
+                messageEl.style.visibility = message ? 'visible' : 'hidden';
             }
         }
         
@@ -665,9 +611,10 @@
                 border-radius: 8px;
                 border: 1px solid rgba(52, 152, 219, 0.3);
                 display: block;
-                min-height: 60px;
+                height: 60px; /* 固定高さ */
                 box-sizing: border-box;
-                transition: none; /* アニメーションを無効化 */
+                overflow: hidden; /* 内容がはみ出さないように */
+                line-height: 1.2;
             }
             
             .selected-tag {
@@ -675,22 +622,16 @@
                 background: #3498db;
                 color: #fff;
                 border-radius: 15px;
-                padding: 0.4em 0.8em;
-                margin: 0.2em 0.5em 0.2em 0;
+                padding: 0.3em 0.6em;
+                margin: 0.1em 0.3em 0.1em 0;
                 cursor: pointer;
-                font-size: 0.9em;
-                transition: background-color 0.1s ease; /* 短縮 */
-                position: relative;
+                font-size: 0.85em;
+                transition: background-color 0.1s ease;
+                white-space: nowrap;
             }
             
             .selected-tag:hover {
                 background: #2980b9;
-                transform: translateY(-1px);
-            }
-            
-            .selected-tag::after {
-                content: " ×";
-                font-weight: bold;
             }
             
             .tag.selected {
@@ -701,17 +642,15 @@
             }
             
             .roll-section {
-                transition: opacity 0.1s ease; /* 短縮 */
+                transition: opacity 0.05s ease; /* さらに短縮 */
             }
             
-            .roll-section:hover {
-                transform: translateY(-5px);
-            }
-            
-            /* メッセージ要素の固定高さ */
+            /* メッセージ要素の完全固定高さ */
             #filter-message {
                 box-sizing: border-box;
-                min-height: 2rem;
+                height: 50px !important; /* 完全固定 */
+                margin: 1rem 0 !important;
+                overflow: hidden;
             }
             
             /* レイアウトシフト防止のための安定化 */
