@@ -751,6 +751,104 @@
         "kodak-gold"
       ],
       "roll": "0013"
+    },
+    {
+      "id": 31,
+      "title": "コルト",
+      "description": [
+        "三菱自動車のコルト。首都高速KK線の一般開放イベントにて撮影。"
+      ],
+      "image": "images/photos/0019_0007.jpg",
+      "page": "photo31.html",
+      "date": "2025-04-19",
+      "dateDisplay": "2025年04月19日",
+      "location": "東京都中央区",
+      "camera": "Pentax 6×7",
+      "lens": "Super-Multi-Coated TAKUMAR6×7/55mm F3.5",
+      "film": "Lomography Color Negative 100",
+      "tags": [
+        "2025-04",
+        "tokyo",
+        "snap",
+        "pentax-67",
+        "67-55mm",
+        "lomography-cn100"
+      ],
+      "roll": "0019"
+    },
+    {
+      "id": 32,
+      "title": "深大寺の参道",
+      "description": [
+        "東京都調布市なる深大寺は今からおよそ1300年前に建立されたという歴史の深い寺院である。",
+        "寺の周りには名物の深大寺蕎麦を食べさせる店が軒を連ね、蕎麦が好きなわたくしも舌鼓を打った。"
+      ],
+      "image": "images/photos/0020_0005.jpg",
+      "page": "photo32.html",
+      "date": "2025-05-04",
+      "dateDisplay": "2025年5月4日",
+      "location": "東京都調布市",
+      "camera": "Pentax 6×7",
+      "lens": "Super-Multi-Coated TAKUMAR 6×7/55mm F3.5",
+      "film": "Lomography Metropolis",
+      "tags": [
+        "2025-05",
+        "tokyo",
+        "snap",
+        "landscape",
+        "pentax-67",
+        "67-55mm",
+        "lomography-mp"
+      ],
+      "roll": "0020"
+    },
+    {
+      "id": 33,
+      "title": "深沙大王堂",
+      "description": [
+        "深大寺の山門から少し離れた位置にあるお堂。緑が深く、静謐な雰囲気であった。"
+      ],
+      "image": "images/photos/0020_0007.jpg",
+      "page": "photo33.html",
+      "date": "2025-05-04",
+      "dateDisplay": "2025年5月4日",
+      "location": "東京都調布市",
+      "camera": "Pentax 6×7",
+      "lens": "Super-Multi-Coated TAKUMAR 6×7/55mm F3.5",
+      "film": "Lomography Metropolis",
+      "tags": [
+        "2025-05",
+        "tokyo",
+        "snap",
+        "pentax-67",
+        "67-55mm",
+        "lomography-mp"
+      ],
+      "roll": "0020"
+    },
+    {
+      "id": 34,
+      "title": "青渭神社境内より",
+      "description": [
+        "青渭神社は深大寺の程近くにある小さな神社である。大きなケヤキの木が神木で、<ruby>幣<rt>ぬさ</rt></ruby>、<ruby>注連<rt>しりくめなわ</rt></ruby>が取り付けられている様は、『三七全伝南柯夢』を髣髴させた。"
+      ],
+      "image": "images/photos/0020_0009.jpg",
+      "page": "photo34.html",
+      "date": "2025-05-04",
+      "dateDisplay": "2025年5月4日",
+      "location": "東京都調布市",
+      "camera": "Pentax 6×7",
+      "lens": "Super-Multi-Coated TAKUMAR 6×7/55mm F3.5",
+      "film": "Lomography Metropolis",
+      "tags": [
+        "2025-05",
+        "tokyo",
+        "snap",
+        "pentax-67",
+        "67-55mm",
+        "lomography-mp"
+      ],
+      "roll": "0020"
     }
   ]
 }

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>深沙大王堂 | わたくしの撮影記</title>
+    <link rel="icon" href="images/icons/favicon.ico" sizes="32x32">
+    <link rel="icon" href="images/icons/favicon.svg" type="image/svg">
+    <link rel="shortcut icon" href="images/icons/favicon.svg" type="image/svg">
+    <link rel="apple-touch-icon" href="images/icons/apple-touch-icon.png" sizes="180x180">
+    <link rel="mask-icon" href="images/icons/safari-pinned-tab.svg" color="#3498db">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/photo-view.css">
+</head>
+
+<!-- モバイル対応版SVGフィルター定義 -->
+<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0">
+    <defs>
+        <!-- デスクトップ用の高品質フィルター -->
+        <filter id="sticker-desktop">
+            <!-- ノイズテクスチャ生成 - 粗さを微調整 -->
+            <feTurbulence type="fractalNoise" baseFrequency="0.025" numOctaves="1" seed="14" stitchTiles="noStitch" result="noise"></feTurbulence>
+            
+            <!-- テクスチャの彩度調整 -->
+            <feColorMatrix in="noise" type="saturate" values="25" result="saturatedNoise"></feColorMatrix>
+            
+            <!-- ソース要素の輪郭を膨張 -->
+            <feMorphology in="SourceGraphic" operator="dilate" radius="4" result="dilated"></feMorphology>
+            
+            <!-- 影の色設定 -->
+            <feFlood x="0" y="0" width="100%" height="100%" flood-color="#1a252f" flood-opacity="0.95" result="shadow"></feFlood>
+            
+            <!-- ぼかし効果 -->
+            <feGaussianBlur in="SourceGraphic" stdDeviation="1.8" edgeMode="none" result="blurred"></feGaussianBlur>
+            
+            <!-- ノイズをオフセット -->
+            <feOffset in="saturatedNoise" dx="0" dy="0" result="offsetNoise"></feOffset>
+            
+            <!-- 影とソースのコンポジット -->
+            <feComposite in="shadow" in2="dilated" operator="in" result="shadowMask"></feComposite>
+            
+            <!-- 光源効果 -->
+            <feDiffuseLighting in="blurred" surfaceScale="5" diffuseConstant="1.2" lighting-color="#4aa3df" result="lighting">
+                <fePointLight id="light-desktop" x="150" y="60" z="20"></fePointLight>
+            </feDiffuseLighting>
+            
+            <!-- コンポジット処理 -->
+            <feComposite in="offsetNoise" in2="SourceGraphic" operator="atop" result="noiseAtop"></feComposite>
+            <feComposite in="noiseAtop" in2="shadowMask" operator="atop" result="compositedShadow"></feComposite>
+            
+            <!-- 細かいノイズテクスチャ -->
+            <feTurbulence type="fractalNoise" baseFrequency="3" numOctaves="1" seed="0" stitchTiles="noStitch" result="fineNoise"></feTurbulence>
+            
+            <!-- 光源効果と影のコンポジット -->
+            <feComposite in="lighting" in2="compositedShadow" operator="in" result="lightedShadow"></feComposite>
+            
+            <!-- ブレンドモード調整 -->
+            <feBlend in="lightedShadow" in2="compositedShadow" mode="color-dodge" result="blended"></feBlend>
+            
+            <!-- 最終的な色調整 -->
+            <feColorMatrix in="fineNoise" type="matrix" values="1    0    0    0    0   
+                                                              0.95  1.05  0    0    0   
+                                                              0.9   0    1.1  0    0   
+                                                              0.03  0    0    0    0" result="coloredNoise"></feColorMatrix>
+            
+            <!-- 最終合成 -->
+            <feComposite in="coloredNoise" in2="blended" operator="atop"></feComposite>
+        </filter>
+        
+        <!-- モバイル用の軽量フィルター -->
+        <filter id="sticker-mobile">
+            <!-- 簡略化したフィルター -->
+            <feMorphology in="SourceGraphic" operator="dilate" radius="2" result="dilated"></feMorphology>
+            <feFlood x="0" y="0" width="100%" height="100%" flood-color="#1a252f" flood-opacity="0.9" result="shadow"></feFlood>
+            <feComposite in="shadow" in2="dilated" operator="in" result="shadowMask"></feComposite>
+            <feGaussianBlur in="SourceGraphic" stdDeviation="1" result="blurred"></feGaussianBlur>
+            <feDiffuseLighting in="blurred" surfaceScale="3" diffuseConstant="1" lighting-color="#4aa3df" result="lighting">
+                <fePointLight id="light-mobile" x="150" y="60" z="15"></fePointLight>
+            </feDiffuseLighting>
+            <feComposite in="lighting" in2="shadowMask" operator="in" result="lightedShadow"></feComposite>
+            <feBlend in="lightedShadow" in2="shadowMask" mode="color-dodge"></feBlend>
+        </filter>
+    </defs>
+</svg>
+
+<body class="photo-view">
+    <!-- ヘッダー (モバイルでは初期非表示) -->
+    <header class="header-photo-view" id="photo-header">
+        <div class="header-container">
+            <div class="logo">
+                <a href="index.html">わたくしの撮影記</a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">ホーム</a></li>
+                    <li><a href="index.html#tag-section">タグ検索</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="immersive-container">
+        <!-- メイン写真表示 -->
+        <section class="photo-hero" id="photo-hero">
+            <img src="images/photos/0020_0007.jpg" alt="深沙大王堂" class="photo-hero-image" id="main-photo">
+            <div class="photo-title-overlay" id="title-overlay">
+                <h1>深沙大王堂</h1>
+                <div class="photo-date">2025年5月4日</div>
+            </div>
+        </section>
+
+        <!-- 写真切り替えコントロール -->
+        <div class="photo-controls">
+            <button class="photo-control-btn" id="prev-photo">←</button>
+            <button class="photo-control-btn" id="next-photo">→</button>
+        </div>
+
+        <!-- 写真詳細情報 -->
+        <section class="photo-details">
+            <div class="photo-description">
+                <p>深大寺の山門から少し離れた位置にあるお堂。緑が深く、静謐な雰囲気であった。</p>
+            </div>
+            
+            <div class="photo-meta">
+                <div class="meta-item">
+                    <h4>撮影時期</h4>
+                    <p>2025年5月</p>
+                </div>
+                
+                <div class="meta-item">
+                    <h4>撮影場所</h4>
+                    <p>東京都調布市</p>
+                </div>
+                
+                <div class="meta-item">
+                    <h4>撮影機材</h4>
+                    <p>カメラ: Pentax 6×7</p>
+                    <p>レンズ: Super-Multi-Coated TAKUMAR 6×7/55mm F3.5</p>
+                </div>
+                
+                <div class="meta-item">
+                    <h4>フィルム</h4>
+                    <p>Lomography Metropolis</p>
+                </div>
+                
+                <div class="meta-item photo-tags">
+                    <h4>タグ</h4>
+                    <div class="tags">
+                        <a href="index.html?tag=2025-05" class="tag">2025-05</a>
+<a href="index.html?tag=tokyo" class="tag">東京都</a>
+<a href="index.html?tag=snap" class="tag">スナップショット</a>
+<a href="index.html?tag=pentax-67" class="tag">Pentax 6×7</a>
+<a href="index.html?tag=67-55mm" class="tag">Pentax SMC TAKUMAR 6×7/55mm F3.5</a>
+<a href="index.html?tag=lomography-mp" class="tag">Lomography Metropolis 400</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ナビゲーションボタン -->
+    <button class="nav-btn" id="gallery-btn" title="トップに戻る">
+        ↑
+    </button>
+
+    <!-- JavaScript -->
+    <script src="js/common.js"></script>
+    <script src="js/scripts.js"></script>
+    <script>
+        // 写真固有のデータ
+        const photoData = {
+            id: 'photo33',
+            title: '深沙大王堂',
+            date: '2025年5月4日',
+            metadata: '[[PHOTO_METADATA]]',
+            nextPhoto: 'photo34.html',
+            prevPhoto: 'photo32.html'
+        };
+        
+        // 共通のphotoViewerを初期化
+        initPhotoViewer(photoData);
+    </script>
+    <!-- マウス追従およびモバイル対応用JavaScript -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // デスクトップ用ライトの設定
+            const lightDesktop = document.querySelector('#light-desktop');
+            const lightMobile = document.querySelector('#light-mobile');
+        
+            // マウスイベントリスナーの設定
+            if (lightDesktop && lightMobile) {
+                // マウス移動検出
+                document.addEventListener('mousemove', (e) => {
+                    const x = e.clientX;
+                    const y = e.clientY;
+                
+                    // デスクトップとモバイル両方のライトポイントを更新
+                    lightDesktop.setAttribute('x', x);
+                    lightDesktop.setAttribute('y', y);
+                    lightMobile.setAttribute('x', x);
+                    lightMobile.setAttribute('y', y);
+                });
+            
+                // タッチデバイス対応
+                document.addEventListener('touchmove', (e) => {
+                    if (e.touches && e.touches[0]) {
+                        const x = e.touches[0].clientX;
+                        const y = e.touches[0].clientY;
+                    
+                        // モバイルライトのみ更新
+                        lightMobile.setAttribute('x', x);
+                        lightMobile.setAttribute('y', y);
+                    }
+                }, { passive: true });
+            }
+        
+            // デバイスの性能検出（オプション）
+            const checkDevicePerformance = () => {
+                const canvas = document.createElement('canvas');
+                if (!canvas || !canvas.getContext) return false;
+            
+                try {
+                    // 簡易的なベンチマーク - WebGLの利用可否で判断
+                    return !!window.WebGLRenderingContext && 
+                        !!(canvas.getContext('webgl') || canvas.getContext('experimental-webgl'));
+                } catch(e) {
+                    return false;
+                }
+            };
+        
+            // デバイス性能が低い場合、エフェクトを完全に無効化する（オプション）
+            if (!checkDevicePerformance()) {
+                document.querySelectorAll('.sticker-text, .sticker-button').forEach(el => {
+                    el.classList.add('disable-effect-on-small');
+                });
+            }
+        });
+    </script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+      // iOSかどうか判定
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  
+      if (isIOS) {
+        // ロゴ要素を取得
+        const logoLink = document.querySelector('.logo a');
+    
+        // フィルターを取り除き、代替スタイルを適用
+        if (logoLink) {
+          logoLink.style.filter = 'none';
+          logoLink.style.textShadow = '0 2px 4px rgba(0,0,0,0.4), 0 0 8px rgba(52, 152, 219, 0.6)';
+          // 必要に応じて他のスタイルを追加
+        }
+      }
+    });
+    </script>
+</body>
+</html>

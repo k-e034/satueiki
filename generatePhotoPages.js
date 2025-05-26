@@ -50,6 +50,7 @@ const tagDisplayNames = {
     'fuji-super': 'FUJIFILM SUPER 400', 'ilford-xp2': 'ILFORD XP2 Super 400',
     'ilford-vintagetone': 'ILFORD ILFOCOLOR 400 PLUS Vintage Tone',
     'lomography-cn100': 'Lomography Color Negative 100',
+    'lomography-mp': 'Lomography Metropolis 400',
     
     // 写真のスタイル
     'mono': 'モノクロ', 'landscape': '風景', 'snap': 'スナップショット',
