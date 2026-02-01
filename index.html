@@ -4,689 +4,864 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>わたくしの撮影記</title>
-    <link rel="icon" href="images/icons/favicon.ico" sizes="32x32">
-    <link rel="icon" href="images/icons/favicon.svg" type="image/svg">
-    <link rel="shortcut icon" href="images/icons/favicon.svg" type="image/svg">
-    <link rel="apple-touch-icon" href="images/icons/apple-touch-icon.png" sizes="180x180">
-    <link rel="mask-icon" href="images/icons/safari-pinned-tab.svg" color="#3498db">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
+    
+    <style>
+        :root {
+            --bg-color: #0a0a0a;
+            --bg-secondary: #151515;
+            --line-color: #2a2a2a;
+            --text-color: #e8e8e8;
+            --text-secondary: #888;
+            --accent-color: #3498db;
+            --accent-hover: #2980b9;
+            --ui-font: 'Roboto Mono', monospace;
+            --transition-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--ui-font);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Header */
+        header {
+            position: sticky;
+            top: 0;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--line-color);
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'wklg' !important;
+            font-size: 2.4rem !important;
+            font-weight: normal !important;
+            letter-spacing: 0.8px !important;
+        }
+
+        .logo a {
+            color: white !important;
+            text-decoration: none;
+            transition: none;
+        }
+
+        .logo a:hover {
+            color: white !important;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Hero */
+        .hero {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 6rem 2rem 4rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 300;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            line-height: 1.8;
+        }
+
+        /* Filters */
+        .filter-bar {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem 2rem;
+        }
+
+        .selected-tags {
+            min-height: 50px;
+            padding: 1rem;
+            background: rgba(52, 152, 219, 0.1);
+            border: 1px solid rgba(52, 152, 219, 0.3);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .selected-tag {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            background: var(--accent-color);
+            color: var(--bg-color);
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .selected-tag:hover {
+            background: var(--accent-hover);
+        }
+
+        .filter-message {
+            text-align: center;
+            padding: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* Roll Grid */
+        .rolls-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem 4rem;
+        }
+
+        .section-label {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 2rem;
+        }
+
+        .roll-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1px;
+            background: var(--line-color);
+            border: 1px solid var(--line-color);
+        }
+
+        .roll-card {
+            background: var(--bg-color);
+            padding: 0;
+            transition: all 0.3s var(--transition-smooth);
+            overflow: hidden;
+        }
+
+        .roll-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .roll-thumb-container {
+            aspect-ratio: 3/2;
+            overflow: hidden;
+            background: var(--bg-secondary);
+        }
+
+        .roll-thumb {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s var(--transition-smooth);
+        }
+
+        .roll-card:hover .roll-thumb {
+            transform: scale(1.05);
+        }
+
+        .roll-info {
+            padding: 1.5rem;
+        }
+
+        .roll-title {
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .roll-title a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .roll-title a:hover {
+            color: var(--accent-color);
+        }
+
+        .roll-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        /* Tag Section */
+        .tag-section {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            border-top: 1px solid var(--line-color);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+        }
+
+        .tag-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .tag-category h3 {
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: transparent;
+            border: 1px solid var(--line-color);
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            text-decoration: none;
+            transition: all 0.3s;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+        }
+
+        .tag:hover,
+        .tag.selected {
+            background: var(--accent-color);
+            border-color: var(--accent-color);
+            color: var(--bg-color);
+        }
+
+        /* Footer */
+        footer {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            border-top: 1px solid var(--line-color);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section p,
+        .footer-section ul {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: var(--accent-color);
+        }
+
+        .copyright {
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            padding-top: 2rem;
+            border-top: 1px solid var(--line-color);
+        }
+
+        /* Back to Top */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background: var(--accent-color);
+            color: var(--bg-color);
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s;
+            z-index: 90;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+            }
+
+            .hero {
+                padding: 4rem 1rem 2rem;
+            }
+
+            .roll-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tag-categories {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
-
-<!-- モバイル対応版SVGフィルター定義 -->
-<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0">
-    <defs>
-        <!-- デスクトップ用の高品質フィルター -->
-        <filter id="sticker-desktop">
-            <!-- ノイズテクスチャ生成 - 粗さを微調整 -->
-            <feTurbulence type="fractalNoise" baseFrequency="0.025" numOctaves="1" seed="14" stitchTiles="noStitch" result="noise"/>
-            <feColorMatrix in="noise" type="saturate" values="25" result="saturatedNoise"/>
-            <feMorphology in="SourceGraphic" operator="dilate" radius="4" result="dilated"/>
-            <feFlood x="0" y="0" width="100%" height="100%" flood-color="#1a252f" flood-opacity="0.95" result="shadow"/>
-            <feGaussianBlur in="SourceGraphic" stdDeviation="1.8" edgeMode="none" result="blurred"/>
-            <feOffset in="saturatedNoise" dx="0" dy="0" result="offsetNoise"/>
-            <feComposite in="shadow" in2="dilated" operator="in" result="shadowMask"/>
-            <feDiffuseLighting in="blurred" surfaceScale="5" diffuseConstant="1.2" lighting-color="#4aa3df" result="lighting">
-                <fePointLight id="light-desktop" x="150" y="60" z="20"/>
-            </feDiffuseLighting>
-            <feComposite in="offsetNoise" in2="SourceGraphic" operator="atop" result="noiseAtop"/>
-            <feComposite in="noiseAtop" in2="shadowMask" operator="atop" result="compositedShadow"/>
-            <feTurbulence type="fractalNoise" baseFrequency="3" numOctaves="1" seed="0" stitchTiles="noStitch" result="fineNoise"/>
-            <feComposite in="lighting" in2="compositedShadow" operator="in" result="lightedShadow"/>
-            <feBlend in="lightedShadow" in2="compositedShadow" mode="color-dodge" result="blended"/>
-            <feColorMatrix in="fineNoise" type="matrix" values="1 0 0 0 0   0.95 1.05 0 0 0   0.9 0 1.1 0 0   0.03 0 0 0 0" result="coloredNoise"/>
-            <feComposite in="coloredNoise" in2="blended" operator="atop"/>
-        </filter>
-        <!-- モバイル用の軽量フィルター -->
-        <filter id="sticker-mobile">
-            <feMorphology in="SourceGraphic" operator="dilate" radius="2" result="dilated"/>
-            <feFlood x="0" y="0" width="100%" height="100%" flood-color="#1a252f" flood-opacity="0.9" result="shadow"/>
-            <feComposite in="shadow" in2="dilated" operator="in" result="shadowMask"/>
-            <feGaussianBlur in="SourceGraphic" stdDeviation="1" result="blurred"/>
-            <feDiffuseLighting in="blurred" surfaceScale="3" diffuseConstant="1" lighting-color="#4aa3df" result="lighting">
-                <fePointLight id="light-mobile" x="150" y="60" z="15"/>
-            </feDiffuseLighting>
-            <feComposite in="lighting" in2="shadowMask" operator="in" result="lightedShadow"/>
-            <feBlend in="lightedShadow" in2="shadowMask" mode="color-dodge"/>
-        </filter>
-    </defs>
-</svg>
-
 <body>
-    <!-- ヘッダー -->
     <header>
         <div class="header-container">
             <div class="logo"><a href="index.html">わたくしの撮影記</a></div>
-            <nav><ul><li><a href="index.html">ホーム</a></li><li><a href="#tag-section">タグ検索</a></li></ul></nav>
+            <nav>
+                <ul>
+                    <li><a href="index.html">ホーム</a></li>
+                    <li><a href="#tags">タグ検索</a></li>
+                </ul>
+            </nav>
         </div>
     </header>
 
-    <!-- メインコンテンツ -->
-    <div class="main-content">
-    <div id="photo-grid" class="roll-grid">
-<section class="roll-section" data-tags="2025-05,tokyo,snap,landscape,pentax-67,67-55mm,lomography-mp">
-  <h2 class="roll-title"><a href="rolls/roll_0020.html">Roll 0020</a></h2>
-  <div class="roll-meta">
-    <span class="roll-period">2025年5月</span>
-    <span class="roll-count">3枚</span>
-  </div>
-  <a href="rolls/roll_0020.html" class="roll-thumb-link">
-    <img src="images/photos/0020_0005.jpg" alt="Roll 0020" class="roll-thumb" loading="lazy">
-  </a>
-</section>
-<section class="roll-section" data-tags="2025-04,tokyo,snap,pentax-67,67-55mm,lomography-cn100">
-  <h2 class="roll-title"><a href="rolls/roll_0019.html">Roll 0019</a></h2>
-  <div class="roll-meta">
-    <span class="roll-period">2025年4月</span>
-    <span class="roll-count">1枚</span>
-  </div>
-  <a href="rolls/roll_0019.html" class="roll-thumb-link">
-    <img src="images/photos/0019_0007.jpg" alt="Roll 0019" class="roll-thumb" loading="lazy">
-  </a>
-</section>
-<section class="roll-section" data-tags="2025-03,saitama,snap,canon-ivsb2,canon-50mm,fuji-200">
-  <h2 class="roll-title"><a href="rolls/roll_0018.html">Roll 0018</a></h2>
-  <div class="roll-meta">
-    <span class="roll-period">2025年3月</span>
-    <span class="roll-count">1枚</span>
-  </div>
-  <a href="rolls/roll_0018.html" class="roll-thumb-link">
-    <img src="images/photos/0018_0005.JPG" alt="Roll 0018" class="roll-thumb" loading="lazy">
-  </a>
-</section>
-<section class="roll-section" data-tags="2025-02,miyazaki,animals,landscape,pentax-67,67-90mm,kodak-gold">
-  <h2 class="roll-title"><a href="rolls/roll_0017.html">Roll 0017</a></h2>
-  <div class="roll-meta">
-    <span class="roll-period">2025年2月</span>
-    <span class="roll-count">1枚</span>
-  </div>
-  <a href="rolls/roll_0017.html" class="roll-thumb-link">
-    <img src="images/photos/0017_0008_1.JPG" alt="Roll 0017" class="roll-thumb" loading="lazy">
-  </a>
-</section>
-<section class="roll-section" data-tags="2025-02,miyazaki,landscape,pentax-67,67-55mm,lomography-cn100">
-  <h2 class="roll-title"><a href="rolls/roll_0016.html">Roll 0016</a></h2>
-  <div class="roll-meta">
-    <span class="roll-period">2025年2月</span>
-    <span class="roll-count">1枚</span>
-  </div>
-  <a href="rolls/roll_0016.html" class="roll-thumb-link">
-    <img src="images/photos/0016_0008.jpg" alt="Roll 0016" class="roll-thumb" loading="lazy">
-  </a>
-</section>
-<section class="roll-section" data-tags="2024-12,tokyo,snap,mono,nikon-f70d,nikkor-28-200mm,ilford-xp2,animals,nikkor-50mm">
-  <h2 class="roll-title"><a href="rolls/roll_0014.html">Roll 0014</a></h2>
-  <div class="roll-meta">
-    <span class="roll-period">2024年12月</span>
-    <span class="roll-count">3枚</span>
-  </div>
-  <a href="rolls/roll_0014.html" class="roll-thumb-link">
-    <img src="images/photos/0014_0023.JPG" alt="Roll 0014" class="roll-thumb" loading="lazy">
-  </a>
-</section>
-<section class="roll-section" data-tags="2024-12,tokyo,snap,pentax-67,67-55mm,kodak-gold,landscape,67-55,2024-11">
-  <h2 class="roll-title"><a href="rolls/roll_0013.html">Roll 0013</a></h2>
-  <div class="roll-meta">
-    <span class="roll-period">2024年11月</span>
-    <span class="roll-count">4枚</span>
-  </div>
-  <a href="rolls/roll_0013.html" class="roll-thumb-link">
-    <img src="images/photos/0013_0005.jpg" alt="Roll 0013" class="roll-thumb" loading="lazy">
-  </a>
-</section>
-<section class="roll-section" data-tags="2024-11,tokyo,snap,landscape,canon-ivsb2,canon-35mm,kodak-colorplus">
-  <h2 class="roll-title"><a href="rolls/roll_0012.html">Roll 0012</a></h2>
-  <div class="roll-meta">
-    <span class="roll-period">2024年11月</span>
-    <span class="roll-count">4枚</span>
-  </div>
-  <a href="rolls/roll_0012.html" class="roll-thumb-link">
-    <img src="images/photos/0012_0023.JPG" alt="Roll 0012" class="roll-thumb" loading="lazy">
-  </a>
-</section>
-<section class="roll-section" data-tags="2024-09,tokyo,landscape,pentax-67,67-90mm,kodak-gold">
-  <h2 class="roll-title"><a href="rolls/roll_0010.html">Roll 0010</a></h2>
-  <div class="roll-meta">
-    <span class="roll-period">2024年9月</span>
-    <span class="roll-count">1枚</span>
-  </div>
-  <a href="rolls/roll_0010.html" class="roll-thumb-link">
-    <img src="images/photos/0010_0006_e.jpg" alt="Roll 0010" class="roll-thumb" loading="lazy">
-  </a>
-</section>
-<section class="roll-section" data-tags="2024-09,osaka,snap,olympus-om1,zuiko-50mm1,ilford-vintagetone,longexposure,night">
-  <h2 class="roll-title"><a href="rolls/roll_0008.html">Roll 0008</a></h2>
-  <div class="roll-meta">
-    <span class="roll-period">2024年9月</span>
-    <span class="roll-count">3枚</span>
-  </div>
-  <a href="rolls/roll_0008.html" class="roll-thumb-link">
-    <img src="images/photos/0008_0012.JPG" alt="Roll 0008" class="roll-thumb" loading="lazy">
-  </a>
-</section>
-<section class="roll-section" data-tags="2024-07,tokyo,snap,nikon-f70d,nikkor-50mm,fuji-super">
-  <h2 class="roll-title"><a href="rolls/roll_0006.html">Roll 0006</a></h2>
-  <div class="roll-meta">
-    <span class="roll-period">2024年7月</span>
-    <span class="roll-count">1枚</span>
-  </div>
-  <a href="rolls/roll_0006.html" class="roll-thumb-link">
-    <img src="images/photos/0006_0043.JPG" alt="Roll 0006" class="roll-thumb" loading="lazy">
-  </a>
-</section>
-<section class="roll-section" data-tags="2024-07,tokyo,snap,animals,canon-ftbn,fd-50mm,kodak-colorplus,kanagawa,landscape,fd-80-200mm">
-  <h2 class="roll-title"><a href="rolls/roll_0005.html">Roll 0005</a></h2>
-  <div class="roll-meta">
-    <span class="roll-period">2024年7月</span>
-    <span class="roll-count">2枚</span>
-  </div>
-  <a href="rolls/roll_0005.html" class="roll-thumb-link">
-    <img src="images/photos/0005_0025.JPG" alt="Roll 0005" class="roll-thumb" loading="lazy">
-  </a>
-</section>
-<section class="roll-section" data-tags="2024-06,tokyo,mono,snap,nikon-f70d,nikkor-50mm,ilford-xp2,nikkor-80-200mm">
-  <h2 class="roll-title"><a href="rolls/roll_0003.html">Roll 0003</a></h2>
-  <div class="roll-meta">
-    <span class="roll-period">2024年6月</span>
-    <span class="roll-count">2枚</span>
-  </div>
-  <a href="rolls/roll_0003.html" class="roll-thumb-link">
-    <img src="images/photos/0003_0033.JPG" alt="Roll 0003" class="roll-thumb" loading="lazy">
-  </a>
-</section>
-<section class="roll-section" data-tags="2024-04,miyagi,landscape,nikon-f70d,nikkor-28-80mm,kodak-ultramax,snap,nikkor-28-80">
-  <h2 class="roll-title"><a href="rolls/roll_0002.html">Roll 0002</a></h2>
-  <div class="roll-meta">
-    <span class="roll-period">2024年4月</span>
-    <span class="roll-count">3枚</span>
-  </div>
-  <a href="rolls/roll_0002.html" class="roll-thumb-link">
-    <img src="images/photos/0002_0005.JPG" alt="Roll 0002" class="roll-thumb" loading="lazy">
-  </a>
-</section>
-<section class="roll-section" data-tags="2024-04,akita,snap,nikon-f70d,nikkor-28-80,kodak-ultramax,landscape">
-  <h2 class="roll-title"><a href="rolls/roll_0001.html">Roll 0001</a></h2>
-  <div class="roll-meta">
-    <span class="roll-period">2024年4月</span>
-    <span class="roll-count">2枚</span>
-  </div>
-  <a href="rolls/roll_0001.html" class="roll-thumb-link">
-    <img src="images/photos/0001_0030.JPG" alt="Roll 0001" class="roll-thumb" loading="lazy">
-  </a>
-</section>
-<section class="roll-section" data-tags="2025-01,tokyo,snap,nikon-d800,nikkor-50mm,2024-08,saitama,fuji-s5pro">
-  <h2 class="roll-title"><a href="rolls/roll_D.html">Digital Photos</a></h2>
-  <div class="roll-meta">
-    <span class="roll-period">2024年8月</span>
-    <span class="roll-count">2枚</span>
-  </div>
-  <a href="rolls/roll_D.html" class="roll-thumb-link">
-    <img src="images/photos/D_6554.jpg" alt="Digital Photos" class="roll-thumb" loading="lazy">
-  </a>
-</section>
-    </div>
-    <div class="load-more-container" style="display: none;">
-      <button id="load-more" class="btn">もっと見る</button>
-    </div>
-    
-    
-    
-    
-    
-    
-        
+    <section class="hero">
+        <h1>わたくしの撮影記</h1>
+        <p>フィルムカメラで撮影した写真を公開しています。<br>各ロールごとにカメラ、レンズ、フィルムの情報と共にお楽しみください。</p>
+    </section>
+
+    <div class="filter-bar">
+        <div class="selected-tags" id="selectedTags">
+            <span style="color: var(--text-secondary); font-size: 0.8rem;">タグを選択してフィルターを絞り込み</span>
+        </div>
+        <div class="filter-message" id="filterMessage"></div>
     </div>
 
-    <!-- タグ検索セクションの直前に選択中タグ表示エリアを追加 -->
-    <div id="selected-tags" class="selected-tags"></div>
+    <div class="rolls-container">
+        <div class="section-label">Film Rolls</div>
+        <div class="roll-grid" id="rollGrid">
+            <!-- Roll 0020 -->
+            <article class="roll-card" data-tags="2025-05,tokyo,snap,landscape,pentax-67,67-55mm,lomography-mp">
+                <a href="rolls/roll_0020.html" class="roll-thumb-container">
+                    <img src="images/photos/0020_0005.jpg" alt="Roll 0020" class="roll-thumb" loading="lazy">
+                </a>
+                <div class="roll-info">
+                    <h2 class="roll-title"><a href="rolls/roll_0020.html">Roll 0020</a></h2>
+                    <div class="roll-meta">
+                        <span>2025年5月</span>
+                        <span>3枚</span>
+                    </div>
+                </div>
+            </article>
 
-    <!-- タグ検索セクション -->
-    <section id="tag-section" class="tag-section">
+            <!-- Roll 0019 -->
+            <article class="roll-card" data-tags="2025-04,tokyo,snap,pentax-67,67-55mm,lomography-cn100">
+                <a href="rolls/roll_0019.html" class="roll-thumb-container">
+                    <img src="images/photos/0019_0007.jpg" alt="Roll 0019" class="roll-thumb" loading="lazy">
+                </a>
+                <div class="roll-info">
+                    <h2 class="roll-title"><a href="rolls/roll_0019.html">Roll 0019</a></h2>
+                    <div class="roll-meta">
+                        <span>2025年4月</span>
+                        <span>1枚</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Roll 0018 -->
+            <article class="roll-card" data-tags="2025-03,saitama,snap,canon-ivsb2,canon-50mm,fuji-200">
+                <a href="rolls/roll_0018.html" class="roll-thumb-container">
+                    <img src="images/photos/0018_0005.JPG" alt="Roll 0018" class="roll-thumb" loading="lazy">
+                </a>
+                <div class="roll-info">
+                    <h2 class="roll-title"><a href="rolls/roll_0018.html">Roll 0018</a></h2>
+                    <div class="roll-meta">
+                        <span>2025年3月</span>
+                        <span>1枚</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Roll 0017 -->
+            <article class="roll-card" data-tags="2025-02,miyazaki,animals,landscape,pentax-67,67-90mm,kodak-gold">
+                <a href="rolls/roll_0017.html" class="roll-thumb-container">
+                    <img src="images/photos/0017_0008_1.JPG" alt="Roll 0017" class="roll-thumb" loading="lazy">
+                </a>
+                <div class="roll-info">
+                    <h2 class="roll-title"><a href="rolls/roll_0017.html">Roll 0017</a></h2>
+                    <div class="roll-meta">
+                        <span>2025年2月</span>
+                        <span>1枚</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Roll 0016 -->
+            <article class="roll-card" data-tags="2025-02,miyazaki,landscape,pentax-67,67-55mm,lomography-cn100">
+                <a href="rolls/roll_0016.html" class="roll-thumb-container">
+                    <img src="images/photos/0016_0008.jpg" alt="Roll 0016" class="roll-thumb" loading="lazy">
+                </a>
+                <div class="roll-info">
+                    <h2 class="roll-title"><a href="rolls/roll_0016.html">Roll 0016</a></h2>
+                    <div class="roll-meta">
+                        <span>2025年2月</span>
+                        <span>1枚</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Roll 0014 -->
+            <article class="roll-card" data-tags="2024-12,tokyo,snap,mono,nikon-f70d,nikkor-28-200mm,ilford-xp2,animals,nikkor-50mm">
+                <a href="rolls/roll_0014.html" class="roll-thumb-container">
+                    <img src="images/photos/0014_0023.JPG" alt="Roll 0014" class="roll-thumb" loading="lazy">
+                </a>
+                <div class="roll-info">
+                    <h2 class="roll-title"><a href="rolls/roll_0014.html">Roll 0014</a></h2>
+                    <div class="roll-meta">
+                        <span>2024年12月</span>
+                        <span>3枚</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Roll 0013 -->
+            <article class="roll-card" data-tags="2024-12,tokyo,snap,pentax-67,67-55mm,kodak-gold,landscape,67-55,2024-11">
+                <a href="rolls/roll_0013.html" class="roll-thumb-container">
+                    <img src="images/photos/0013_0005.jpg" alt="Roll 0013" class="roll-thumb" loading="lazy">
+                </a>
+                <div class="roll-info">
+                    <h2 class="roll-title"><a href="rolls/roll_0013.html">Roll 0013</a></h2>
+                    <div class="roll-meta">
+                        <span>2024年11月</span>
+                        <span>4枚</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Roll 0012 -->
+            <article class="roll-card" data-tags="2024-11,tokyo,snap,landscape,canon-ivsb2,canon-35mm,kodak-colorplus">
+                <a href="rolls/roll_0012.html" class="roll-thumb-container">
+                    <img src="images/photos/0012_0023.JPG" alt="Roll 0012" class="roll-thumb" loading="lazy">
+                </a>
+                <div class="roll-info">
+                    <h2 class="roll-title"><a href="rolls/roll_0012.html">Roll 0012</a></h2>
+                    <div class="roll-meta">
+                        <span>2024年11月</span>
+                        <span>4枚</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Roll 0010 -->
+            <article class="roll-card" data-tags="2024-09,tokyo,landscape,pentax-67,67-90mm,kodak-gold">
+                <a href="rolls/roll_0010.html" class="roll-thumb-container">
+                    <img src="images/photos/0010_0006_e.jpg" alt="Roll 0010" class="roll-thumb" loading="lazy">
+                </a>
+                <div class="roll-info">
+                    <h2 class="roll-title"><a href="rolls/roll_0010.html">Roll 0010</a></h2>
+                    <div class="roll-meta">
+                        <span>2024年9月</span>
+                        <span>1枚</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Roll 0008 -->
+            <article class="roll-card" data-tags="2024-09,osaka,snap,olympus-om1,zuiko-50mm1,ilford-vintagetone,longexposure,night">
+                <a href="rolls/roll_0008.html" class="roll-thumb-container">
+                    <img src="images/photos/0008_0012.JPG" alt="Roll 0008" class="roll-thumb" loading="lazy">
+                </a>
+                <div class="roll-info">
+                    <h2 class="roll-title"><a href="rolls/roll_0008.html">Roll 0008</a></h2>
+                    <div class="roll-meta">
+                        <span>2024年9月</span>
+                        <span>3枚</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Roll 0006 -->
+            <article class="roll-card" data-tags="2024-07,tokyo,snap,nikon-f70d,nikkor-50mm,fuji-super">
+                <a href="rolls/roll_0006.html" class="roll-thumb-container">
+                    <img src="images/photos/0006_0043.JPG" alt="Roll 0006" class="roll-thumb" loading="lazy">
+                </a>
+                <div class="roll-info">
+                    <h2 class="roll-title"><a href="rolls/roll_0006.html">Roll 0006</a></h2>
+                    <div class="roll-meta">
+                        <span>2024年7月</span>
+                        <span>1枚</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Roll 0005 -->
+            <article class="roll-card" data-tags="2024-07,tokyo,snap,animals,canon-ftbn,fd-50mm,kodak-colorplus,kanagawa,landscape,fd-80-200mm">
+                <a href="rolls/roll_0005.html" class="roll-thumb-container">
+                    <img src="images/photos/0005_0025.JPG" alt="Roll 0005" class="roll-thumb" loading="lazy">
+                </a>
+                <div class="roll-info">
+                    <h2 class="roll-title"><a href="rolls/roll_0005.html">Roll 0005</a></h2>
+                    <div class="roll-meta">
+                        <span>2024年7月</span>
+                        <span>2枚</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Roll 0003 -->
+            <article class="roll-card" data-tags="2024-06,tokyo,mono,snap,nikon-f70d,nikkor-50mm,ilford-xp2,nikkor-80-200mm">
+                <a href="rolls/roll_0003.html" class="roll-thumb-container">
+                    <img src="images/photos/0003_0033.JPG" alt="Roll 0003" class="roll-thumb" loading="lazy">
+                </a>
+                <div class="roll-info">
+                    <h2 class="roll-title"><a href="rolls/roll_0003.html">Roll 0003</a></h2>
+                    <div class="roll-meta">
+                        <span>2024年6月</span>
+                        <span>2枚</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Roll 0002 -->
+            <article class="roll-card" data-tags="2024-04,miyagi,landscape,nikon-f70d,nikkor-28-80mm,kodak-ultramax,snap,nikkor-28-80">
+                <a href="rolls/roll_0002.html" class="roll-thumb-container">
+                    <img src="images/photos/0002_0005.JPG" alt="Roll 0002" class="roll-thumb" loading="lazy">
+                </a>
+                <div class="roll-info">
+                    <h2 class="roll-title"><a href="rolls/roll_0002.html">Roll 0002</a></h2>
+                    <div class="roll-meta">
+                        <span>2024年4月</span>
+                        <span>3枚</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Roll 0001 -->
+            <article class="roll-card" data-tags="2024-04,akita,snap,nikon-f70d,nikkor-28-80,kodak-ultramax,landscape">
+                <a href="rolls/roll_0001.html" class="roll-thumb-container">
+                    <img src="images/photos/0001_0030.JPG" alt="Roll 0001" class="roll-thumb" loading="lazy">
+                </a>
+                <div class="roll-info">
+                    <h2 class="roll-title"><a href="rolls/roll_0001.html">Roll 0001</a></h2>
+                    <div class="roll-meta">
+                        <span>2024年4月</span>
+                        <span>2枚</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Digital Photos -->
+            <article class="roll-card" data-tags="2025-01,tokyo,snap,nikon-d800,nikkor-50mm,2024-08,saitama,fuji-s5pro">
+                <a href="rolls/roll_D.html" class="roll-thumb-container">
+                    <img src="images/photos/D_6554.jpg" alt="Digital Photos" class="roll-thumb" loading="lazy">
+                </a>
+                <div class="roll-info">
+                    <h2 class="roll-title"><a href="rolls/roll_D.html">Digital Photos</a></h2>
+                    <div class="roll-meta">
+                        <span>2024年8月</span>
+                        <span>2枚</span>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+
+    <section class="tag-section" id="tags">
         <h2 class="section-title">タグで探す</h2>
-        <div class="tag-container">
-<div class="tag-category">
-  <h3>撮影時期</h3>
-  <div class="tags">
-<a href="#" class="tag" data-tag="2025-03">2025年3月</a>
-<a href="#" class="tag" data-tag="2025-02">2025年2月</a>
-<a href="#" class="tag" data-tag="2025-01">2025年1月</a>
-<a href="#" class="tag" data-tag="2024-12">2024年12月</a>
-<a href="#" class="tag" data-tag="2024-11">2024年11月</a>
-<a href="#" class="tag" data-tag="2024-09">2024年9月</a>
-<a href="#" class="tag" data-tag="2024-08">2024年8月</a>
-<a href="#" class="tag" data-tag="2024-07">2024年7月</a>
-<a href="#" class="tag" data-tag="2024-06">2024年6月</a>
-<a href="#" class="tag" data-tag="2024-04">2024年4月</a>
-  </div>
-</div>
-<div class="tag-category">
-  <h3>撮影場所</h3>
-  <div class="tags">
-<a href="#" class="tag" data-tag="miyagi">宮城県</a>
-<a href="#" class="tag" data-tag="saitama">埼玉県</a>
-<a href="#" class="tag" data-tag="tokyo">東京都</a>
-<a href="#" class="tag" data-tag="kanagawa">神奈川県</a>
-<a href="#" class="tag" data-tag="osaka">大阪府</a>
-<a href="#" class="tag" data-tag="miyazaki">宮崎県</a>
-  </div>
-</div>
-<div class="tag-category">
-  <h3>カメラ</h3>
-  <div class="tags">
-<a href="#" class="tag" data-tag="canon-ivsb2">Canon IV Sb2</a>
-<a href="#" class="tag" data-tag="canon-ftbn">Canon FTb-N</a>
-<a href="#" class="tag" data-tag="fuji-s5pro">Fujifilm FinePix S5 Pro</a>
-<a href="#" class="tag" data-tag="nikon-f70d">Nikon F70D</a>
-<a href="#" class="tag" data-tag="nikon-d800">Nikon D800</a>
-<a href="#" class="tag" data-tag="olympus-om1">Olympus OM-1</a>
-<a href="#" class="tag" data-tag="pentax-67">Pentax 6×7</a>
-  </div>
-</div>
-<div class="tag-category">
-  <h3>レンズ</h3>
-  <div class="tags">
-<a href="#" class="tag" data-tag="canon-35mm">Canon Serenar 35mm F3.5</a>
-<a href="#" class="tag" data-tag="canon-50mm">Canon Lens 50mm F1.8</a>
-<a href="#" class="tag" data-tag="fd-50mm">Canon FD 50mm F1.4 S.S.C.</a>
-<a href="#" class="tag" data-tag="fd-80-200mm">Canon NewFD 80-200mm F4</a>
-<a href="#" class="tag" data-tag="zuiko-50mm1">Olympus G.Zuiko 50mm F1.4</a>
-<a href="#" class="tag" data-tag="67-55mm">Pentax SMC TAKUMAR 6×7/55mm F3.5</a>
-<a href="#" class="tag" data-tag="67-90mm">Pentax SMC TAKUMAR 6×7/90mm F2.8</a>
-<a href="#" class="tag" data-tag="nikkor-28-80mm">AI AF Zoom-Nikkor 28-80mm F3.5-5.6 D</a>
-<a href="#" class="tag" data-tag="nikkor-28-200mm">AI AF-S Zoom-Nikkor 28-200mm F3.5-5.6 D</a>
-<a href="#" class="tag" data-tag="nikkor-80-200mm">AI AF-S Zoom-Nikkor 80-200mm F2.8 ED</a>
-<a href="#" class="tag" data-tag="nikkor-50mm">AI AF Nikkor 50mm F1.4</a>
-  </div>
-</div>
-<div class="tag-category">
-  <h3>フィルム</h3>
-  <div class="tags">
-<a href="#" class="tag" data-tag="kodak-colorplus">Kodak ColorPlus 200</a>
-<a href="#" class="tag" data-tag="kodak-gold">Kodak Gold 200</a>
-<a href="#" class="tag" data-tag="kodak-ultramax">Kodak UltraMax 400</a>
-<a href="#" class="tag" data-tag="fuji-200">FUJIFILM 200</a>
-<a href="#" class="tag" data-tag="fuji-super">FUJIFILM SUPER 400</a>
-<a href="#" class="tag" data-tag="ilford-xp2">ILFORD XP2 Super 400</a>
-<a href="#" class="tag" data-tag="ilford-vintagetone">ILFORD ILFOCOLOR 400 PLUS Vintage Tone</a>
-<a href="#" class="tag" data-tag="lomography-cn100">Lomography Color Negative 100</a>
-<a href="#" class="tag" data-tag="lomography-mp">Lomography Metropolis 400</a>
-  </div>
-</div>
-<div class="tag-category">
-  <h3>写真のスタイル</h3>
-  <div class="tags">
-<a href="#" class="tag" data-tag="mono">モノクロ</a>
-<a href="#" class="tag" data-tag="landscape">風景</a>
-<a href="#" class="tag" data-tag="snap">スナップショット</a>
-<a href="#" class="tag" data-tag="longexposure">長時間露光</a>
-<a href="#" class="tag" data-tag="night">夜景</a>
-<a href="#" class="tag" data-tag="animals">動物</a>
-  </div>
-</div>
+        <div class="tag-categories">
+            <div class="tag-category">
+                <h3>撮影時期</h3>
+                <div class="tags">
+                    <span class="tag" data-tag="2025-05">2025年5月</span>
+                    <span class="tag" data-tag="2025-04">2025年4月</span>
+                    <span class="tag" data-tag="2025-03">2025年3月</span>
+                    <span class="tag" data-tag="2025-02">2025年2月</span>
+                    <span class="tag" data-tag="2025-01">2025年1月</span>
+                    <span class="tag" data-tag="2024-12">2024年12月</span>
+                    <span class="tag" data-tag="2024-11">2024年11月</span>
+                    <span class="tag" data-tag="2024-09">2024年9月</span>
+                    <span class="tag" data-tag="2024-08">2024年8月</span>
+                    <span class="tag" data-tag="2024-07">2024年7月</span>
+                    <span class="tag" data-tag="2024-06">2024年6月</span>
+                    <span class="tag" data-tag="2024-04">2024年4月</span>
+                </div>
+            </div>
+            <div class="tag-category">
+                <h3>撮影場所</h3>
+                <div class="tags">
+                    <span class="tag" data-tag="tokyo">東京都</span>
+                    <span class="tag" data-tag="saitama">埼玉県</span>
+                    <span class="tag" data-tag="miyazaki">宮崎県</span>
+                    <span class="tag" data-tag="osaka">大阪府</span>
+                    <span class="tag" data-tag="miyagi">宮城県</span>
+                    <span class="tag" data-tag="akita">秋田県</span>
+                    <span class="tag" data-tag="kanagawa">神奈川県</span>
+                </div>
+            </div>
+            <div class="tag-category">
+                <h3>カメラ</h3>
+                <div class="tags">
+                    <span class="tag" data-tag="pentax-67">Pentax 6×7</span>
+                    <span class="tag" data-tag="canon-ivsb2">Canon IV Sb2</span>
+                    <span class="tag" data-tag="canon-ftbn">Canon FTb-N</span>
+                    <span class="tag" data-tag="nikon-f70d">Nikon F70D</span>
+                    <span class="tag" data-tag="nikon-d800">Nikon D800</span>
+                    <span class="tag" data-tag="olympus-om1">Olympus OM-1</span>
+                    <span class="tag" data-tag="fuji-s5pro">Fujifilm FinePix S5 Pro</span>
+                </div>
+            </div>
+            <div class="tag-category">
+                <h3>レンズ</h3>
+                <div class="tags">
+                    <span class="tag" data-tag="67-55mm">SMC TAKUMAR 6×7/55mm</span>
+                    <span class="tag" data-tag="67-90mm">SMC TAKUMAR 6×7/90mm</span>
+                    <span class="tag" data-tag="canon-35mm">Canon Serenar 35mm</span>
+                    <span class="tag" data-tag="canon-50mm">Canon Lens 50mm</span>
+                    <span class="tag" data-tag="fd-50mm">Canon FD 50mm</span>
+                    <span class="tag" data-tag="fd-80-200mm">Canon NewFD 80-200mm</span>
+                    <span class="tag" data-tag="nikkor-50mm">AI AF Nikkor 50mm</span>
+                    <span class="tag" data-tag="nikkor-28-80mm">AI AF Nikkor 28-80mm</span>
+                    <span class="tag" data-tag="nikkor-28-200mm">AI AF-S Nikkor 28-200mm</span>
+                    <span class="tag" data-tag="nikkor-80-200mm">AI AF-S Nikkor 80-200mm</span>
+                    <span class="tag" data-tag="zuiko-50mm1">Olympus G.Zuiko 50mm</span>
+                </div>
+            </div>
+            <div class="tag-category">
+                <h3>フィルム</h3>
+                <div class="tags">
+                    <span class="tag" data-tag="kodak-gold">Kodak Gold 200</span>
+                    <span class="tag" data-tag="kodak-colorplus">Kodak ColorPlus 200</span>
+                    <span class="tag" data-tag="kodak-ultramax">Kodak UltraMax 400</span>
+                    <span class="tag" data-tag="fuji-200">FUJIFILM 200</span>
+                    <span class="tag" data-tag="fuji-super">FUJIFILM SUPER 400</span>
+                    <span class="tag" data-tag="lomography-cn100">Lomography CN 100</span>
+                    <span class="tag" data-tag="lomography-mp">Lomography Metropolis</span>
+                    <span class="tag" data-tag="ilford-xp2">ILFORD XP2 Super 400</span>
+                    <span class="tag" data-tag="ilford-vintagetone">ILFORD ILFOCOLOR 400 PLUS</span>
+                </div>
+            </div>
+            <div class="tag-category">
+                <h3>スタイル</h3>
+                <div class="tags">
+                    <span class="tag" data-tag="snap">スナップ</span>
+                    <span class="tag" data-tag="landscape">風景</span>
+                    <span class="tag" data-tag="animals">動物</span>
+                    <span class="tag" data-tag="mono">モノクロ</span>
+                    <span class="tag" data-tag="night">夜景</span>
+                    <span class="tag" data-tag="longexposure">長時間露光</span>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- トップに戻るボタン (モバイル用) -->
-    <button class="nav-btn" id="gallery-btn" title="トップに戻る">↑</button>
-
-    <!-- フッター -->
     <footer>
-        <div class="footer-container">
-            <div class="footer-section"><h3>わたくしの撮影記</h3><p>個人的な写真撮影の記録のブログです。</p></div>
-            <div class="footer-section"><h3>リンク</h3><ul><li><a href="index.html">ホーム</a></li></ul></div>
-            <div class="footer-section"><h3>フォロー</h3><p>SNSで最新の写真や撮影の裏側をチェックしてください。</p><div class="social-icons"><a href="#">I</a><a href="#">T</a><a href="#">F</a><a href="#">P</a></div></div>
+        <div class="footer-grid">
+            <div class="footer-section">
+                <h3>わたくしの撮影記</h3>
+                <p>個人的な写真撮影の記録を公開しています。</p>
+            </div>
+            <div class="footer-section">
+                <h3>リンク</h3>
+                <ul>
+                    <li><a href="index.html">ホーム</a></li>
+                    <li><a href="../Tools/index.html">道具箱へ</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>フィルムカメラ</h3>
+                <p>主にPentax 6×7とCanon IV Sb2を使用しています。</p>
+            </div>
         </div>
-        <div class="copyright">&copy; 2025 k.e. All Rights Reserved.</div>
+        <div class="copyright">&copy; 2026 k.e. All Rights Reserved.</div>
     </footer>
-    <script src="js/common.js"></script>
-    <script src="js/photoLoader.js"></script>
+
+    <button class="back-to-top" id="backToTop">↑</button>
+
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const galleryBtn = document.getElementById('gallery-btn');
-            if (galleryBtn) {
-                window.addEventListener('scroll', function() {
-                    if (window.scrollY > 300) galleryBtn.classList.add('visible'); else galleryBtn.classList.remove('visible');
-                });
-                galleryBtn.addEventListener('click', function() {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                });
-            }
-        });
-    </script>
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-      // iOSかどうか判定
-      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-  
-      if (isIOS) {
-        // ロゴ要素を取得
-        const logoLink = document.querySelector('.logo a');
-    
-        // フィルターを取り除き、代替スタイルを適用
-        if (logoLink) {
-          logoLink.style.filter = 'none';
-          logoLink.style.textShadow = '0 2px 4px rgba(0,0,0,0.4), 0 0 8px rgba(52, 152, 219, 0.6)';
-          // 必要に応じて他のスタイルを追加
-        }
-      }
-    });
-    </script>
-    <!-- タグ選択・表示用のJavaScriptを修正版 -->
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
         class TagManager {
             constructor() {
                 this.selectedTags = new Set();
-                this.tagDisplayNames = {
-                    '2025-03': '2025年3月', '2025-02': '2025年2月', '2025-01': '2025年1月',
-                    '2024-12': '2024年12月', '2024-11': '2024年11月', '2024-09': '2024年9月',
-                    '2024-08': '2024年8月', '2024-07': '2024年7月', '2024-06': '2024年6月',
-                    '2024-04': '2024年4月', 'miyagi': '宮城県', 'saitama': '埼玉県',
-                    'tokyo': '東京都', 'kanagawa': '神奈川県', 'osaka': '大阪府',
-                    'miyazaki': '宮崎県', 'akita': '秋田県', 'canon-ivsb2': 'Canon IV Sb2',
-                    'canon-ftbn': 'Canon FTb-N', 'fuji-s5pro': 'Fujifilm FinePix S5 Pro',
-                    'nikon-f70d': 'Nikon F70D', 'nikon-d800': 'Nikon D800',
-                    'olympus-om1': 'Olympus OM-1', 'pentax-67': 'Pentax 6×7',
-                    'canon-35mm': 'Canon Serenar 35mm F3.5', 'canon-50mm': 'Canon Lens 50mm F1.8',
-                    'fd-50mm': 'Canon FD 50mm F1.4 S.S.C.', 'fd-80-200mm': 'Canon NewFD 80-200mm F4',
-                    'zuiko-50mm1': 'Olympus G.Zuiko 50mm F1.4', '67-55mm': 'Pentax SMC TAKUMAR 6×7/55mm F3.5',
-                    '67-90mm': 'Pentax SMC TAKUMAR 6×7/90mm F2.8', 'nikkor-28-80mm': 'AI AF Zoom-Nikkor 28-80mm F3.5-5.6 D',
-                    'nikkor-28-200mm': 'AI AF-S Zoom-Nikkor 28-200mm F3.5-5.6 D',
-                    'nikkor-80-200mm': 'AI AF-S Zoom-Nikkor 80-200mm F2.8 ED',
-                    'nikkor-50mm': 'AI AF Nikkor 50mm F1.4', 'nikkor-28-80': 'AI AF Zoom-Nikkor 28-80mm F3.5-5.6 D',
-                    '67-55': 'Pentax SMC TAKUMAR 6×7/55mm F3.5',
-                    'kodak-colorplus': 'Kodak ColorPlus 200', 'kodak-gold': 'Kodak Gold 200', 
-                    'kodak-ultramax': 'Kodak UltraMax 400', 'fuji-200': 'FUJIFILM 200', 
-                    'fuji-super': 'FUJIFILM SUPER 400', 'ilford-xp2': 'ILFORD XP2 Super 400', 
-                    'ilford-vintagetone': 'ILFORD ILFOCOLOR 400 PLUS Vintage Tone',
-                    'lomography-cn100': 'Lomography Color Negative 100',
-                    'mono': 'モノクロ', 'landscape': '風景', 'snap': 'スナップショット',
-                    'longexposure': '長時間露光', 'night': '夜景', 'animals': '動物'
-                };
                 this.init();
             }
-            
+
             init() {
-                this.loadFromURL();
-                this.setupEventListeners();
-                this.updateUI();
-            }
-            
-            loadFromURL() {
-                const params = new URLSearchParams(window.location.search);
-                const tagParam = params.get('tag');
-                if (tagParam) {
-                    tagParam.split(',').forEach(tag => {
-                        if (tag.trim()) this.selectedTags.add(tag.trim());
-                    });
-                }
-            }
-            
-            setupEventListeners() {
-                // タグクリックイベント
-                document.querySelectorAll('.tag[data-tag]').forEach(tagLink => {
-                    tagLink.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        const tag = tagLink.getAttribute('data-tag');
-                        this.toggleTag(tag);
+                document.querySelectorAll('.tag').forEach(tag => {
+                    tag.addEventListener('click', () => {
+                        this.toggleTag(tag.dataset.tag);
                     });
                 });
+                this.updateSelectedTagsDisplay();
             }
-            
-            // スクロール位置を保持してタグを切り替える（ページ最下部からの相対位置を使用）
+
             toggleTag(tag) {
-                // ページ最下部からの距離を計算して保存
-                const scrollPosition = this.getBottomRelativePosition();
-                
                 if (this.selectedTags.has(tag)) {
                     this.selectedTags.delete(tag);
                 } else {
                     this.selectedTags.add(tag);
                 }
-                
-                // UI更新を実行
                 this.updateUI();
-                this.updateURL();
-                
-                // DOM更新を非同期で実行
-                requestAnimationFrame(() => {
-                    this.filterContent(() => {
-                        // DOM更新完了後にスクロール位置を復元
-                        requestAnimationFrame(() => {
-                            this.restoreBottomRelativePosition(scrollPosition);
-                        });
-                    });
-                });
+                this.filterRolls();
             }
-            
-            // ページ最下部からの相対位置を取得
-            getBottomRelativePosition() {
-                const currentScrollY = window.pageYOffset || document.documentElement.scrollTop;
-                const documentHeight = document.documentElement.scrollHeight;
-                const windowHeight = window.innerHeight;
-                
-                // 最下部からの距離を計算
-                const distanceFromBottom = documentHeight - currentScrollY - windowHeight;
-                
-                return {
-                    distanceFromBottom: distanceFromBottom,
-                    documentHeight: documentHeight,
-                    currentScrollY: currentScrollY,
-                    windowHeight: windowHeight
-                };
-            }
-            
-            // ページ最下部からの相対位置を使ってスクロール位置を復元
-            restoreBottomRelativePosition(savedPosition) {
-                try {
-                    const newDocumentHeight = document.documentElement.scrollHeight;
-                    const currentWindowHeight = window.innerHeight;
-                    
-                    // 新しい高さでの目標スクロール位置を計算
-                    const targetScrollY = newDocumentHeight - savedPosition.distanceFromBottom - currentWindowHeight;
-                    
-                    // 有効な範囲内に収める
-                    const maxScrollY = Math.max(0, newDocumentHeight - currentWindowHeight);
-                    const finalScrollY = Math.max(0, Math.min(targetScrollY, maxScrollY));
-                    
-                    // 即座にスクロール位置を設定
-                    window.scrollTo(0, finalScrollY);
-                    
-                    console.log('スクロール位置復元:', {
-                        saved: savedPosition,
-                        newHeight: newDocumentHeight,
-                        targetY: targetScrollY,
-                        finalY: finalScrollY
-                    });
-                    
-                } catch (error) {
-                    console.warn('スクロール位置の復元に失敗:', error);
-                    // フォールバック: 元の位置を試す
-                    window.scrollTo(0, savedPosition.currentScrollY);
-                }
-            }
-            
+
             updateUI() {
-                // タグの選択状態を更新
-                document.querySelectorAll('.tag[data-tag]').forEach(tagElement => {
-                    const tag = tagElement.getAttribute('data-tag');
-                    tagElement.classList.toggle('selected', this.selectedTags.has(tag));
+                // Update tag buttons
+                document.querySelectorAll('.tag').forEach(tagEl => {
+                    tagEl.classList.toggle('selected', 
+                        this.selectedTags.has(tagEl.dataset.tag)
+                    );
                 });
-                
-                // 選択中タグの表示を更新
                 this.updateSelectedTagsDisplay();
             }
-            
+
             updateSelectedTagsDisplay() {
-                const container = document.getElementById('selected-tags');
-                if (!container) return;
-                
-                // 高さの変化を完全に排除
+                const container = document.getElementById('selectedTags');
                 if (this.selectedTags.size === 0) {
-                    container.innerHTML = '<div style="padding: 1rem; color: #666; text-align: center; line-height: 1.5;">タグを選択してロールを絞り込み</div>';
+                    container.innerHTML = '<span style="color: var(--text-secondary); font-size: 0.8rem;">タグを選択してフィルターを絞り込み</span>';
                 } else {
-                    let tagsHtml = '';
-                    this.selectedTags.forEach(tag => {
-                        const displayName = this.tagDisplayNames[tag] || tag;
-                        tagsHtml += `<span class="selected-tag" onclick="window.tagManager.toggleTag('${tag}')" title="クリックで解除">${displayName} ×</span>`;
+                    container.innerHTML = Array.from(this.selectedTags)
+                        .map(tag => `<span class="selected-tag" data-tag="${tag}">${this.getTagName(tag)} ×</span>`)
+                        .join('');
+                    
+                    // Add click handlers to selected tags
+                    container.querySelectorAll('.selected-tag').forEach(el => {
+                        el.addEventListener('click', () => {
+                            this.toggleTag(el.dataset.tag);
+                        });
                     });
-                    container.innerHTML = tagsHtml;
                 }
             }
-            
-            updateURL() {
-                const url = new URL(window.location);
-                if (this.selectedTags.size > 0) {
-                    url.searchParams.set('tag', Array.from(this.selectedTags).join(','));
-                } else {
-                    url.searchParams.delete('tag');
-                }
-                // replaceStateでブラウザ履歴に影響しないよう更新
-                window.history.replaceState({}, '', url);
+
+            getTagName(tag) {
+                // Get display name from tag element
+                const tagEl = document.querySelector(`.tag[data-tag="${tag}"]`);
+                return tagEl ? tagEl.textContent : tag;
             }
-            
-            filterContent(callback) {
-                const rollSections = document.querySelectorAll('.roll-section');
-                
+
+            filterRolls() {
+                const rolls = document.querySelectorAll('.roll-card');
+                let visibleCount = 0;
+
                 if (this.selectedTags.size === 0) {
-                    // 全て表示状態に戻す
-                    rollSections.forEach(section => {
-                        section.style.display = '';
-                        section.style.opacity = '1';
-                    });
-                    this.showMessage('');
-                } else {
-                    // フィルタリング実行
-                    let visibleCount = 0;
-                    
-                    rollSections.forEach(section => {
-                        const sectionTags = section.getAttribute('data-tags');
-                        const shouldShow = sectionTags && 
-                            Array.from(this.selectedTags).some(tag => 
-                                sectionTags.split(',').includes(tag)
-                            );
-                        
-                        if (shouldShow) {
-                            section.style.display = '';
-                            section.style.opacity = '1';
-                            visibleCount++;
-                        } else {
-                            section.style.display = 'none';
-                        }
-                    });
-                    
-                    this.showMessage(visibleCount === 0 ? 
-                        '選択されたタグに一致するロールはありません。' : 
-                        `${visibleCount}個のロールが表示されています。`
+                    rolls.forEach(roll => roll.style.display = '');
+                    document.getElementById('filterMessage').textContent = '';
+                    return;
+                }
+
+                rolls.forEach(roll => {
+                    const rollTags = roll.dataset.tags.split(',');
+                    const matches = Array.from(this.selectedTags).some(tag => 
+                        rollTags.includes(tag)
                     );
-                }
-                
-                // コールバック実行
-                if (callback) {
-                    setTimeout(callback, 10);
-                }
-            }
-            
-            showMessage(message) {
-                let messageEl = document.getElementById('filter-message');
-                if (!messageEl) {
-                    messageEl = document.createElement('div');
-                    messageEl.id = 'filter-message';
-                    messageEl.style.cssText = `
-                        text-align: center;
-                        margin: 1rem 0;
-                        padding: 1rem;
-                        background-color: rgba(255,255,255,0.05);
-                        border-radius: 8px;
-                        color: #aaa;
-                        height: 50px;
-                        line-height: 50px;
-                        box-sizing: border-box;
-                    `;
                     
-                    // selected-tagsの直後に挿入
-                    const selectedTags = document.getElementById('selected-tags');
-                    if (selectedTags && selectedTags.parentNode) {
-                        selectedTags.parentNode.insertBefore(messageEl, selectedTags.nextSibling);
+                    if (matches) {
+                        roll.style.display = '';
+                        visibleCount++;
+                    } else {
+                        roll.style.display = 'none';
                     }
-                }
+                });
+
+                const message = visibleCount === 0 
+                    ? '選択されたタグに一致するロールはありません。'
+                    : `${visibleCount}個のロールが表示されています。`;
                 
-                // メッセージの内容だけを変更（高さは固定）
-                messageEl.textContent = message || ' ';
-                messageEl.style.visibility = message ? 'visible' : 'hidden';
+                document.getElementById('filterMessage').textContent = message;
             }
         }
+
+        // Back to Top
+        const backToTop = document.getElementById('backToTop');
         
-        // 初期化
-        window.tagManager = new TagManager();
-        
-        // CSS追加（レイアウトシフト防止強化版）
-        const style = document.createElement('style');
-        style.textContent = `
-            /* スムーズスクロールを無効化 */
-            html {
-                scroll-behavior: auto !important;
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
             }
-            
-            #selected-tags {
-                margin-bottom: 1rem;
-                padding: 1rem;
-                background-color: rgba(52, 152, 219, 0.1);
-                border-radius: 8px;
-                border: 1px solid rgba(52, 152, 219, 0.3);
-                display: block;
-                height: 60px; /* 固定高さ */
-                box-sizing: border-box;
-                overflow: hidden; /* 内容がはみ出さないように */
-                line-height: 1.2;
-            }
-            
-            .selected-tag {
-                display: inline-block;
-                background: #3498db;
-                color: #fff;
-                border-radius: 15px;
-                padding: 0.3em 0.6em;
-                margin: 0.1em 0.3em 0.1em 0;
-                cursor: pointer;
-                font-size: 0.85em;
-                transition: background-color 0.1s ease;
-                white-space: nowrap;
-            }
-            
-            .selected-tag:hover {
-                background: #2980b9;
-            }
-            
-            .tag.selected {
-                background-color: #3498db !important;
-                color: white !important;
-                transform: translateY(-2px);
-                box-shadow: 0 4px 8px rgba(52, 152, 219, 0.4);
-            }
-            
-            .roll-section {
-                transition: opacity 0.05s ease; /* さらに短縮 */
-            }
-            
-            /* メッセージ要素の完全固定高さ */
-            #filter-message {
-                box-sizing: border-box;
-                height: 50px !important; /* 完全固定 */
-                margin: 1rem 0 !important;
-                overflow: hidden;
-            }
-            
-            /* レイアウトシフト防止のための安定化 */
-            .main-content {
-                min-height: 100vh;
-            }
-            
-            .roll-grid {
-                min-height: 400px; /* 最小高さを設定 */
-            }
-        `;
-        document.head.appendChild(style);
-    });
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Initialize
+        new TagManager();
     </script>
 </body>
 </html>
