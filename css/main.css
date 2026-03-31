@@ -45,7 +45,7 @@
 }
 
 body {
-    font-family:'ETD-へべれけ', 'ETD-Hebereke', 'rdy', 'Helvetica Neue', Arial, sans-serif;
+    font-family:'ETD-へべれけ-Light', 'ETD-Hebereke-Light', 'rdy', 'Helvetica Neue', Arial, sans-serif;
     line-height: 1.6;
     color: var(--text-color);
     background-color: var(--background-color);
